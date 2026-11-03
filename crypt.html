@@ -30,31 +30,29 @@ html, body {
   aspect-ratio: 16 / 9;
   margin: 0 auto;
 
-  background-image: url("deadbrewing-crypt-scene.png?v=2");
+  background-image:
+    url("deadbrewing-crypt-scene-blank-plaque.png?v=2");
+
   background-size: 100% 100%;
   background-position: center;
   background-repeat: no-repeat;
 }
 
-/*
-  Soul counter:
-  Covers the old example count on the artwork.
-  The slightly wider area hides the leftover lettering.
-*/
+/* Live count directly on the blank parchment */
 .soul-count {
   position: absolute;
   z-index: 5;
 
-  left: 56%;
-  top: 18.2%;
-  width: 24%;
-  height: 5%;
+  left: 58.5%;
+  top: 19.4%;
+  width: 20%;
+  height: 3.8%;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
-  background: #e6bd83;
+  background: transparent;
   color: #211007;
 
   font-weight: bold;
@@ -97,7 +95,7 @@ html, body {
   align-content: start;
 }
 
-/* Complete scrollable tombstone */
+/* Each tombstone scrolls with its text and button */
 .grave {
   position: relative;
   display: block;
@@ -106,7 +104,9 @@ html, body {
   aspect-ratio: 1 / 1.05;
   min-width: 0;
 
-  background-image: url("deadbrewing-tombstone.png?v=2");
+  background-image:
+    url("deadbrewing-tombstone.png?v=2");
+
   background-size: 100% 100%;
   background-position: center;
   background-repeat: no-repeat;
@@ -123,7 +123,7 @@ html, body {
   filter: brightness(1.25);
 }
 
-/* Text area inside the tombstone */
+/* Beer details inside the stone */
 .grave-info {
   position: absolute;
 
@@ -140,7 +140,6 @@ html, body {
   gap: 6%;
 }
 
-/* Beer name */
 .beer-name {
   font-size: clamp(12px, 2.1vh, 23px);
   font-weight: bold;
@@ -148,25 +147,24 @@ html, body {
   overflow-wrap: anywhere;
 }
 
-/* ABV and IBU */
 .beer-stats {
   font-size: clamp(10px, 1.6vh, 17px);
   font-weight: bold;
 }
 
-/* Keg kicked label */
 .kicked-label {
   font-size: clamp(10px, 1.5vh, 16px);
+
+  /* Keeps KEG KICKED below the gold line */
   transform: translateY(5px);
 }
-  
-/* RIP date */
+
 .kicked-date {
   font-size: clamp(12px, 1.9vh, 20px);
   font-weight: bold;
 }
 
-/* Empty graveyard message */
+/* Message when no beers are retired */
 .empty-message {
   padding: 12% 5%;
   grid-column: 1 / -1;
@@ -178,7 +176,7 @@ html, body {
   text-shadow: 2px 2px 4px #000;
 }
 
-/* Invisible link over the artwork's Back button */
+/* Clickable area over artwork's Back button */
 .back {
   position: absolute;
   z-index: 5;
@@ -227,17 +225,14 @@ html, body {
 
 <main class="page" aria-label="DeadBrewing The Crypt">
 
-  <!-- Live retired beer counter -->
   <div class="soul-count" id="soul-count">
     LOADING...
   </div>
 
-  <!-- Entire tombstones scroll inside this area -->
   <section class="graveyard" aria-label="Retired beers">
     <div class="graves" id="graves"></div>
   </section>
 
-  <!-- Existing Back button in the artwork -->
   <a
     class="back"
     href="index.html"
@@ -252,7 +247,7 @@ html, body {
 const graves = document.getElementById("graves");
 const soulCount = document.getElementById("soul-count");
 
-/* Format RIP date */
+/* Format keg-kicked date */
 function formatDate(value) {
   if (!value) {
     return "DATE UNKNOWN";
@@ -271,7 +266,7 @@ function formatDate(value) {
   }).toUpperCase();
 }
 
-/* Add text to a tombstone */
+/* Add text inside a tombstone */
 function addText(parent, className, value) {
   const element = document.createElement("div");
 
@@ -281,7 +276,7 @@ function addText(parent, className, value) {
   parent.appendChild(element);
 }
 
-/* Create one complete tombstone */
+/* Create a complete clickable tombstone */
 function makeGrave(beer) {
   const grave = document.createElement("a");
   grave.className = "grave";
@@ -334,7 +329,7 @@ function makeGrave(beer) {
   return grave;
 }
 
-/* Load retired beers from beers.json */
+/* Always load the latest beer information */
 async function loadCrypt() {
   try {
     const response = await fetch(
@@ -370,6 +365,7 @@ async function loadCrypt() {
       empty.className = "empty-message";
       empty.textContent =
         "THE GRAVEYARD AWAITS ITS FIRST SOUL.";
+
       graves.appendChild(empty);
       return;
     }
