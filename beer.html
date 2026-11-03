@@ -22,7 +22,7 @@ html, body {
   font-family: Georgia, serif;
 }
 
-/* Main artwork - same sizing as homepage */
+/* Full-screen artwork - matches homepage */
 .page {
   position: relative;
   width: 100vw;
@@ -114,26 +114,65 @@ html, body {
   scrollbar-color: #87502e transparent;
 }
 
-/* Back to homepage */
+/* Back to DeadBrewing - bottom-left button */
 .back {
   position: absolute;
-  right: 3%;
-  bottom: 1%;
-  z-index: 3;
+  left: 3%;
+  bottom: 3%;
+  right: auto;
+  z-index: 5;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 23%;
+  height: 6%;
+  padding: 0 1%;
 
   color: #ffe0b5;
-  font-size: clamp(10px, 1.5vh, 16px);
+  font-size: clamp(11px, 1.6vw, 22px);
+  font-weight: bold;
+  line-height: 1.1;
+  text-align: center;
   text-decoration: none;
   text-shadow: 2px 2px 3px #000;
+
+  background: linear-gradient(
+    180deg,
+    #543020 0%,
+    #25140f 45%,
+    #100a08 100%
+  );
+
+  border: 3px solid #b66a32;
+  border-radius: 8px;
+
+  box-shadow:
+    inset 0 0 8px #ff8d30,
+    0 0 8px #ff6a19;
+
+  transition:
+    color 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
 }
 
 .back:hover,
 .back:focus-visible {
-  color: #ff8d30;
-  text-decoration: underline;
+  color: #fff;
+  background: linear-gradient(
+    180deg,
+    #704027,
+    #29130c
+  );
+
+  box-shadow:
+    inset 0 0 12px #ffa04c,
+    0 0 15px #ff8d30;
 }
 
-/* Mobile support */
+/* Mobile text sizing */
 @media (max-width: 700px) {
   .beer-name {
     font-size: clamp(10px, 2.5vw, 20px);
@@ -148,7 +187,8 @@ html, body {
   }
 
   .back {
-    font-size: 11px;
+    font-size: clamp(8px, 1.7vw, 11px);
+    border-width: 2px;
   }
 }
 </style>
@@ -174,7 +214,7 @@ html, body {
 
   <!-- Return to homepage -->
   <a class="back" href="index.html">
-    ← Back to DeadBrewing
+    &#8592; Back to DeadBrewing
   </a>
 
 </main>
@@ -232,6 +272,8 @@ fetch("beers.json", { cache: "no-store" })
   })
 
   .catch(error => {
+    console.error("DeadBrewing beer details:", error);
+
     document.getElementById("name").textContent =
       error.message;
   });
