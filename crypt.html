@@ -27,21 +27,22 @@ html, body {
   margin: 0 auto;
 
   background-image:
-    url("deadbrewing-crypt-background.png?v=4");
+    url("deadbrewing-crypt-background.png?v=5");
 
   background-size: 100% 100%;
   background-position: center;
   background-repeat: no-repeat;
 }
 
-/* Live counter over the artwork's counter plaque */
+/* Soul counter: matches the existing parchment plaque */
 .soul-count {
   position: absolute;
   z-index: 4;
+
   left: 57.5%;
-  top: 20%;
-  width: 20%;
-  height: 4.2%;
+  top: 20.3%;
+  width: 19%;
+  height: 3.7%;
 
   display: flex;
   align-items: center;
@@ -49,12 +50,14 @@ html, body {
 
   background: #e6bd83;
   color: #211007;
+
   font-weight: bold;
-  font-size: clamp(10px, 1.8vh, 20px);
+  font-size: clamp(10px, 1.7vh, 19px);
   text-align: center;
+  white-space: nowrap;
 }
 
-/* Scrolling region inside the artwork's graveyard frame */
+/* Graveyard scrolling area */
 .graveyard {
   position: absolute;
   z-index: 3;
@@ -67,29 +70,34 @@ html, body {
   overflow-y: auto;
   overflow-x: hidden;
 
-  /* Transparent so the artwork remains visible */
   background: transparent;
 
-  scrollbar-width: thin;
-  scrollbar-color: #d77723 transparent;
+  /* Hide the extra scrollbar in Firefox */
+  scrollbar-width: none;
+
+  /* Preserve smooth touch scrolling */
+  -webkit-overflow-scrolling: touch;
 }
 
-/*
-  Six positions match the artwork's tombstones.
-  Additional retired beers will scroll below them.
-*/
+/* Hide the extra scrollbar in Chrome and Edge */
+.graveyard::-webkit-scrollbar {
+  display: none;
+}
+
 .graves {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
+
   column-gap: 2.2%;
   row-gap: 3%;
 
   padding: 0 1% 2%;
 }
 
-/* Invisible clickable tombstone areas */
+/* Invisible clickable areas over the original tombstones */
 .grave {
   position: relative;
+
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -106,7 +114,10 @@ html, body {
   text-shadow: 2px 2px 3px #000;
 }
 
-/* Beer information over the blank stone */
+.grave:hover {
+  filter: brightness(1.3);
+}
+
 .beer-name {
   font-size: clamp(10px, 1.8vh, 20px);
   font-weight: bold;
@@ -130,23 +141,27 @@ html, body {
   font-weight: bold;
 }
 
-/* Entire tombstone is clickable */
-.grave:hover {
-  filter: brightness(1.3);
-}
-
-/* Blank positions remain invisible */
+/* Empty tombstone positions */
 .grave.empty {
   pointer-events: none;
 }
 
-/* When scrolling beyond the first six, create stone backgrounds */
+/* Additional tombstones after the first six */
 .grave.extra {
   background:
-    linear-gradient(145deg, #5d5449, #292824 55%, #141716);
+    linear-gradient(
+      145deg,
+      #5d5449,
+      #292824 55%,
+      #141716
+    );
+
   border: 3px ridge #8e795c;
   border-radius: 45% 45% 8px 8px / 22% 22% 8px 8px;
-  box-shadow: inset 0 0 15px #080808;
+
+  box-shadow:
+    inset 0 0 15px #080808,
+    0 5px 8px #000;
 }
 
 /* Empty graveyard message */
@@ -163,12 +178,18 @@ html, body {
 
   text-align: center;
   color: #ffe4b5;
+
   font-size: clamp(11px, 1.8vh, 20px);
   font-weight: bold;
   line-height: 1.4;
 }
 
-/* Invisible link over the artwork's existing Back button */
+/* Hidden attribute must override display styling */
+.empty-message[hidden] {
+  display: none;
+}
+
+/* Invisible clickable area over existing Back button */
 .back {
   position: absolute;
   z-index: 5;
@@ -182,21 +203,7 @@ html, body {
   text-decoration: none;
 }
 
-/* Invisible link over the future voting banner */
-.vote-banner {
-  position: absolute;
-  z-index: 5;
-
-  left: 47%;
-  bottom: 3%;
-  width: 32%;
-  height: 13%;
-
-  display: block;
-  cursor: pointer;
-}
-
-/* Mobile */
+/* Mobile support */
 @media (max-width: 700px) {
   .viewport {
     overflow-x: auto;
@@ -229,19 +236,30 @@ html, body {
 
 <main class="page" aria-label="DeadBrewing The Crypt">
 
+  <!-- Live retired beer counter -->
   <div class="soul-count" id="soul-count">
     0 SOULS LAID TO REST
   </div>
 
-  <section class="graveyard" aria-label="Retired beers">
+  <!-- Scrollable tombstone area -->
+  <section
+    class="graveyard"
+    aria-label="Retired beers">
+
     <div class="graves" id="graves"></div>
+
   </section>
 
-  <div class="empty-message" id="empty-message" hidden>
+  <!-- Displayed only when there are no retired beers -->
+  <div
+    class="empty-message"
+    id="empty-message"
+    hidden>
     THE GRAVEYARD AWAITS ITS FIRST SOUL.
     NO KEGS HAVE BEEN LAID TO REST.
   </div>
 
+  <!-- Existing artwork button is clickable -->
   <a
     class="back"
     href="index.html"
@@ -258,7 +276,9 @@ const soulCount = document.getElementById("soul-count");
 const emptyMessage = document.getElementById("empty-message");
 
 function formatDate(value) {
-  if (!value) return "DATE UNKNOWN";
+  if (!value) {
+    return "DATE UNKNOWN";
+  }
 
   const date = new Date(value + "T12:00:00");
 
@@ -275,17 +295,18 @@ function formatDate(value) {
 
 function addText(parent, className, value) {
   const element = document.createElement("div");
+
   element.className = className;
   element.textContent = value;
+
   parent.appendChild(element);
 }
 
 function makeGrave(beer, index) {
   const grave = document.createElement("a");
 
-  grave.className = index >= 6
-    ? "grave extra"
-    : "grave";
+  grave.className =
+    index >= 6 ? "grave extra" : "grave";
 
   grave.href =
     "beer.html?id=" + encodeURIComponent(beer.id);
@@ -295,24 +316,44 @@ function makeGrave(beer, index) {
     "View " + beer.name
   );
 
-  addText(grave, "beer-name", beer.name || "UNKNOWN BEER");
+  addText(
+    grave,
+    "beer-name",
+    beer.name || "UNKNOWN BEER"
+  );
 
-  const abv = beer.abv != null
-    ? beer.abv + "% ABV"
-    : "— ABV";
+  const abv =
+    beer.abv != null
+      ? beer.abv + "% ABV"
+      : "— ABV";
 
-  const ibu = beer.ibu != null
-    ? beer.ibu + " IBU"
-    : "— IBU";
+  const ibu =
+    beer.ibu != null
+      ? beer.ibu + " IBU"
+      : "— IBU";
 
-  addText(grave, "beer-stats", abv + " | " + ibu);
-  addText(grave, "kicked-label", "KEG KICKED");
-  addText(grave, "kicked-date", formatDate(beer.ripDate));
+  addText(
+    grave,
+    "beer-stats",
+    abv + " | " + ibu
+  );
+
+  addText(
+    grave,
+    "kicked-label",
+    "KEG KICKED"
+  );
+
+  addText(
+    grave,
+    "kicked-date",
+    formatDate(beer.ripDate)
+  );
 
   return grave;
 }
 
-fetch("beers.json?v=4")
+fetch("beers.json?v=5")
   .then(response => {
     if (!response.ok) {
       throw new Error("Unable to load beer information");
@@ -320,6 +361,7 @@ fetch("beers.json?v=4")
 
     return response.json();
   })
+
   .then(data => {
     const beers = Array.isArray(data.beers)
       ? data.beers
@@ -331,29 +373,33 @@ fetch("beers.json?v=4")
         (b.ripDate || "").localeCompare(a.ripDate || "")
       );
 
+    const count = retired.length;
+
     soulCount.textContent =
-      retired.length + " SOUL" +
-      (retired.length === 1 ? "" : "S") +
+      count + " SOUL" +
+      (count === 1 ? "" : "S") +
       " LAID TO REST";
 
     graves.replaceChildren();
 
     retired.forEach((beer, index) => {
-      graves.appendChild(makeGrave(beer, index));
+      graves.appendChild(
+        makeGrave(beer, index)
+      );
     });
 
-    /*
-      The first six tombstones are already in the
-      background artwork. Empty slots stay blank.
-    */
-    for (let i = retired.length; i < 6; i++) {
+    /* Preserve six blank tombstones */
+    for (let i = count; i < 6; i++) {
       const empty = document.createElement("div");
+
       empty.className = "grave empty";
+
       graves.appendChild(empty);
     }
 
-    emptyMessage.hidden = retired.length !== 0;
+    emptyMessage.hidden = count !== 0;
   })
+
   .catch(error => {
     emptyMessage.textContent = error.message;
     emptyMessage.hidden = false;
