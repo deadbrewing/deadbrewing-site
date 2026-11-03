@@ -4,6 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+
 <title>The Crypt | DeadBrewing</title>
 
 <style>
@@ -24,162 +25,178 @@ html, body {
   width: min(100vw, 177.37vh, 1646px);
   aspect-ratio: 16 / 9;
   margin: 0 auto;
-  background-image: url("deadbrewing-crypt-background.png?v=1");
+
+  background-image:
+    url("deadbrewing-crypt-background.png?v=4");
+
   background-size: 100% 100%;
   background-position: center;
   background-repeat: no-repeat;
 }
 
-/* Live retired-beer count */
+/* Live counter over the artwork's counter plaque */
 .soul-count {
   position: absolute;
-  z-index: 3;
-  left: 56%;
-  top: 20.5%;
-  width: 23%;
-  height: 4.4%;
+  z-index: 4;
+  left: 57.5%;
+  top: 20%;
+  width: 20%;
+  height: 4.2%;
+
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #e5bd82;
-  color: #24120a;
-  border: 2px solid #76502a;
-  font-size: clamp(10px, 1.9vh, 21px);
+
+  background: #e6bd83;
+  color: #211007;
   font-weight: bold;
+  font-size: clamp(10px, 1.8vh, 20px);
   text-align: center;
 }
 
-/* Scrollable graveyard */
+/* Scrolling region inside the artwork's graveyard frame */
 .graveyard {
   position: absolute;
-  z-index: 2;
-  left: 29%;
-  top: 26%;
-  width: 64%;
+  z-index: 3;
+
+  left: 31.2%;
+  top: 25.5%;
+  width: 60.5%;
   height: 57%;
+
   overflow-y: auto;
   overflow-x: hidden;
-  padding: 1.2%;
-  background: rgba(5, 14, 19, 0.94);
-  border: 2px solid #76502a;
-  scrollbar-color: #d77b28 #17120e;
+
+  /* Transparent so the artwork remains visible */
+  background: transparent;
+
   scrollbar-width: thin;
+  scrollbar-color: #d77723 transparent;
 }
 
-/* Three tombstones per row */
+/*
+  Six positions match the artwork's tombstones.
+  Additional retired beers will scroll below them.
+*/
 .graves {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 2%;
-  row-gap: 14px;
-  align-content: start;
+  column-gap: 2.2%;
+  row-gap: 3%;
+
+  padding: 0 1% 2%;
 }
 
-/* Individual tombstone */
+/* Invisible clickable tombstone areas */
 .grave {
   position: relative;
-  min-width: 0;
-  min-height: 170px;
-  aspect-ratio: 0.95;
-  padding: 12% 5% 6%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
+
+  min-width: 0;
+  aspect-ratio: 1.12;
+
+  padding: 14% 6% 12%;
+
+  color: #ffe5b9;
   text-align: center;
   text-decoration: none;
-  color: #ffe3b1;
-
-  background:
-    linear-gradient(145deg, #5c554b, #292a28 50%, #141918);
-  border: 3px ridge #8e795c;
-  border-radius: 48% 48% 8px 8px / 22% 22% 8px 8px;
-  box-shadow:
-    inset 0 0 16px #080808,
-    0 5px 8px #000;
-  transition: transform 0.15s, border-color 0.15s;
-}
-
-.grave:hover {
-  transform: translateY(-3px);
-  border-color: #ff9a3c;
-}
-
-.rip {
-  font-size: clamp(14px, 2.6vh, 28px);
-  font-weight: bold;
   text-shadow: 2px 2px 3px #000;
 }
 
+/* Beer information over the blank stone */
 .beer-name {
-  font-size: clamp(11px, 1.9vh, 21px);
+  font-size: clamp(10px, 1.8vh, 20px);
   font-weight: bold;
   line-height: 1.1;
   overflow-wrap: anywhere;
-  text-shadow: 2px 2px 3px #000;
 }
 
 .beer-stats {
-  font-size: clamp(10px, 1.4vh, 15px);
+  margin-top: 5%;
+  font-size: clamp(9px, 1.4vh, 15px);
 }
 
 .kicked-label {
+  margin-top: 7%;
   font-size: clamp(9px, 1.3vh, 14px);
 }
 
 .kicked-date {
-  font-size: clamp(10px, 1.7vh, 18px);
+  margin-top: 2%;
+  font-size: clamp(10px, 1.6vh, 18px);
   font-weight: bold;
 }
 
-.view-beer {
-  width: 90%;
-  padding: 4px;
-  background: linear-gradient(#f4a34b, #8c390d);
-  border: 2px ridge #e2a55c;
-  color: #190c05;
-  font-size: clamp(10px, 1.4vh, 16px);
-  font-weight: bold;
-  text-shadow: 0 1px #ffd9a0;
+/* Entire tombstone is clickable */
+.grave:hover {
+  filter: brightness(1.3);
 }
 
-.grave:hover .view-beer {
-  background: #ffc06e;
+/* Blank positions remain invisible */
+.grave.empty {
+  pointer-events: none;
 }
 
-/* Message when no beers have retired */
+/* When scrolling beyond the first six, create stone backgrounds */
+.grave.extra {
+  background:
+    linear-gradient(145deg, #5d5449, #292824 55%, #141716);
+  border: 3px ridge #8e795c;
+  border-radius: 45% 45% 8px 8px / 22% 22% 8px 8px;
+  box-shadow: inset 0 0 15px #080808;
+}
+
+/* Empty graveyard message */
 .empty-message {
-  grid-column: 1 / -1;
-  padding: 12%;
-  text-align: center;
-  color: #ffe3b1;
-  font-size: clamp(13px, 2vh, 23px);
-  line-height: 1.5;
-}
-
-/* Homepage link */
-.back {
   position: absolute;
   z-index: 4;
-  left: 5%;
-  bottom: 4%;
-  width: 18%;
-  height: 5%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #ffe3b1;
-  font-size: clamp(10px, 1.7vh, 18px);
+
+  left: 35%;
+  top: 45%;
+  width: 55%;
+
+  padding: 1%;
+  background: rgba(5, 12, 16, 0.85);
+
+  text-align: center;
+  color: #ffe4b5;
+  font-size: clamp(11px, 1.8vh, 20px);
   font-weight: bold;
+  line-height: 1.4;
+}
+
+/* Invisible link over the artwork's existing Back button */
+.back {
+  position: absolute;
+  z-index: 5;
+
+  left: 5%;
+  bottom: 3%;
+  width: 19%;
+  height: 7%;
+
+  display: block;
   text-decoration: none;
-  text-shadow: 2px 2px 3px #000;
 }
 
-.back:hover {
-  color: #ff9a3c;
+/* Invisible link over the future voting banner */
+.vote-banner {
+  position: absolute;
+  z-index: 5;
+
+  left: 47%;
+  bottom: 3%;
+  width: 32%;
+  height: 13%;
+
+  display: block;
+  cursor: pointer;
 }
 
-/* Mobile: allow horizontal scrolling */
+/* Mobile */
 @media (max-width: 700px) {
   .viewport {
     overflow-x: auto;
@@ -189,38 +206,17 @@ html, body {
     min-width: 700px;
   }
 
-  .graveyard {
-    padding: 10px;
-  }
-
-  .grave {
-    min-height: 135px;
-    padding: 12px 5px 8px;
-  }
-
-  .rip {
-    font-size: 18px;
-  }
-
   .beer-name {
-    font-size: 13px;
+    font-size: 12px;
   }
 
   .beer-stats,
-  .kicked-date {
-    font-size: 11px;
-  }
-
   .kicked-label,
-  .view-beer {
+  .kicked-date {
     font-size: 10px;
   }
 
   .soul-count {
-    font-size: 11px;
-  }
-
-  .back {
     font-size: 11px;
   }
 }
@@ -230,30 +226,36 @@ html, body {
 <body>
 
 <div class="viewport">
+
 <main class="page" aria-label="DeadBrewing The Crypt">
 
   <div class="soul-count" id="soul-count">
-    THE CRYPT
+    0 SOULS LAID TO REST
   </div>
 
   <section class="graveyard" aria-label="Retired beers">
-    <div class="graves" id="graves">
-      <div class="empty-message">
-        Summoning the dead...
-      </div>
-    </div>
+    <div class="graves" id="graves"></div>
   </section>
 
-  <a class="back" href="index.html">
-    ← Back to DeadBrewing
+  <div class="empty-message" id="empty-message" hidden>
+    THE GRAVEYARD AWAITS ITS FIRST SOUL.
+    NO KEGS HAVE BEEN LAID TO REST.
+  </div>
+
+  <a
+    class="back"
+    href="index.html"
+    aria-label="Back to DeadBrewing homepage">
   </a>
 
 </main>
+
 </div>
 
 <script>
 const graves = document.getElementById("graves");
 const soulCount = document.getElementById("soul-count");
+const emptyMessage = document.getElementById("empty-message");
 
 function formatDate(value) {
   if (!value) return "DATE UNKNOWN";
@@ -271,41 +273,57 @@ function formatDate(value) {
   }).toUpperCase();
 }
 
-function addText(parent, className, text) {
+function addText(parent, className, value) {
   const element = document.createElement("div");
   element.className = className;
-  element.textContent = text;
+  element.textContent = value;
   parent.appendChild(element);
 }
 
-function renderGrave(beer) {
+function makeGrave(beer, index) {
   const grave = document.createElement("a");
-  grave.className = "grave";
-  grave.href = "beer.html?id=" + encodeURIComponent(beer.id);
 
-  addText(grave, "rip", "R.I.P.");
+  grave.className = index >= 6
+    ? "grave extra"
+    : "grave";
+
+  grave.href =
+    "beer.html?id=" + encodeURIComponent(beer.id);
+
+  grave.setAttribute(
+    "aria-label",
+    "View " + beer.name
+  );
+
   addText(grave, "beer-name", beer.name || "UNKNOWN BEER");
 
-  const abv = beer.abv != null ? beer.abv + "% ABV" : "— ABV";
-  const ibu = beer.ibu != null ? beer.ibu + " IBU" : "— IBU";
+  const abv = beer.abv != null
+    ? beer.abv + "% ABV"
+    : "— ABV";
+
+  const ibu = beer.ibu != null
+    ? beer.ibu + " IBU"
+    : "— IBU";
 
   addText(grave, "beer-stats", abv + " | " + ibu);
   addText(grave, "kicked-label", "KEG KICKED");
   addText(grave, "kicked-date", formatDate(beer.ripDate));
-  addText(grave, "view-beer", "VIEW BEER");
 
-  graves.appendChild(grave);
+  return grave;
 }
 
-fetch("beers.json?v=1")
+fetch("beers.json?v=4")
   .then(response => {
     if (!response.ok) {
       throw new Error("Unable to load beer information");
     }
+
     return response.json();
   })
   .then(data => {
-    const beers = Array.isArray(data.beers) ? data.beers : [];
+    const beers = Array.isArray(data.beers)
+      ? data.beers
+      : [];
 
     const retired = beers
       .filter(beer => beer.status === "retired")
@@ -320,25 +338,25 @@ fetch("beers.json?v=1")
 
     graves.replaceChildren();
 
-    if (retired.length === 0) {
-      const message = document.createElement("div");
-      message.className = "empty-message";
-      message.textContent =
-        "THE GRAVEYARD AWAITS ITS FIRST SOUL. " +
-        "NO KEGS HAVE BEEN LAID TO REST.";
-      graves.appendChild(message);
-      return;
+    retired.forEach((beer, index) => {
+      graves.appendChild(makeGrave(beer, index));
+    });
+
+    /*
+      The first six tombstones are already in the
+      background artwork. Empty slots stay blank.
+    */
+    for (let i = retired.length; i < 6; i++) {
+      const empty = document.createElement("div");
+      empty.className = "grave empty";
+      graves.appendChild(empty);
     }
 
-    retired.forEach(renderGrave);
+    emptyMessage.hidden = retired.length !== 0;
   })
   .catch(error => {
-    graves.replaceChildren();
-
-    const message = document.createElement("div");
-    message.className = "empty-message";
-    message.textContent = error.message;
-    graves.appendChild(message);
+    emptyMessage.textContent = error.message;
+    emptyMessage.hidden = false;
   });
 </script>
 
