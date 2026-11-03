@@ -1,8 +1,46 @@
+
 {
   "beers": [
-    {"id":"czech-pilsner","tap":1,"name":"Czech Pilsner","style":"Czech Pilsner","abv":4.8,"colour":"#e9b927","status":"on-tap","description":"A crisp, refreshing Czech-style pilsner. Tasting notes coming soon."},
-    {"id":"chinook-cashmere","tap":2,"name":"Chinook & Cashmere Pale Ale","style":"American Pale Ale","abv":5.5,"colour":"#c66a19","status":"on-tap","description":"Pine-forward Chinook hops balanced with Cashmere's citrus character."},
-    {"id":"west-coast-ipa","tap":3,"name":"West Coast IPA","style":"West Coast IPA","abv":6.5,"colour":"#a94a12","status":"on-tap","description":"A hop-forward West Coast IPA. Tasting notes coming soon."},
-    {"id":"czech-lager","tap":4,"name":"Czech Lager V2","style":"Czech Lager","abv":4.5,"colour":"#e4ae28","status":"on-tap","description":"A clean, refreshing Czech-style lager. Tasting notes coming soon."}
+    {
+      "id": "czech-pilsner",
+      "tap": 1,
+      "name": "Czech Pilsner",
+      "style": "Czech Pilsner",
+      "abv": 4.8,
+      "colour": "#e9b927",
+      "status": "retired",
+      "ripDate": "2026-10-26",
+      "description": "A crisp, refreshing Czech-style pilsner. Tasting notes coming soon."
+    },
+    {
+      "id": "chinook-cashmere",
+      "tap": 2,
+      "name": "Chinook & Cashmere Pale Ale",
+      "style": "American Pale Ale",
+      "abv": 5.5,
+      "colour": "#c66a19",
+      "status": "on-tap",
+      "description": "Pine-forward Chinook hops balanced with Cashmere's citrus character."
+    },
+    {
+      "id": "west-coast-ipa",
+      "tap": 3,
+      "name": "West Coast IPA",
+      "style": "West Coast IPA",
+      "abv": 6.5,
+      "colour": "#a94a12",
+      "status": "on-tap",
+      "description": "A hop-forward West Coast IPA. Tasting notes coming soon."
+    },
+    {
+      "id": "czech-lager",
+      "tap": 4,
+      "name": "Czech Lager V2",
+      "style": "Czech Lager",
+      "abv": 4.5,
+      "colour": "#e4ae28",
+      "status": "on-tap",
+      "description": "A clean, refreshing Czech-style lager. Tasting notes coming soon."
+    }
   ]
 }
