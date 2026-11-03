@@ -9,9 +9,7 @@
   <title>DeadBrewing | Est. 2018</title>
 
   <style>
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
@@ -20,22 +18,65 @@
     }
 
     .homepage {
-      display: block;
+      position: relative;
       width: 100%;
       max-width: 1920px;
-      height: auto;
       margin: 0 auto;
     }
+
+    .homepage img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .beer-link {
+      position: absolute;
+      top: 61%;
+      height: 27%;
+      width: 10%;
+      border-radius: 30%;
+      cursor: pointer;
+    }
+
+    .beer-link:hover {
+      outline: 2px solid #ff9b39;
+      background: rgba(255, 140, 0, 0.10);
+    }
+
+    .beer-link:focus-visible {
+      outline: 3px solid white;
+    }
+
+    .beer-1 { left: 27%; }
+    .beer-2 { left: 38%; }
+    .beer-3 { left: 49%; }
+    .beer-4 { left: 60%; }
   </style>
 </head>
 
 <body>
-  <main>
+  <main class="homepage">
     <img
-      class="homepage"
       src="deadbrewing-home.webp"
-      alt="DeadBrewing brewery homepage artwork"
+      alt="DeadBrewing homepage"
     >
+
+    <a class="beer-link beer-1"
+       href="beer.html?id=czech-pilsner"
+       aria-label="View Czech Pilsner"></a>
+
+    <a class="beer-link beer-2"
+       href="beer.html?id=chinook-cashmere"
+       aria-label="View Chinook and Cashmere Pale Ale"></a>
+
+    <a class="beer-link beer-3"
+       href="beer.html?id=west-coast-ipa"
+       aria-label="View West Coast IPA"></a>
+
+    <a class="beer-link beer-4"
+       href="beer.html?id=czech-lager"
+       aria-label="View Czech Lager V2"></a>
   </main>
 </body>
 </html>
