@@ -4,6 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+
 <title>Beer | DeadBrewing</title>
 
 <style>
@@ -19,19 +20,28 @@ html, body {
   font-family: Georgia, serif;
 }
 
-/* 16:9 artwork, matching the homepage */
+/* Main 16:9 artwork */
 .page {
   position: relative;
+
+  /* Fit the entire artwork on screen */
   width: min(100vw, 177.37vh, 1646px);
-  aspect-ratio: 1646 / 928;
+
+  /* Preserve the artwork proportions */
+  aspect-ratio: 16 / 9;
+
   margin: 0 auto;
-  background-image: url("deadbrewing-beer-background.png");
+
+  /* v=3 prevents Chrome using the old cached image */
+  background-image:
+    url("deadbrewing-beer-background.png?v=3");
+
   background-size: 100% 100%;
   background-position: center;
   background-repeat: no-repeat;
 }
 
-/* Editable information */
+/* Editable beer information */
 .beer-name,
 .beer-value,
 .story-text {
@@ -44,13 +54,14 @@ html, body {
   overflow-wrap: anywhere;
 }
 
-/* Beer name in upper-right plaque */
+/* Beer name: upper-right plaque */
 .beer-name {
   left: 60%;
   top: 17%;
   width: 35%;
   height: 11%;
   padding: 1%;
+
   color: #ffe0b5;
   font-size: clamp(12px, 3.5vh, 40px);
   font-weight: bold;
@@ -58,11 +69,12 @@ html, body {
   text-shadow: 2px 3px 4px #000;
 }
 
-/* Beer values on right */
+/* ABV, style, hops and IBU */
 .beer-value {
   left: 75%;
   width: 19%;
   height: 6%;
+
   color: #ffe0b5;
   font-size: clamp(10px, 2.5vh, 27px);
   font-weight: bold;
@@ -86,28 +98,31 @@ html, body {
   top: 55%;
 }
 
-/* Story on parchment */
+/* Story parchment */
 .story-text {
   left: 11%;
   top: 72%;
   width: 78%;
   height: 18%;
   padding: 1%;
+
   color: #28150d;
   font-size: clamp(10px, 2vh, 22px);
   font-weight: bold;
   line-height: 1.35;
+
   overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-color: #87502e transparent;
 }
 
-/* Return link */
+/* Back to homepage */
 .back {
   position: absolute;
   right: 3%;
   bottom: 1%;
   z-index: 3;
+
   color: #ffe0b5;
   font-size: clamp(10px, 1.5vh, 16px);
   text-decoration: none;
@@ -119,14 +134,14 @@ html, body {
   text-decoration: underline;
 }
 
-/* Smaller screens */
+/* Mobile support */
 @media (max-width: 700px) {
-  .page {
-    min-width: 700px;
-  }
-
   .viewport {
     overflow-x: auto;
+  }
+
+  .page {
+    min-width: 700px;
   }
 
   .beer-name {
@@ -151,6 +166,7 @@ html, body {
 <body>
 
 <div class="viewport">
+
 <main class="page" aria-label="DeadBrewing beer details">
 
   <!-- Beer name -->
@@ -160,22 +176,20 @@ html, body {
 
   <!-- Beer information -->
   <div class="beer-value" id="abv">—</div>
-
   <div class="beer-value" id="beer-style">—</div>
-
   <div class="beer-value" id="hops">—</div>
-
   <div class="beer-value" id="ibu">—</div>
 
-  <!-- Story -->
+  <!-- Beer story -->
   <div class="story-text" id="story"></div>
 
-  <!-- Back to homepage -->
+  <!-- Return to homepage -->
   <a class="back" href="index.html">
     ← Back to DeadBrewing
   </a>
 
 </main>
+
 </div>
 
 <script>
@@ -187,6 +201,7 @@ fetch("beers.json")
     if (!response.ok) {
       throw new Error("Unable to load beer information");
     }
+
     return response.json();
   })
 
@@ -197,23 +212,30 @@ fetch("beers.json")
       throw new Error("Beer not found");
     }
 
+    /* Browser tab */
     document.title = beer.name + " | DeadBrewing";
 
+    /* Beer name */
     document.getElementById("name").textContent =
       beer.name;
 
+    /* Alcohol percentage */
     document.getElementById("abv").textContent =
       beer.abv != null ? beer.abv + "%" : "—";
 
+    /* Beer style */
     document.getElementById("beer-style").textContent =
       beer.style || "—";
 
+    /* Hops */
     document.getElementById("hops").textContent =
       beer.hops || "—";
 
+    /* Bitterness */
     document.getElementById("ibu").textContent =
       beer.ibu ?? "—";
 
+    /* Description and tasting notes */
     document.getElementById("story").textContent =
       beer.story ||
       beer.description ||
