@@ -7,6 +7,7 @@
       "name": "Czech Pilsner",
       "style": "Czech Pilsner",
       "abv": 4.8,
+      "srm": 4,
       "colour": "#e9b927",
       "status": "retired",
       "ripDate": "2026-10-26",
@@ -18,6 +19,7 @@
       "name": "Chinook & Cashmere Pale Ale",
       "style": "American Pale Ale",
       "abv": 5.5,
+      "srm": 8,
       "colour": "#c66a19",
       "status": "on-tap",
       "description": "Pine-forward Chinook hops balanced with Cashmere's citrus character."
@@ -28,6 +30,7 @@
       "name": "West Coast IPA",
       "style": "West Coast IPA",
       "abv": 6.5,
+      "srm": 12,
       "colour": "#a94a12",
       "status": "on-tap",
       "description": "A hop-forward West Coast IPA. Tasting notes coming soon."
@@ -38,6 +41,7 @@
       "name": "Czech Lager V2",
       "style": "Czech Lager",
       "abv": 4.5,
+      "srm": 4,
       "colour": "#e4ae28",
       "status": "on-tap",
       "description": "A clean, refreshing Czech-style lager. Tasting notes coming soon."
