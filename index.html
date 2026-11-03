@@ -1,82 +1,41 @@
-
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1">
-
-  <title>DeadBrewing | Est. 2018</title>
-
-  <style>
-    * { box-sizing: border-box; }
-
-    body {
-      margin: 0;
-      background: #080808;
-      font-family: Arial, sans-serif;
-    }
-
-    .homepage {
-      position: relative;
-      width: 100%;
-      max-width: 1920px;
-      margin: 0 auto;
-    }
-
-    .homepage img {
-      display: block;
-      width: 100%;
-      height: auto;
-    }
-
-    .beer-link {
-      position: absolute;
-      top: 61%;
-      height: 27%;
-      width: 10%;
-      border-radius: 30%;
-      cursor: pointer;
-    }
-
-    .beer-link:hover {
-      outline: 2px solid #ff9b39;
-      background: rgba(255, 140, 0, 0.10);
-    }
-
-    .beer-link:focus-visible {
-      outline: 3px solid white;
-    }
-
-    .beer-1 { left: 27%; }
-    .beer-2 { left: 38%; }
-    .beer-3 { left: 49%; }
-    .beer-4 { left: 60%; }
-  </style>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DeadBrewing | Est. 2018</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#080606;color:#fff0d7;font-family:Georgia,serif}a{color:inherit}
+.stage{position:relative;width:min(100%,1646px);margin:auto;aspect-ratio:1646/928;background:url('deadbrewing-background.png') center/100% 100% no-repeat}
+.taps{position:absolute;left:25%;top:52%;width:47%;height:35%;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1.5%;align-items:end}
+.tap{height:100%;display:flex;flex-direction:column;align-items:center;text-decoration:none;min-width:0;outline-offset:2px}
+.tap:hover .glass,.tap:focus-visible .glass{filter:drop-shadow(0 0 12px #ff8d30);transform:translateY(-4px)}
+.glass{height:73%;width:100%;transition:.2s;filter:drop-shadow(0 3px 5px #000);overflow:visible}
+.plate{display:flex;align-items:center;justify-content:center;text-align:center;width:100%;min-height:25%;padding:3%;border:2px solid #a65a2d;border-radius:7px;background:linear-gradient(130deg,#33221d,#100e10 45%,#3b231b);box-shadow:inset 0 0 7px #e77427,0 0 8px #e36d22;text-shadow:0 1px 2px #000}
+.plate strong{display:block;font-size:clamp(7px,1.1vw,17px);line-height:1.05}.plate small{display:block;font-size:clamp(6px,.9vw,13px);margin-top:3px}
+@media(max-width:700px){.stage{min-width:700px}.viewport{overflow-x:auto}.tap .plate strong{font-size:10px}.tap .plate small{font-size:8px}}
+.note{text-align:center;padding:12px 20px;font:14px Arial,sans-serif;color:#c9a98a}
+</style>
 </head>
-
 <body>
-  <main class="homepage">
-    <img
-      src="deadbrewing-home.webp"
-      alt="DeadBrewing homepage"
-    >
-
-    <a class="beer-link beer-1"
-       href="beer.html?id=czech-pilsner"
-       aria-label="View Czech Pilsner"></a>
-
-    <a class="beer-link beer-2"
-       href="beer.html?id=chinook-cashmere"
-       aria-label="View Chinook and Cashmere Pale Ale"></a>
-
-    <a class="beer-link beer-3"
-       href="beer.html?id=west-coast-ipa"
-       aria-label="View West Coast IPA"></a>
-
-    <a class="beer-link beer-4"
-       href="beer.html?id=czech-lager"
-       aria-label="View Czech Lager V2"></a>
-  </main>
+<div class="viewport"><main class="stage" aria-label="DeadBrewing homepage"><div id="taps" class="taps" aria-label="Beers on tap"></div></main></div>
+<p class="note">Select a beer to see its details. The Bitcoin QR in the background is decorative, not a payment address.</p>
+<script>
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function glass(beer){
+ const id='beer'+beer.tap;
+ return `<svg class="glass" viewBox="0 0 130 220" role="img" aria-label="Glass of ${esc(beer.name)}">
+ <defs><linearGradient id="liquid${id}" x1="0" x2="1"><stop offset="0" stop-color="#fff" stop-opacity=".33"/><stop offset=".17" stop-color="${esc(beer.colour)}"/><stop offset=".75" stop-color="${esc(beer.colour)}"/><stop offset="1" stop-color="#200d05" stop-opacity=".9"/></linearGradient><linearGradient id="shine${id}" x1="0" x2="1"><stop stop-color="white" stop-opacity=".7"/><stop offset=".25" stop-color="white" stop-opacity="0"/><stop offset=".8" stop-color="white" stop-opacity=".15"/><stop offset="1" stop-color="white" stop-opacity=".5"/></linearGradient></defs>
+ <path d="M19 20 Q12 58 24 111 Q32 143 60 154 L70 154 Q98 143 106 111 Q118 58 111 20Z" fill="url(#liquid${id})" stroke="#f8e4bb" stroke-width="3"/>
+ <path d="M18 26 Q14 8 31 10 Q43 -1 57 9 Q73 1 83 9 Q105 0 113 20 L111 36 Q65 32 19 36Z" fill="#f9eee0" stroke="#fef9ee" stroke-width="2"/>
+ <path d="M19 20 Q12 58 24 111 Q32 143 60 154 L70 154 Q98 143 106 111 Q118 58 111 20Z" fill="url(#shine${id})" opacity=".55"/>
+ <path d="M60 154 L59 191 Q58 198 44 201 L86 201 Q72 198 71 191 L70 154Z" fill="#f1cf94" stroke="#fff0ce" stroke-width="2"/><ellipse cx="65" cy="204" rx="36" ry="6" fill="#bd8b58" stroke="#ffe8bb" stroke-width="2"/>
+ <text x="65" y="100" text-anchor="middle" font-size="32" fill="#ffcf57" stroke="#56340a" stroke-width="1">✦</text>
+ </svg>`;
+}
+fetch('beers.json').then(r=>{if(!r.ok)throw Error('beers.json not found');return r.json()}).then(data=>{
+ const taps=document.getElementById('taps');
+ taps.innerHTML=data.beers.filter(b=>b.status==='on-tap').sort((a,b)=>a.tap-b.tap).slice(0,4).map(b=>`<a class="tap" href="beer.html?id=${encodeURIComponent(b.id)}" aria-label="View ${esc(b.name)}">${glass(b)}<span class="plate"><span><strong>${esc(b.name)}</strong><small>${esc(b.abv)}% ABV</small></span></span></a>`).join('');
+}).catch(()=>{document.getElementById('taps').innerHTML='<p>Beer menu temporarily unavailable.</p>'});
+</script>
 </body>
 </html>
