@@ -3,30 +3,39 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1">
+
   <title>DeadBrewing | Est. 2018</title>
+
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
-      background: #101010;
-      color: #f5e6d3;
-      font-family: Georgia, serif;
-      text-align: center;
-      padding: 60px 20px;
+      margin: 0;
+      background: #080808;
+      font-family: Arial, sans-serif;
     }
-    h1 {
-      color: #ff542e;
-      font-size: clamp(3rem, 8vw, 6rem);
+
+    .homepage {
+      display: block;
+      width: 100%;
+      max-width: 1920px;
+      height: auto;
+      margin: 0 auto;
     }
-    a { color: #ffb46a; }
   </style>
 </head>
+
 <body>
-  <h1>DeadBrewing</h1>
-  <h2>EST. 2018</h2>
-  <p>Craft beer from beyond the grave.</p>
-  <h2>🍺 On Tap</h2>
-  <p>Our taproom is awakening...</p>
-  <h2>💀 The Crypt</h2>
-  <p>Some beers deserve a second life.</p>
+  <main>
+    <img
+      class="homepage"
+      src="deadbrewing-home.webp"
+      alt="DeadBrewing brewery homepage artwork"
+    >
+  </main>
 </body>
 </html>
