@@ -45,6 +45,24 @@ html, body {
   background-repeat: no-repeat;
 }
 
+/* Clickable DeadBrewing logo */
+.home-logo {
+  position: absolute;
+  left: 20%;
+  top: 0%;
+  width: 30%;
+  height: 18%;
+  z-index: 10;
+
+  display: block;
+  cursor: pointer;
+}
+
+.home-logo:focus-visible {
+  outline: 2px solid #ffb65c;
+  outline-offset: -3px;
+}
+
 /* Live count directly on the blank parchment */
 .soul-count {
   position: absolute;
@@ -225,14 +243,24 @@ html, body {
 
 <main class="page" aria-label="DeadBrewing The Crypt">
 
+  <!-- Clickable DeadBrewing logo -->
+  <a
+    class="home-logo"
+    href="index.html"
+    aria-label="Return to DeadBrewing homepage">
+  </a>
+
+  <!-- Live retired beer counter -->
   <div class="soul-count" id="soul-count">
     LOADING...
   </div>
 
+  <!-- Scrollable retired beer tombstones -->
   <section class="graveyard" aria-label="Retired beers">
     <div class="graves" id="graves"></div>
   </section>
 
+  <!-- Existing Back to DeadBrewing button -->
   <a
     class="back"
     href="index.html"
