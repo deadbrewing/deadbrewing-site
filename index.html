@@ -26,9 +26,10 @@ body {
 }
 
 .stage {
-  position: relative;width: 100vw;
-height: 100dvh;
-aspect-ratio: auto;
+  position: relative;
+  width: 100vw;
+  height: 100dvh;
+  aspect-ratio: auto;
   flex-shrink: 0;
   background:
     url("deadbrewing-home-blank.png")
@@ -125,80 +126,102 @@ aspect-ratio: auto;
   position: relative;
   width: 100%;
   height: 100%;
+  isolation: isolate;
 }
 
-/* Beer colour behind the transparent glass */
+/* Beer colour derived from SRM */
 .liquid {
   position: absolute;
   left: 15%;
   top: 15%;
   width: 70%;
   height: 77%;
+
   clip-path: polygon(
     0% 0%,
     100% 0%,
     89% 100%,
     11% 100%
   );
+
   background: var(--beer-colour);
-  box-shadow: inset 0 0 15px #000;
+  z-index: 0;
 }
 
-/* Adds shading without changing SRM */
+/* Glass highlights and depth */
 .liquid::after {
   content: "";
   position: absolute;
   inset: 0;
+
   background: linear-gradient(
     90deg,
-    rgba(255,255,255,.35),
-    transparent 22%,
-    transparent 68%,
-    rgba(0,0,0,.48)
+    rgba(255,255,255,.24) 0%,
+    transparent 25%,
+    transparent 60%,
+    rgba(0,0,0,.48) 100%
   );
 }
 
-/* Foam at the top of the beer */
-.foam {
-  position: absolute;
-  left: 15%;
-  top: 12%;
-  width: 70%;
-  height: 9%;
-  background: #fff0d7;
-  border-radius: 48% 52% 35% 40%;
-  box-shadow: 0 2px 5px #d8b88d;
-}
-
-/* Actual Classic DB glass artwork */
-.glass-image {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: fill;
-  z-index: 2;
-  pointer-events: none;
-}
-
-/* Optional glass bubbles */
+/* Carbonation bubbles */
 .bubbles {
   position: absolute;
   left: 23%;
   top: 26%;
   width: 54%;
   height: 57%;
-  opacity: .5;
+  opacity: .42;
+
   background-image:
     radial-gradient(circle, #fff6d7 1px, transparent 2px),
     radial-gradient(circle, #fff6d7 1px, transparent 2px);
+
   background-size: 17px 27px, 23px 32px;
   background-position: 0 0, 8px 13px;
+
   z-index: 1;
   pointer-events: none;
 }
 
-/* Keep the brewing data blank for now */
+/* Foam head */
+.foam {
+  position: absolute;
+  left: 15%;
+  top: 12%;
+  width: 70%;
+  height: 9%;
+
+  background: linear-gradient(
+    #fff9e9,
+    #ead5aa
+  );
+
+  border-radius: 48% 52% 35% 40%;
+  box-shadow: 0 2px 5px #d8b88d;
+
+  z-index: 2;
+}
+
+/*
+  Classic DB artwork over the beer.
+
+  Multiply allows a light-coloured glass
+  interior to pick up the beer's SRM colour.
+*/
+.glass-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+
+  z-index: 3;
+  pointer-events: none;
+
+  mix-blend-mode: multiply;
+}
+
+/* Brewing Now - reserved for future data */
 .brewing-values {
   position: absolute;
   left: 81%;
@@ -214,10 +237,6 @@ aspect-ratio: auto;
   text-align: right;
   font-size: clamp(6px, .8vw, 12px);
 }
-
-/* Keep a small footer outside the artwork hidden
-   so the homepage never gains vertical scrolling. */
-
 </style>
 </head>
 
@@ -270,32 +289,66 @@ const escapeHTML = value =>
   );
 
 /*
-  Approximate SRM-to-RGB conversion.
+  Approximate beer colour palette in SRM.
 
-  Uses a standard-style empirical colour curve.
-  The display is illustrative rather than
-  an exact physical colour measurement.
+  Values between the stops are interpolated
+  for a smooth transition between shades.
 */
-function srmToRGB(srm) {
-  const value = Math.max(0.1, Number(srm));
+const srmPalette = [
+  [1,  [255, 245, 175]],
+  [2,  [255, 225, 105]],
+  [3,  [255, 207, 65]],
+  [4,  [248, 188, 40]],
+  [5,  [238, 166, 25]],
+  [6,  [225, 145, 18]],
+  [8,  [205, 113, 20]],
+  [10, [184, 87, 19]],
+  [12, [163, 69, 19]],
+  [15, [133, 51, 22]],
+  [20, [98, 38, 24]],
+  [25, [72, 29, 23]],
+  [30, [49, 24, 21]],
+  [40, [26, 18, 17]]
+];
 
-  if (!Number.isFinite(value)) {
+function srmToRGB(srm) {
+  const value = Number(srm);
+
+  if (!Number.isFinite(value) || value < 0) {
     return null;
   }
 
-  const r = Math.round(
-    Math.min(255, 255 * Math.pow(value, -0.18))
-  );
+  if (value <= srmPalette[0][0]) {
+    return rgbString(srmPalette[0][1]);
+  }
 
-  const g = Math.round(
-    Math.min(255, 245 * Math.pow(value, -0.38))
-  );
+  for (let i = 1; i < srmPalette.length; i++) {
+    const [upperSRM, upperRGB] = srmPalette[i];
+    const [lowerSRM, lowerRGB] = srmPalette[i - 1];
 
-  const b = Math.round(
-    Math.min(255, 200 * Math.pow(value, -0.75))
-  );
+    if (value <= upperSRM) {
+      const fraction =
+        (value - lowerSRM) /
+        (upperSRM - lowerSRM);
 
-  return `rgb(${r}, ${g}, ${b})`;
+      const rgb = lowerRGB.map((channel, index) =>
+        Math.round(
+          channel +
+          (upperRGB[index] - channel) * fraction
+        )
+      );
+
+      return rgbString(rgb);
+    }
+  }
+
+  return rgbString(
+    srmPalette[srmPalette.length - 1][1]
+  );
+}
+
+function rgbString(rgb) {
+  return `rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]})`;
 }
 
 function getBeerColour(beer) {
@@ -358,9 +411,14 @@ function renderTap(number, beer) {
 
   const name = escapeHTML(beer.name);
   const abv = Number(beer.abv);
-  const abvText = Number.isFinite(abv)
-    ? `${abv}% ABV`
-    : "";
+
+  const abvText =
+    beer.abv !== null &&
+    beer.abv !== undefined &&
+    beer.abv !== "" &&
+    Number.isFinite(abv)
+      ? `${abv}% ABV`
+      : "";
 
   const url =
     `beer.html?id=${encodeURIComponent(beer.id)}`;
