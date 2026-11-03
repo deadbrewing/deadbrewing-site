@@ -1,53 +1,237 @@
-<!doctype html>
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Beer | DeadBrewing</title>
+
 <style>
-*{box-sizing:border-box}
-body{margin:0;background:#080606;color:#fff1d8;font-family:Georgia,'Times New Roman',serif}
-.viewport{width:100%;overflow-x:auto}
-.art{position:relative;width:min(100%,1199px);min-width:620px;aspect-ratio:1199/1312;margin:auto;background:url('deadbrewing-beer-background.png') center/100% 100% no-repeat}
-.beer-name{position:absolute;left:52%;top:20.8%;width:41%;height:9%;display:flex;align-items:center;justify-content:center;text-align:center;color:#ffdfb0;font-size:clamp(17px,3.6vw,48px);font-weight:bold;line-height:1.05;text-shadow:2px 3px 3px #000,0 0 8px #e65a22;overflow-wrap:anywhere}
-.value{position:absolute;left:65%;width:27%;height:4.6%;display:flex;align-items:center;justify-content:center;text-align:center;color:#ffe5bb;font-weight:bold;font-size:clamp(12px,2.3vw,29px);line-height:1.05;text-shadow:1px 2px 3px #000;overflow-wrap:anywhere}
-#abv{top:33.1%}#style{top:40.1%;font-size:clamp(11px,1.85vw,24px)}#hops{top:47.0%;font-size:clamp(11px,1.85vw,24px)}#ibu{top:54.0%}
-.story{position:absolute;left:15%;top:71%;width:70%;height:18%;display:flex;align-items:center;justify-content:center;text-align:center;color:#21120d;font-size:clamp(12px,1.8vw,23px);font-weight:bold;line-height:1.25;overflow:auto;padding:1%;white-space:pre-line;overflow-wrap:anywhere}
-.back{display:block;text-align:center;padding:18px;color:#ffb46c;font:17px Georgia,serif}
-@media(max-width:620px){.beer-name{font-size:22px}.value{font-size:15px!important}.story{font-size:12px}}
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  min-height: 100%;
+  background: #080606;
+  color: #fff0d7;
+  font-family: Georgia, serif;
+}
+
+/* Main artwork container */
+.page {
+  position: relative;
+  width: min(100vw, 89.45vh);
+  aspect-ratio: 1170 / 1308;
+  margin: 0 auto;
+  background-image: url("deadbrewing-beer-background.png");
+  background-size: 100% 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* All editable text */
+.beer-name,
+.beer-value,
+.story-text {
+  position: absolute;
+  text-align: center;
+  z-index: 2;
+}
+
+/* Beer title plaque */
+.beer-name {
+  left: 54%;
+  top: 20.5%;
+  width: 40%;
+  height: 10%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffe0b5;
+  font-size: clamp(12px, 3.2vh, 37px);
+  font-weight: bold;
+  line-height: 1.05;
+  text-shadow: 2px 3px 3px #000;
+  overflow-wrap: anywhere;
+}
+
+/* Information values */
+.beer-value {
+  left: 70%;
+  width: 23%;
+  height: 5%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffe0b5;
+  font-size: clamp(10px, 2.5vh, 27px);
+  font-weight: bold;
+  line-height: 1.05;
+  text-shadow: 2px 2px 3px #000;
+  overflow-wrap: anywhere;
+}
+
+#abv {
+  top: 32.3%;
+}
+
+#beer-style {
+  top: 39.3%;
+}
+
+#hops {
+  top: 46.3%;
+}
+
+#ibu {
+  top: 53.3%;
+}
+
+/* Story text on parchment */
+.story-text {
+  left: 15%;
+  top: 72%;
+  width: 70%;
+  height: 17%;
+  padding: 1%;
+  color: #27150d;
+  font-size: clamp(10px, 1.8vh, 21px);
+  font-weight: bold;
+  line-height: 1.35;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #87502e transparent;
+}
+
+/* Back link */
+.back {
+  position: absolute;
+  left: 32%;
+  bottom: 2%;
+  width: 36%;
+  text-align: center;
+  color: #ffe0b5;
+  font-size: clamp(9px, 1.5vh, 16px);
+  text-decoration: none;
+  text-shadow: 2px 2px 3px #000;
+  z-index: 3;
+}
+
+.back:hover {
+  color: #ff8d30;
+  text-decoration: underline;
+}
+
+/* Mobile: preserve readability */
+@media (max-width: 700px) {
+  .page {
+    width: 100%;
+  }
+
+  .beer-name {
+    font-size: clamp(12px, 3.5vw, 24px);
+  }
+
+  .beer-value {
+    font-size: clamp(10px, 2.6vw, 19px);
+  }
+
+  .story-text {
+    font-size: clamp(10px, 2.2vw, 16px);
+  }
+
+  .back {
+    font-size: 11px;
+  }
+}
 </style>
 </head>
+
 <body>
-<div class="viewport">
-  <main class="art" aria-label="DeadBrewing beer description">
-    <h1 class="beer-name" id="name">Loading...</h1>
-    <div class="value" id="abv" aria-label="Alcohol by volume">—</div>
-    <div class="value" id="style" aria-label="Beer style">—</div>
-    <div class="value" id="hops" aria-label="Hops">—</div>
-    <div class="value" id="ibu" aria-label="Bitterness in IBU">—</div>
-    <div class="story" id="story">Loading beer information...</div>
-  </main>
-</div>
-<a class="back" href="index.html">← Back to DeadBrewing</a>
+
+<main class="page" aria-label="DeadBrewing beer details">
+
+  <!-- Beer name -->
+  <div class="beer-name" id="name">
+    Loading beer...
+  </div>
+
+  <!-- Beer information -->
+  <div class="beer-value" id="abv">—</div>
+
+  <div class="beer-value" id="beer-style">—</div>
+
+  <div class="beer-value" id="hops">—</div>
+
+  <div class="beer-value" id="ibu">—</div>
+
+  <!-- Story -->
+  <div class="story-text" id="story"></div>
+
+  <!-- Return to homepage -->
+  <a class="back" href="index.html">
+    ← Back to DeadBrewing
+  </a>
+
+</main>
+
 <script>
-const id=new URLSearchParams(location.search).get('id');
-fetch('beers.json')
-  .then(r=>{if(!r.ok)throw Error('Beer data unavailable');return r.json()})
-  .then(data=>{
-    const beer=data.beers.find(b=>b.id===id);
-    if(!beer)throw Error('Beer not found');
-    document.title=beer.name+' | DeadBrewing';
-    document.getElementById('name').textContent=beer.name;
-    document.getElementById('abv').textContent=beer.abv==null?'—':beer.abv+'%';
-    document.getElementById('style').textContent=beer.style||'—';
-    document.getElementById('hops').textContent=beer.hops||'—';
-    document.getElementById('ibu').textContent=beer.ibu??'—';
-    document.getElementById('story').textContent=beer.story||beer.description||'Coming soon.';
+const params = new URLSearchParams(window.location.search);
+const id = params.get("id");
+
+fetch("beers.json")
+  .then(response => {
+    if (!response.ok) {
+      throw new Error("Unable to load beer information");
+    }
+
+    return response.json();
   })
-  .catch(err=>{
-    document.getElementById('name').textContent=err.message;
-    document.getElementById('story').textContent='Return to the homepage and select a beer.';
+
+  .then(data => {
+    const beer = data.beers.find(b => b.id === id);
+
+    if (!beer) {
+      throw new Error("Beer not found");
+    }
+
+    // Browser tab title
+    document.title = beer.name + " | DeadBrewing";
+
+    // Beer name
+    document.getElementById("name").textContent =
+      beer.name;
+
+    // Alcohol percentage
+    document.getElementById("abv").textContent =
+      beer.abv != null ? beer.abv + "%" : "—";
+
+    // Beer style
+    document.getElementById("beer-style").textContent =
+      beer.style || "—";
+
+    // Hop varieties
+    document.getElementById("hops").textContent =
+      beer.hops || "—";
+
+    // Bitterness
+    document.getElementById("ibu").textContent =
+      beer.ibu ?? "—";
+
+    // Beer description and tasting notes
+    document.getElementById("story").textContent =
+      beer.story ||
+      beer.description ||
+      "The story of this beer is coming soon.";
+  })
+
+  .catch(error => {
+    document.getElementById("name").textContent =
+      error.message;
   });
 </script>
+
 </body>
 </html>
