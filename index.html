@@ -9,472 +9,387 @@
 <style>
 * { box-sizing: border-box; }
 
-body {
+html, body {
   margin: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
   background: #080606;
-  color: #fff0d7;
   font-family: Georgia, serif;
+  color: #ffe5a5;
 }
 
-.viewport {
-  width: 100%;
-  overflow-x: auto;
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .stage {
   position: relative;
-  width: min(100%, 1648px);
+  width: min(100vw, 177.586dvh);
   aspect-ratio: 1648 / 928;
-  margin: auto;
-  background: url("deadbrewing-home-blank.png")
+  flex-shrink: 0;
+  background:
+    url("deadbrewing-home-blank.png")
     center / 100% 100% no-repeat;
-  overflow: hidden;
 }
 
-/* Four navigation buttons in the artwork */
-.top-nav {
+/* NAVIGATION */
+
+.nav-link {
   position: absolute;
-  left: 24%;
-  top: 17%;
-  width: 43%;
-  height: 7%;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1%;
+  top: 19%;
+  height: 6.5%;
   z-index: 10;
+  border-radius: 8px;
 }
 
-.top-nav a {
-  display: block;
-  border-radius: 6px;
+.nav-link:hover,
+.nav-link:focus-visible {
+  background: rgba(255, 130, 25, .16);
+  box-shadow: inset 0 0 15px #ff8c34;
 }
 
-.top-nav a:hover,
-.top-nav a:focus-visible {
-  background: rgba(255, 116, 30, .16);
-  box-shadow: inset 0 0 14px #ff8739;
-}
+.journal { left: 23.5%; width: 19%; }
+.crypt   { left: 46%; width: 14%; }
+.vip     { left: 61%; width: 9%; }
+.contact { left: 71%; width: 13%; }
 
-/* The four fixed tap positions */
-.taps {
-  position: absolute;
-  left: 20%;
-  top: 36%;
-  width: 48%;
-  height: 49%;
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 1%;
-  z-index: 4;
-}
+/* TAP NAMEPLATES */
 
 .tap {
-  position: relative;
-  min-width: 0;
-  height: 100%;
-  text-decoration: none;
-  color: #ffe3a0;
-  display: block;
+  position: absolute;
+  top: 37%;
+  width: 10%;
+  height: 54%;
 }
 
-.tap-name {
+.tap-1 { left: 20.8%; }
+.tap-2 { left: 32.3%; }
+.tap-3 { left: 43.8%; }
+.tap-4 { left: 55.3%; }
+
+.tap-label {
   position: absolute;
   top: 0;
-  left: 2%;
-  width: 96%;
-  height: 17%;
+  left: 0;
+  width: 100%;
+  height: 21%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
   padding: 2%;
-  text-shadow: 0 2px 3px #000;
+  color: #ffe2a0;
+  text-shadow: 1px 2px 3px #000;
+  text-decoration: none;
 }
 
-.tap-name strong {
-  font-size: clamp(7px, .95vw, 15px);
-  line-height: 1.05;
+.tap-label strong {
+  font-size: clamp(6px, 1.25vw, 20px);
+  line-height: 1.12;
 }
 
-.tap-name small {
-  margin-top: 3px;
-  font-size: clamp(6px, .8vw, 12px);
+.tap-label small {
+  margin-top: 4%;
+  font-size: clamp(5px, .95vw, 15px);
 }
 
-.tap.empty .tap-name {
-  color: #a99980;
+.tap.empty .tap-label {
+  color: #bba98a;
 }
 
-.glass-holder {
+/* CLASSIC DB GLASSES */
+
+.glass-link {
   position: absolute;
-  top: 32%;
-  left: 14%;
-  width: 72%;
-  height: 66%;
+  left: 12%;
+  top: 53%;
+  width: 76%;
+  height: 47%;
+  display: block;
+  text-decoration: none;
   transition: transform .2s, filter .2s;
-  filter: drop-shadow(0 5px 5px #000);
+  filter: drop-shadow(0 3px 4px #000);
 }
 
-.tap:not(.empty):hover .glass-holder,
-.tap:not(.empty):focus-visible .glass-holder {
-  transform: translateY(-4px);
-  filter: drop-shadow(0 0 12px #ff8d30);
+.glass-link:hover,
+.glass-link:focus-visible {
+  transform: translateY(-3%);
+  filter: drop-shadow(0 0 10px #ff9b36);
 }
 
-.beer-glass {
+.glass {
+  position: relative;
   width: 100%;
   height: 100%;
-  display: block;
-  overflow: visible;
 }
 
-/* Glass rendering */
-.glass-outline {
-  fill: rgba(230, 245, 255, .08);
-  stroke: rgba(255, 244, 218, .8);
-  stroke-width: 2.2;
-}
-
-.glass-highlight {
-  fill: rgba(255, 255, 255, .22);
-}
-
-.glass-foam {
-  fill: #fff0d9;
-  stroke: #fff9ed;
-  stroke-width: 1.4;
-}
-
-.glass-base {
-  fill: rgba(228, 238, 245, .32);
-  stroke: rgba(255, 255, 255, .75);
-  stroke-width: 2;
-}
-
-.glass-logo {
-  fill: #e8b84d;
-  stroke: #3d260b;
-  stroke-width: .6;
-}
-
-/* Brewing Now live-data values.
-   Left blank until we connect the brewing data. */
-.brewing-values {
+/* Beer colour behind the transparent glass */
+.liquid {
   position: absolute;
-  left: 80%;
-  top: 36%;
-  width: 14%;
-  height: 27%;
+  left: 15%;
+  top: 15%;
+  width: 70%;
+  height: 77%;
+  clip-path: polygon(
+    0% 0%,
+    100% 0%,
+    89% 100%,
+    11% 100%
+  );
+  background: var(--beer-colour);
+  box-shadow: inset 0 0 15px #000;
+}
+
+/* Adds shading without changing SRM */
+.liquid::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(255,255,255,.35),
+    transparent 22%,
+    transparent 68%,
+    rgba(0,0,0,.48)
+  );
+}
+
+/* Foam at the top of the beer */
+.foam {
+  position: absolute;
+  left: 15%;
+  top: 12%;
+  width: 70%;
+  height: 9%;
+  background: #fff0d7;
+  border-radius: 48% 52% 35% 40%;
+  box-shadow: 0 2px 5px #d8b88d;
+}
+
+/* Actual Classic DB glass artwork */
+.glass-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  z-index: 2;
   pointer-events: none;
 }
 
-.brewing-values .value {
+/* Optional glass bubbles */
+.bubbles {
+  position: absolute;
+  left: 23%;
+  top: 26%;
+  width: 54%;
+  height: 57%;
+  opacity: .5;
+  background-image:
+    radial-gradient(circle, #fff6d7 1px, transparent 2px),
+    radial-gradient(circle, #fff6d7 1px, transparent 2px);
+  background-size: 17px 27px, 23px 32px;
+  background-position: 0 0, 8px 13px;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Keep the brewing data blank for now */
+.brewing-values {
+  position: absolute;
+  left: 81%;
+  top: 46%;
+  width: 11%;
+  height: 22%;
+  pointer-events: none;
+}
+
+.brewing-values span {
   display: block;
-  height: 14.28%;
+  height: 14.285%;
   text-align: right;
-  font-size: clamp(7px, .95vw, 14px);
-  color: #f2d49d;
-  text-shadow: 0 1px 3px #000;
+  font-size: clamp(6px, .8vw, 12px);
 }
 
-.note {
-  text-align: center;
-  padding: 12px 20px;
-  font: 13px Arial, sans-serif;
-  color: #c9a98a;
-}
+/* Keep a small footer outside the artwork hidden
+   so the homepage never gains vertical scrolling. */
 
-@media (max-width: 700px) {
-  .stage {
-    width: 700px;
-  }
-
-  .tap-name strong {
-    font-size: 8px;
-  }
-
-  .tap-name small {
-    font-size: 7px;
-  }
-
-  .brewing-values .value {
-    font-size: 8px;
-  }
-}
 </style>
 </head>
 
 <body>
 
-<div class="viewport">
-  <main class="stage" aria-label="DeadBrewing homepage">
+<main class="stage" aria-label="DeadBrewing homepage">
 
-    <nav class="top-nav" aria-label="Main navigation">
-      <a href="journal.html" aria-label="Brew Journal"></a>
-      <a href="crypt.html" aria-label="The Crypt"></a>
-      <a href="vip.html" aria-label="VIP"></a>
-      <a href="contact.html" aria-label="Contact"></a>
-    </nav>
+  <nav aria-label="Main navigation">
+    <a class="nav-link journal"
+       href="journal.html"
+       aria-label="Brew Journal"></a>
 
-    <div id="taps" class="taps"
-         aria-label="DeadBrewing beers on tap"></div>
+    <a class="nav-link crypt"
+       href="crypt.html"
+       aria-label="The Crypt"></a>
 
-    <div class="brewing-values" id="brewing-values"
-         aria-label="Brewing Now data"></div>
+    <a class="nav-link vip"
+       href="vip.html"
+       aria-label="VIP"></a>
 
-  </main>
-</div>
+    <a class="nav-link contact"
+       href="contact.html"
+       aria-label="Contact"></a>
+  </nav>
 
-<p class="note">
-  Select a beer to see its details.
-  Bitcoin donation QR is decorative, not a payment address.
-</p>
+  <section id="taps"
+           aria-label="Beers currently on tap">
+  </section>
+
+  <div class="brewing-values"
+       id="brewing-values"
+       aria-label="Brewing Now information">
+  </div>
+
+</main>
 
 <script>
 "use strict";
 
-const esc = value => String(value ?? "").replace(
-  /[&<>"']/g,
-  char => ({
-    "&": "&amp;",
-    "<": "&lt;",
-    ">": "&gt;",
-    '"': "&quot;",
-    "'": "&#39;"
-  })[char]
-);
+const escapeHTML = value =>
+  String(value ?? "").replace(
+    /[&<>"']/g,
+    char => ({
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      '"': "&quot;",
+      "'": "&#39;"
+    })[char]
+  );
 
 /*
-  Convert SRM to approximate screen RGB.
-  Falls back to the beer's existing colour field.
-*/
-function srmToColour(srm) {
-  const value = Number(srm);
+  Approximate SRM-to-RGB conversion.
 
-  if (!Number.isFinite(value) || value < 0) {
+  Uses a standard-style empirical colour curve.
+  The display is illustrative rather than
+  an exact physical colour measurement.
+*/
+function srmToRGB(srm) {
+  const value = Math.max(0.1, Number(srm));
+
+  if (!Number.isFinite(value)) {
     return null;
   }
 
-  const channels = [
-    Math.round(255 * Math.min(1, 0.975 ** value)),
-    Math.round(245 * Math.min(1, 0.88 ** value)),
-    Math.round(220 * Math.min(1, 0.70 ** value))
-  ];
+  const r = Math.round(
+    Math.min(255, 255 * Math.pow(value, -0.18))
+  );
 
-  return "#" + channels.map(
-    channel => Math.max(0, channel)
-      .toString(16).padStart(2, "0")
-  ).join("");
+  const g = Math.round(
+    Math.min(255, 245 * Math.pow(value, -0.38))
+  );
+
+  const b = Math.round(
+    Math.min(255, 200 * Math.pow(value, -0.75))
+  );
+
+  return `rgb(${r}, ${g}, ${b})`;
 }
 
-function beerColour(beer) {
-  if (beer.srm !== undefined &&
-      beer.srm !== null &&
-      beer.srm !== "") {
-    return srmToColour(beer.srm) || "#d6a13a";
+function getBeerColour(beer) {
+  if (
+    beer.srm !== undefined &&
+    beer.srm !== null &&
+    beer.srm !== ""
+  ) {
+    const calculated = srmToRGB(beer.srm);
+
+    if (calculated) {
+      return calculated;
+    }
   }
 
   const fallback = String(beer.colour || "");
 
-  return /^#[0-9a-f]{6}$/i.test(fallback)
-    ? fallback
-    : "#d6a13a";
+  if (/^#[0-9a-f]{6}$/i.test(fallback)) {
+    return fallback;
+  }
+
+  return "#dba632";
 }
 
-/*
-  Dynamic beer glass.
-
-  The beer fill is a separate SVG layer.
-  This first version uses an SVG glass so
-  the SRM colour is guaranteed to be visible.
-
-  We can replace its outline and logo with
-  the Classic DB PNG once transparency is verified.
-*/
-function glass(beer) {
-  const id = "tap" + Number(beer.tap);
-  const colour = beerColour(beer);
+function makeGlass(beer) {
+  const colour = getBeerColour(beer);
 
   return `
-    <svg class="beer-glass"
-         viewBox="0 0 120 220"
-         role="img"
-         aria-label="Glass of ${esc(beer.name)}">
+    <div class="glass"
+         style="--beer-colour:${colour}">
 
-      <defs>
-        <clipPath id="clip-${id}">
-          <path d="
-            M19 14
-            L101 14
-            Q99 95 89 176
-            Q88 190 76 192
-            L44 192
-            Q32 190 31 176
-            Q21 95 19 14 Z
-          "/>
-        </clipPath>
+      <div class="liquid"></div>
+      <div class="bubbles"></div>
+      <div class="foam"></div>
 
-        <linearGradient id="beer-${id}"
-                        x1="0" x2="1">
-          <stop offset="0"
-                stop-color="#fff"
-                stop-opacity=".25"/>
-          <stop offset=".18"
-                stop-color="${colour}"/>
-          <stop offset=".72"
-                stop-color="${colour}"/>
-          <stop offset="1"
-                stop-color="#170b05"
-                stop-opacity=".8"/>
-        </linearGradient>
+      <img
+        class="glass-image"
+        src="deadbrewing-classic-glass.png"
+        alt=""
+        draggable="false"
+      >
 
-        <linearGradient id="glass-shine-${id}"
-                        x1="0" x2="1">
-          <stop offset="0"
-                stop-color="white"
-                stop-opacity=".65"/>
-          <stop offset=".22"
-                stop-color="white"
-                stop-opacity="0"/>
-          <stop offset=".83"
-                stop-color="white"
-                stop-opacity=".12"/>
-          <stop offset="1"
-                stop-color="white"
-                stop-opacity=".5"/>
-        </linearGradient>
-      </defs>
-
-      <!-- Beer liquid -->
-      <g clip-path="url(#clip-${id})">
-        <rect x="16" y="38"
-              width="88" height="155"
-              fill="url(#beer-${id})"/>
-
-        <ellipse cx="60" cy="39"
-                 rx="41" ry="6"
-                 fill="${colour}"/>
-
-        <!-- Bubbles -->
-        <g fill="#fff5d1" opacity=".45">
-          <circle cx="39" cy="102" r="1.5"/>
-          <circle cx="74" cy="137" r="1.2"/>
-          <circle cx="49" cy="159" r="1"/>
-          <circle cx="83" cy="89" r="1.3"/>
-          <circle cx="63" cy="120" r="1"/>
-          <circle cx="42" cy="174" r="1.1"/>
-        </g>
-      </g>
-
-      <!-- Foam -->
-      <path class="glass-foam" d="
-        M20 38
-        Q16 26 27 22
-        Q28 10 41 14
-        Q51 4 62 13
-        Q75 5 83 16
-        Q101 12 101 29
-        L99 43
-        Q60 39 21 43 Z
-      "/>
-
-      <!-- Glass outline -->
-      <path class="glass-outline" d="
-        M19 14
-        L101 14
-        Q99 95 89 176
-        Q88 190 76 192
-        L44 192
-        Q32 190 31 176
-        Q21 95 19 14 Z
-      "/>
-
-      <!-- Glass reflections -->
-      <path d="
-        M19 14
-        L101 14
-        Q99 95 89 176
-        Q88 190 76 192
-        L44 192
-        Q32 190 31 176
-        Q21 95 19 14 Z
-      " fill="url(#glass-shine-${id})"
-        opacity=".45"/>
-
-      <path class="glass-highlight"
-            d="M27 34 Q25 95 37 164
-               L42 167 Q32 92 33 34 Z"/>
-
-      <!-- Temporary DB logo -->
-      <g text-anchor="middle">
-        <text x="60" y="109"
-              font-size="25"
-              fill="#e8c67b"
-              stroke="#3d260b"
-              stroke-width=".8">☠</text>
-        <text x="60" y="133"
-              font-size="20"
-              font-weight="bold"
-              font-family="Georgia,serif"
-              class="glass-logo">DB</text>
-      </g>
-
-      <!-- Heavy glass base -->
-      <path class="glass-base"
-            d="M33 180
-               Q35 194 45 197
-               L75 197
-               Q85 194 87 180
-               L86 201
-               Q60 207 34 201 Z"/>
-
-      <ellipse cx="60" cy="202"
-               rx="27" ry="4"
-               fill="rgba(255,255,255,.3)"
-               stroke="rgba(255,255,255,.7)"
-               stroke-width="1.5"/>
-    </svg>
+    </div>
   `;
 }
 
-function renderTap(tapNumber, beer) {
+function renderTap(number, beer) {
   if (!beer) {
     return `
-      <div class="tap empty"
-           aria-label="Tap ${tapNumber} empty">
-        <span class="tap-name">
+      <div class="tap tap-${number} empty"
+           aria-label="Tap ${number} empty">
+
+        <div class="tap-label">
           <strong>TAP EMPTY</strong>
-        </span>
+        </div>
+
       </div>
     `;
   }
 
-  const name = esc(beer.name);
+  const name = escapeHTML(beer.name);
   const abv = Number(beer.abv);
-
-  const abvLabel = Number.isFinite(abv)
-    ? abv + "% ABV"
+  const abvText = Number.isFinite(abv)
+    ? `${abv}% ABV`
     : "";
 
+  const url =
+    `beer.html?id=${encodeURIComponent(beer.id)}`;
+
   return `
-    <a class="tap"
-       href="beer.html?id=${encodeURIComponent(beer.id)}"
-       aria-label="View ${name}">
+    <div class="tap tap-${number}">
 
-      <span class="tap-name">
+      <a class="tap-label"
+         href="${url}"
+         aria-label="View ${name}">
+
         <strong>${name}</strong>
-        <small>${esc(abvLabel)}</small>
-      </span>
+        <small>${escapeHTML(abvText)}</small>
 
-      <span class="glass-holder">
-        ${glass(beer)}
-      </span>
-    </a>
+      </a>
+
+      <a class="glass-link"
+         href="${url}"
+         aria-label="View ${name}">
+
+        ${makeGlass(beer)}
+
+      </a>
+
+    </div>
   `;
 }
 
-async function loadBeers() {
+async function loadTaps() {
   const container = document.getElementById("taps");
 
   try {
@@ -484,39 +399,42 @@ async function loadBeers() {
     );
 
     if (!response.ok) {
-      throw new Error("Unable to load beers.json");
+      throw new Error("Could not load beers.json");
     }
 
     const data = await response.json();
+
     const beers = Array.isArray(data.beers)
       ? data.beers
       : [];
 
-    const activeBeers = beers.filter(
+    const active = beers.filter(
       beer => beer.status === "on-tap"
     );
 
-    const html = [];
+    const results = [];
 
-    for (let tapNumber = 1; tapNumber <= 4; tapNumber++) {
-      const beer = activeBeers.find(
-        item => Number(item.tap) === tapNumber
+    for (let number = 1; number <= 4; number++) {
+      const beer = active.find(
+        item => Number(item.tap) === number
       );
 
-      html.push(renderTap(tapNumber, beer));
+      results.push(renderTap(number, beer));
     }
 
-    container.innerHTML = html.join("");
+    container.innerHTML = results.join("");
 
   } catch (error) {
-    console.error("DeadBrewing tap error:", error);
+    console.error(error);
 
     container.innerHTML =
-      "<p>Beer menu temporarily unavailable.</p>";
+      '<p style="position:absolute;left:30%;top:40%">' +
+      'Beer menu temporarily unavailable.' +
+      '</p>';
   }
 }
 
-loadBeers();
+loadTaps();
 </script>
 
 </body>
