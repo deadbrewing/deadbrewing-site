@@ -27,7 +27,6 @@ html, body {
   position: relative;
   width: 100vw;
   height: 100dvh;
-  aspect-ratio: auto;
   margin: 0;
   overflow: hidden;
 
@@ -52,7 +51,7 @@ html, body {
   overflow-wrap: anywhere;
 }
 
-/* Beer name: upper-right plaque */
+/* Beer name - upper-right plaque */
 .beer-name {
   left: 60%;
   top: 17%;
@@ -114,62 +113,48 @@ html, body {
   scrollbar-color: #87502e transparent;
 }
 
-/* Back to DeadBrewing - bottom-left button */
+/*
+  Back to DeadBrewing
+
+  Uses the actual button artwork extracted
+  from The Crypt.
+
+  The link remains fully clickable.
+*/
 .back {
   position: absolute;
-  left: 3%;
-  bottom: 3%;
-  right: auto;
+  left: 5%;
+  bottom: 2%;
+  width: 21%;
+  height: 7%;
   z-index: 5;
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: block;
 
-  width: 23%;
-  height: 6%;
-  padding: 0 1%;
+  background-image:
+    url("deadbrewing-back-button.png");
 
-  color: #ffe0b5;
-  font-size: clamp(11px, 1.6vw, 22px);
-  font-weight: bold;
-  line-height: 1.1;
-  text-align: center;
+  background-size: 100% 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  /* Hide HTML text because it is
+     already printed on the image */
+  color: transparent;
+  font-size: 0;
   text-decoration: none;
-  text-shadow: 2px 2px 3px #000;
 
-  background: linear-gradient(
-    180deg,
-    #543020 0%,
-    #25140f 45%,
-    #100a08 100%
-  );
-
-  border: 3px solid #b66a32;
-  border-radius: 8px;
-
-  box-shadow:
-    inset 0 0 8px #ff8d30,
-    0 0 8px #ff6a19;
-
-  transition:
-    color 0.2s ease,
-    box-shadow 0.2s ease,
-    background 0.2s ease;
+  transition: filter 0.2s ease;
 }
 
 .back:hover,
 .back:focus-visible {
-  color: #fff;
-  background: linear-gradient(
-    180deg,
-    #704027,
-    #29130c
-  );
+  filter: brightness(1.2);
+}
 
-  box-shadow:
-    inset 0 0 12px #ffa04c,
-    0 0 15px #ff8d30;
+.back:focus-visible {
+  outline: 2px solid #ffb65c;
+  outline-offset: 3px;
 }
 
 /* Mobile text sizing */
@@ -184,11 +169,6 @@ html, body {
 
   .story-text {
     font-size: clamp(8px, 1.6vw, 12px);
-  }
-
-  .back {
-    font-size: clamp(8px, 1.7vw, 11px);
-    border-width: 2px;
   }
 }
 </style>
@@ -212,9 +192,11 @@ html, body {
   <!-- Beer story -->
   <div class="story-text" id="story"></div>
 
-  <!-- Return to homepage -->
-  <a class="back" href="index.html">
-    &#8592; Back to DeadBrewing
+  <!-- Back to homepage -->
+  <a
+    class="back"
+    href="index.html"
+    aria-label="Back to DeadBrewing homepage">
   </a>
 
 </main>
@@ -225,7 +207,9 @@ html, body {
 const params = new URLSearchParams(window.location.search);
 const id = params.get("id");
 
+/* Load the selected beer */
 fetch("beers.json", { cache: "no-store" })
+
   .then(response => {
     if (!response.ok) {
       throw new Error("Unable to load beer information");
