@@ -38,6 +38,24 @@ html, body {
   background-repeat: no-repeat;
 }
 
+/* Clickable DeadBrewing logo */
+.home-logo {
+  position: absolute;
+  left: 20%;
+  top: 0%;
+  width: 42%;
+  height: 20%;
+  z-index: 10;
+
+  display: block;
+  cursor: pointer;
+}
+
+.home-logo:focus-visible {
+  outline: 2px solid #ffb65c;
+  outline-offset: -3px;
+}
+
 /* Editable beer information */
 .beer-name,
 .beer-value,
@@ -113,14 +131,7 @@ html, body {
   scrollbar-color: #87502e transparent;
 }
 
-/*
-  Back to DeadBrewing
-
-  Uses the actual button artwork extracted
-  from The Crypt.
-
-  The link remains fully clickable.
-*/
+/* Matching Back to DeadBrewing image button */
 .back {
   position: absolute;
   left: 5%;
@@ -138,8 +149,6 @@ html, body {
   background-position: center;
   background-repeat: no-repeat;
 
-  /* Hide HTML text because it is
-     already printed on the image */
   color: transparent;
   font-size: 0;
   text-decoration: none;
@@ -177,6 +186,13 @@ html, body {
 <body>
 
 <main class="page" aria-label="DeadBrewing beer details">
+
+  <!-- Clickable DeadBrewing logo -->
+  <a
+    class="home-logo"
+    href="index.html"
+    aria-label="Return to DeadBrewing homepage">
+  </a>
 
   <!-- Beer name -->
   <div class="beer-name" id="name">
