@@ -2,310 +2,458 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#080d13">
-  <title>The Brew Journal | DeadBrewing</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DeadBrewing | Brew Journal</title>
 
-  <style>
-    :root {
-      --bg: #080d13;
-      --panel: #121d2a;
-      --blue: #79cfff;
-      --rust: #d77b37;
-      --text: #e4eaf0;
-      --muted: #a2b0be;
-      --border: #354b60;
-    }
+<style>
+:root {
+  --gold: #f0cb80;
+  --paper: #e8c89a;
+  --ink: #382015;
+}
 
-    * { box-sizing: border-box; }
+* {
+  box-sizing: border-box;
+}
 
-    body {
-      margin: 0;
-      min-height: 100vh;
-      background:
-        radial-gradient(ellipse at 50% 0%, #152b40 0%, transparent 55%),
-        var(--bg);
-      color: var(--text);
-      font-family: Arial, Helvetica, sans-serif;
-    }
+html, body {
+  margin: 0;
+  min-height: 100%;
+  background: #0b0808;
+  color: var(--gold);
+  font-family: Georgia, "Times New Roman", serif;
+}
 
-    header {
-      background: #0b121c;
-      border-bottom: 2px solid var(--rust);
-      padding: 22px 18px;
-      text-align: center;
-    }
+body {
+  background-image:
+    linear-gradient(90deg, rgba(0,0,0,.08), rgba(0,0,0,.15)),
+    url("deadbrewing-journal-background.png");
+  background-position: center;
+  background-size: cover;
+  background-attachment: fixed;
+}
 
-    .brand {
-      color: var(--blue);
-      font-size: clamp(28px, 6vw, 46px);
-      font-weight: 900;
-      letter-spacing: 4px;
-      text-decoration: none;
-      text-transform: uppercase;
-    }
+.home {
+  position: fixed;
+  top: 18px;
+  left: 20px;
+  z-index: 5;
+  background: #170e0ce6;
+  border: 1px solid #b4814e;
+  border-radius: 5px;
+  padding: 10px 17px;
+  color: var(--gold);
+  text-decoration: none;
+  font-size: 13px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
 
-    nav {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 12px 24px;
-      margin-top: 16px;
-    }
+.home:hover {
+  background: #48251a;
+}
 
-    nav a {
-      color: var(--text);
-      font-size: 13px;
-      font-weight: bold;
-      letter-spacing: 1px;
-      text-decoration: none;
-      text-transform: uppercase;
-    }
+.layout {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  padding: 75px max(3vw, 20px) 35px;
+  gap: 3vw;
+}
 
-    nav a:hover,
-    nav a[aria-current="page"] {
-      color: var(--blue);
-    }
+.left {
+  min-height: 60vh;
+}
 
-    main {
-      max-width: 1100px;
-      margin: auto;
-      padding: 48px 20px 90px;
-    }
+.right {
+  width: 100%;
+  max-width: 650px;
+  justify-self: center;
+  padding: 24px;
+  border: 1px solid #6e3e25;
+  border-radius: 9px;
+  background: linear-gradient(150deg, #21130de8, #0c0908ee);
+  box-shadow: 0 15px 55px #000c;
+}
 
-    h1 {
-      color: var(--blue);
-      text-align: center;
-      text-transform: uppercase;
-      letter-spacing: 4px;
-      font-size: clamp(30px, 5vw, 48px);
-      margin: 0;
-    }
+.heading {
+  text-align: center;
+  margin: 0 0 6px;
+  font-size: clamp(23px, 3vw, 38px);
+  letter-spacing: 3px;
+  text-shadow: 0 2px 5px #000;
+}
 
-    .intro {
-      color: var(--muted);
-      text-align: center;
-      margin: 12px auto 48px;
-      max-width: 600px;
-      line-height: 1.6;
-    }
+.sub {
+  text-align: center;
+  color: #cba26d;
+  font-size: 12px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin: 0 0 20px;
+}
 
-    .recipe-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 28px;
-    }
+.cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  min-height: 430px;
+}
 
-    .recipe-card {
-      display: block;
-      overflow: hidden;
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-top: 3px solid var(--rust);
-      border-radius: 10px;
-      color: inherit;
-      text-decoration: none;
-      transition: transform .2s, border-color .2s;
-    }
+.recipe {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 202px;
+  padding: 12px 10px;
+  text-decoration: none;
+  color: var(--ink);
+  border: 2px solid #9a6a38;
+  border-radius: 6px;
+  background: linear-gradient(135deg, #f2d8a7, #d6ab74);
+  box-shadow:
+    inset 0 0 22px #7b451b3b,
+    0 3px 12px #0008;
+  transition: transform .15s, filter .15s;
+}
 
-    .recipe-card:hover {
-      transform: translateY(-5px);
-      border-color: var(--blue);
-    }
+.recipe:hover,
+.recipe:focus-visible {
+  transform: translateY(-3px);
+  filter: brightness(1.08);
+  outline: 2px solid #eac180;
+}
 
-    .artwork {
-      aspect-ratio: 4 / 3;
-      background:
-        radial-gradient(circle at 50% 35%, #244764, #101923 70%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-bottom: 1px solid var(--border);
-      overflow: hidden;
-    }
+.recipe img {
+  width: 42%;
+  max-height: 170px;
+  object-fit: contain;
+  flex-shrink: 0;
+  filter: drop-shadow(0 4px 4px #3d210955);
+}
 
-    .artwork img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
+.recipe-text {
+  min-width: 0;
+  flex: 1;
+}
 
-    .art-placeholder {
-      color: #6c92aa;
-      font-size: 72px;
-      opacity: .7;
-    }
+.recipe h2 {
+  font-size: clamp(14px, 1.45vw, 21px);
+  line-height: 1.14;
+  margin: 0 0 9px;
+}
 
-    .card-body {
-      padding: 24px;
-    }
+.recipe p {
+  font-size: 12px;
+  line-height: 1.35;
+  margin: 0 0 9px;
+}
 
-    .card-style {
-      color: var(--rust);
-      text-transform: uppercase;
-      font-size: 12px;
-      letter-spacing: 2px;
-      font-weight: bold;
-    }
+.recipe span {
+  font-size: 11px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
 
-    .card-title {
-      color: #fff;
-      font-size: clamp(23px, 3vw, 32px);
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      margin: 10px 0;
-    }
+.empty {
+  border: 1px dashed #8a613c80;
+  border-radius: 6px;
+  background: #b28b5d20;
+  min-height: 202px;
+}
 
-    .card-description {
-      color: var(--muted);
-      line-height: 1.6;
-      font-size: 14px;
-      min-height: 65px;
-    }
+.pager {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin-top: 20px;
+}
 
-    .view-link {
-      display: inline-block;
-      color: var(--blue);
-      font-weight: bold;
-      font-size: 13px;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      margin-top: 18px;
-    }
+.pager button {
+  cursor: pointer;
+  background: #342016;
+  color: var(--gold);
+  border: 1px solid #a77a45;
+  padding: 9px 13px;
+  font-family: inherit;
+  border-radius: 4px;
+}
 
-    footer {
-      border-top: 1px solid var(--border);
-      padding: 28px 15px;
-      text-align: center;
-      color: var(--muted);
-      font-size: 12px;
-      letter-spacing: 1px;
-    }
+.pager button:disabled {
+  opacity: .35;
+  cursor: default;
+}
 
-    @media (max-width: 700px) {
-      .recipe-grid {
-        grid-template-columns: 1fr;
-      }
-      main {
-        padding: 32px 15px 60px;
-      }
-    }
-  </style>
+.pager strong {
+  font-size: 13px;
+  letter-spacing: 2px;
+}
+
+.message {
+  text-align: center;
+  padding: 50px 10px;
+  color: #f3ce8c;
+  grid-column: 1 / -1;
+}
+
+@media (max-width: 800px) {
+  body {
+    background-attachment: scroll;
+    background-position: 33% top;
+  }
+
+  .layout {
+    display: block;
+    padding: 78px 14px 30px;
+  }
+
+  .left {
+    min-height: 28vh;
+  }
+
+  .right {
+    max-width: 650px;
+    margin: auto;
+    padding: 15px;
+  }
+
+  .cards {
+    min-height: 0;
+  }
+
+  .recipe,
+  .empty {
+    min-height: 165px;
+  }
+}
+
+@media (max-width: 460px) {
+  .cards {
+    grid-template-columns: 1fr;
+  }
+
+  .recipe,
+  .empty {
+    min-height: 145px;
+  }
+
+  .recipe img {
+    max-height: 130px;
+    width: 33%;
+  }
+
+  .heading {
+    font-size: 25px;
+  }
+}
+</style>
 </head>
 
 <body>
-  <header>
-    <a class="brand" href="index.html">DeadBrewing</a>
 
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="journal.html" aria-current="page">Brew Journal</a>
-      <a href="crypt.html">The Crypt</a>
-      <a href="vip.html">VIP</a>
-      <a href="contact.html">Contact</a>
-    </nav>
-  </header>
+<a class="home" href="index.html">← DeadBrewing</a>
 
-  <main>
-    <h1>The Brew Journal</h1>
+<main class="layout">
 
-    <p class="intro">
-      From the grain bill to the final pour.
-      Explore the recipes forged in the DeadBrewing crypt.
-    </p>
+  <div class="left" aria-hidden="true"></div>
 
-    <div class="recipe-grid" id="recipe-grid">
-      <p>Loading recipes...</p>
+  <section class="right" aria-label="Recipe collection">
+
+    <h1 class="heading">THE BREW JOURNAL</h1>
+    <p class="sub">Recipes from the Crypt</p>
+
+    <div id="cards" class="cards">
+      <p class="message">Opening the recipe book…</p>
     </div>
-  </main>
 
-  <footer>
-    DEADBREWING &bull; BREWED AFTER DARK
-  </footer>
+    <nav class="pager" aria-label="Recipe pages">
+      <button id="prev" type="button">‹ Previous</button>
+      <strong id="page">1 / 3</strong>
+      <button id="next" type="button">Next ›</button>
+    </nav>
 
-  <script>
-    function escapeHTML(value) {
-      return String(value ?? "")
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#39;");
+  </section>
+
+</main>
+
+<script>
+const cards = document.getElementById("cards");
+const pageLabel = document.getElementById("page");
+const prev = document.getElementById("prev");
+const next = document.getElementById("next");
+
+const PAGE_SIZE = 4;
+const MIN_PAGES = 3;
+
+let recipes = [];
+let page = 0;
+
+function glassFor(recipe) {
+  const name = (
+    (recipe.name || "") + " " +
+    (recipe.style || "")
+  ).toLowerCase();
+
+  if (/stout|porter|imperial dark/.test(name)) {
+    return "stout";
+  }
+
+  if (/brown|dunkel|mild/.test(name)) {
+    return "brown";
+  }
+
+  if (/red|ruby|irish red|amber/.test(name)) {
+    return "red";
+  }
+
+  return "gold";
+}
+
+function slug(text) {
+  return String(text || "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+}
+
+function escapeHTML(text) {
+  return String(text ?? "").replace(
+    /[&<>"']/g,
+    char => ({
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      '"': "&quot;",
+      "'": "&#39;"
+    }[char])
+  );
+}
+
+function render() {
+  const total = Math.max(
+    MIN_PAGES,
+    Math.ceil(recipes.length / PAGE_SIZE)
+  );
+
+  page = Math.max(0, Math.min(page, total - 1));
+
+  cards.innerHTML = "";
+
+  const selection = recipes.slice(
+    page * PAGE_SIZE,
+    (page + 1) * PAGE_SIZE
+  );
+
+  selection.forEach(recipe => {
+    const link = document.createElement("a");
+    link.className = "recipe";
+
+    link.href =
+      "recipe.html?id=" +
+      encodeURIComponent(
+        recipe.id || slug(recipe.name)
+      );
+
+    const img = document.createElement("img");
+
+    img.src =
+      "deadbrewing-glass-" +
+      (recipe.glass || glassFor(recipe)) +
+      ".png";
+
+    img.alt = "";
+    img.loading = "lazy";
+
+    const info = document.createElement("div");
+    info.className = "recipe-text";
+
+    info.innerHTML =
+      "<h2>" + escapeHTML(recipe.name) + "</h2>" +
+      "<p>" +
+      escapeHTML(recipe.style || "DeadBrewing original") +
+      "</p>" +
+      "<span>Open recipe →</span>";
+
+    link.append(img, info);
+    cards.append(link);
+  });
+
+  for (let i = selection.length; i < PAGE_SIZE; i++) {
+    const slot = document.createElement("div");
+    slot.className = "empty";
+    slot.setAttribute("aria-hidden", "true");
+    cards.append(slot);
+  }
+
+  pageLabel.textContent = (page + 1) + " / " + total;
+
+  prev.disabled = page === 0;
+  next.disabled = page === total - 1;
+}
+
+prev.addEventListener("click", () => {
+  page--;
+  render();
+});
+
+next.addEventListener("click", () => {
+  page++;
+  render();
+});
+
+fetch("journal.json", { cache: "no-store" })
+  .then(response => {
+    if (!response.ok) {
+      throw Error("Could not load journal.json");
     }
+    return response.json();
+  })
+  .then(data => {
+    const all = [
+      ...(Array.isArray(data.recipes) ? data.recipes : []),
+      ...(Array.isArray(data.batches) ? data.batches : [])
+    ];
 
-    async function loadRecipes() {
-      const grid = document.getElementById("recipe-grid");
+    const wanted = [
+      "Night Shift Pils",
+      "Drop Dead Red"
+    ];
 
-      try {
-        const response = await fetch("journal.json", {
-          cache: "no-store"
-        });
+    const normalized = all
+      .filter(recipe => recipe && recipe.name)
+      .map(recipe => ({
+        ...recipe,
+        name: /^Czech Pilsner$/i.test(recipe.name)
+          ? "Night Shift Pils"
+          : recipe.name,
+        id: recipe.id || slug(recipe.name)
+      }));
 
-        if (!response.ok) {
-          throw new Error("Could not load journal.json");
-        }
+    recipes = wanted
+      .map(name =>
+        normalized.find(
+          recipe =>
+            recipe.name.toLowerCase() === name.toLowerCase()
+        )
+      )
+      .filter(Boolean);
 
-        const data = await response.json();
+    render();
+  })
+  .catch(error => {
+    cards.innerHTML =
+      '<p class="message">' +
+      'Unable to load recipes. ' +
+      'Check journal.json is uploaded alongside journal.html.' +
+      '</p>';
 
-        const allRecipes = [
-          ...(Array.isArray(data.batches) ? data.batches : []),
-          ...(Array.isArray(data.recipes) ? data.recipes : [])
-        ];
+    console.error(error);
+  });
+</script>
 
-        const selectedIds = [
-          "czech-pilsner",
-          "drop-dead-red"
-        ];
-
-        const recipes = selectedIds
-          .map(id => allRecipes.find(recipe => recipe.id === id))
-          .filter(Boolean);
-
-        if (!recipes.length) {
-          grid.innerHTML = "<p>No recipes available.</p>";
-          return;
-        }
-
-        grid.innerHTML = recipes.map(recipe => {
-          const artwork = recipe.artwork
-            ? `<img src="${escapeHTML(recipe.artwork)}"
-                    alt="${escapeHTML(recipe.name)} artwork">`
-            : `<div class="art-placeholder">☠</div>`;
-
-          return `
-            <a class="recipe-card"
-               href="recipe.html?id=${encodeURIComponent(recipe.id)}">
-              <div class="artwork">${artwork}</div>
-
-              <div class="card-body">
-                <div class="card-style">
-                  ${escapeHTML(recipe.style)}
-                </div>
-
-                <h2 class="card-title">
-                  ${escapeHTML(recipe.name)}
-                </h2>
-
-                <p class="card-description">
-                  ${escapeHTML(recipe.description)}
-                </p>
-
-                <span class="view-link">
-                  View Recipe &rarr;
-                </span>
-              </div>
-            </a>
-          `;
-        }).join("");
-
-      } catch (error) {
-        console.error(error);
-        grid.innerHTML = "<p>Unable to load recipes.</p>";
-      }
-    }
-
-    loadRecipes();
-  </script>
 </body>
 </html>
