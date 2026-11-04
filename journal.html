@@ -6,31 +6,37 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#080d13">
   <title>The Brew Journal | DeadBrewing</title>
+
   <style>
     :root {
       --bg: #080d13;
-      --panel: #111b27;
-      --panel2: #172534;
+      --panel: #121d2a;
       --blue: #79cfff;
       --rust: #d77b37;
       --text: #e4eaf0;
       --muted: #a2b0be;
       --border: #354b60;
     }
+
     * { box-sizing: border-box; }
+
     body {
       margin: 0;
-      background: var(--bg);
+      min-height: 100vh;
+      background:
+        radial-gradient(ellipse at 50% 0%, #152b40 0%, transparent 55%),
+        var(--bg);
       color: var(--text);
       font-family: Arial, Helvetica, sans-serif;
-      line-height: 1.6;
     }
+
     header {
       background: #0b121c;
       border-bottom: 2px solid var(--rust);
       padding: 22px 18px;
       text-align: center;
     }
+
     .brand {
       color: var(--blue);
       font-size: clamp(28px, 6vw, 46px);
@@ -39,6 +45,7 @@
       text-decoration: none;
       text-transform: uppercase;
     }
+
     nav {
       display: flex;
       justify-content: center;
@@ -46,6 +53,7 @@
       gap: 12px 24px;
       margin-top: 16px;
     }
+
     nav a {
       color: var(--text);
       font-size: 13px;
@@ -54,173 +62,142 @@
       text-decoration: none;
       text-transform: uppercase;
     }
-    nav a:hover, nav a[aria-current="page"] {
+
+    nav a:hover,
+    nav a[aria-current="page"] {
       color: var(--blue);
     }
+
     main {
-      max-width: 1000px;
+      max-width: 1100px;
       margin: auto;
-      padding: 40px 18px 70px;
+      padding: 48px 20px 90px;
     }
-    h1, h2, h3 {
-      text-transform: uppercase;
-      letter-spacing: 2px;
-    }
+
     h1 {
       color: var(--blue);
-      font-size: clamp(28px, 5vw, 42px);
       text-align: center;
+      text-transform: uppercase;
+      letter-spacing: 4px;
+      font-size: clamp(30px, 5vw, 48px);
       margin: 0;
     }
+
     .intro {
       color: var(--muted);
       text-align: center;
-      margin: 10px auto 42px;
-      max-width: 650px;
+      margin: 12px auto 48px;
+      max-width: 600px;
+      line-height: 1.6;
     }
-    .section-heading {
-      color: var(--rust);
-      border-bottom: 1px solid var(--border);
-      padding-bottom: 12px;
-      margin: 40px 0 20px;
+
+    .recipe-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 28px;
     }
-    .batch {
+
+    .recipe-card {
+      display: block;
+      overflow: hidden;
       background: var(--panel);
       border: 1px solid var(--border);
       border-top: 3px solid var(--rust);
-      border-radius: 8px;
-      padding: 25px;
-      margin-bottom: 22px;
+      border-radius: 10px;
+      color: inherit;
+      text-decoration: none;
+      transition: transform .2s, border-color .2s;
     }
-    .batch.featured {
-      border-top-color: var(--blue);
-      box-shadow: 0 0 25px rgba(60,150,220,.08);
+
+    .recipe-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--blue);
     }
-    .batch-number {
-      color: var(--rust);
-      font-size: 12px;
-      font-weight: bold;
-      letter-spacing: 2px;
-    }
-    .featured .batch-number { color: var(--blue); }
-    .batch h3 {
-      color: white;
-      font-size: clamp(23px, 4vw, 33px);
-      margin: 8px 0 4px;
-    }
-    .batch-style {
-      color: var(--blue);
-      font-size: 14px;
-      margin-bottom: 14px;
-    }
-    .batch-description {
-      color: var(--muted);
-      margin: 16px 0 22px;
-    }
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 10px;
-      margin: 22px 0;
-    }
-    .stat {
-      background: var(--panel2);
-      border: 1px solid var(--border);
-      border-radius: 5px;
-      padding: 12px 8px;
-      text-align: center;
-    }
-    .stat-label {
-      display: block;
-      color: var(--muted);
-      font-size: 11px;
-      font-weight: bold;
-      letter-spacing: 1px;
-    }
-    .stat-value {
-      display: block;
-      color: var(--text);
-      font-size: clamp(15px, 2.5vw, 21px);
-      font-weight: bold;
-      margin-top: 4px;
-    }
-    .batch-date {
-      color: var(--muted);
-      font-size: 12px;
-      margin-top: 8px;
-    }
-    details {
-      background: #0d1621;
-      border: 1px solid var(--border);
-      border-radius: 5px;
-      margin-top: 10px;
+
+    .artwork {
+      aspect-ratio: 4 / 3;
+      background:
+        radial-gradient(circle at 50% 35%, #244764, #101923 70%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-bottom: 1px solid var(--border);
       overflow: hidden;
     }
-    summary {
-      color: var(--blue);
-      cursor: pointer;
-      font-size: 13px;
-      font-weight: bold;
-      letter-spacing: 1px;
-      padding: 14px 16px;
+
+    .artwork img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .art-placeholder {
+      color: #6c92aa;
+      font-size: 72px;
+      opacity: .7;
+    }
+
+    .card-body {
+      padding: 24px;
+    }
+
+    .card-style {
+      color: var(--rust);
       text-transform: uppercase;
+      font-size: 12px;
+      letter-spacing: 2px;
+      font-weight: bold;
     }
-    summary:hover { background: var(--panel2); }
-    details[open] summary {
-      border-bottom: 1px solid var(--border);
+
+    .card-title {
+      color: #fff;
+      font-size: clamp(23px, 3vw, 32px);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin: 10px 0;
     }
-    .detail-content { padding: 10px 16px 14px; }
-    .detail-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 20px;
-      padding: 9px 0;
-      border-bottom: 1px solid #263545;
-      font-size: 14px;
-    }
-    .detail-row:last-child { border-bottom: none; }
-    .detail-row span:last-child {
-      color: #f2d7aa;
-      text-align: right;
-    }
-    .detail-text {
-      color: var(--text);
-      white-space: pre-line;
-      font-size: 14px;
-    }
-    .crypt-notes { border-color: var(--rust); }
-    .crypt-notes summary { color: #f3b77b; }
-    .vault-entry { border-top-color: #9a4b4b; }
-    .vault-entry .batch-number { color: #e5a09a; }
-    .empty-message {
+
+    .card-description {
       color: var(--muted);
-      text-align: center;
-      padding: 30px;
+      line-height: 1.6;
+      font-size: 14px;
+      min-height: 65px;
     }
+
+    .view-link {
+      display: inline-block;
+      color: var(--blue);
+      font-weight: bold;
+      font-size: 13px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-top: 18px;
+    }
+
     footer {
       border-top: 1px solid var(--border);
-      color: var(--muted);
       padding: 28px 15px;
       text-align: center;
+      color: var(--muted);
       font-size: 12px;
       letter-spacing: 1px;
     }
-    @media (max-width: 600px) {
-      main { padding: 28px 12px 50px; }
-      .batch { padding: 17px 13px; }
-      .stats { grid-template-columns: repeat(2, 1fr); }
-      .detail-row {
-        flex-direction: column;
-        gap: 2px;
+
+    @media (max-width: 700px) {
+      .recipe-grid {
+        grid-template-columns: 1fr;
       }
-      .detail-row span:last-child { text-align: left; }
+      main {
+        padding: 32px 15px 60px;
+      }
     }
   </style>
 </head>
+
 <body>
   <header>
     <a class="brand" href="index.html">DeadBrewing</a>
+
     <nav>
       <a href="index.html">Home</a>
       <a href="journal.html" aria-current="page">Brew Journal</a>
@@ -232,24 +209,20 @@
 
   <main>
     <h1>The Brew Journal</h1>
+
     <p class="intro">
-      Every batch has a story. From the grain bill to the final pour,
-      this is where the brewing records live.
+      From the grain bill to the final pour.
+      Explore the recipes forged in the DeadBrewing crypt.
     </p>
 
-    <h2 class="section-heading">Latest Brew</h2>
-    <div id="latest-brew">
-      <p class="empty-message">Loading brewing records...</p>
+    <div class="recipe-grid" id="recipe-grid">
+      <p>Loading recipes...</p>
     </div>
-
-    <h2 class="section-heading">The Batch Archive</h2>
-    <div id="batch-archive"></div>
-
-    <h2 class="section-heading">The Recipe Vault</h2>
-    <div id="recipe-vault"></div>
   </main>
 
-  <footer>DEADBREWING &bull; BREWED AFTER DARK</footer>
+  <footer>
+    DEADBREWING &bull; BREWED AFTER DARK
+  </footer>
 
   <script>
     function escapeHTML(value) {
@@ -261,122 +234,8 @@
         .replace(/'/g, "&#39;");
     }
 
-    function hasValue(value) {
-      return value !== null &&
-             value !== undefined &&
-             String(value).trim() !== "";
-    }
-
-    function display(value) {
-      return hasValue(value) ? escapeHTML(value) : "Pending";
-    }
-
-    function hasItems(items) {
-      return Array.isArray(items) && items.length > 0;
-    }
-
-    function rows(items) {
-      if (!hasItems(items)) return "";
-      return items.map(item => `
-        <div class="detail-row">
-          <span>${escapeHTML(item.label)}</span>
-          <span>${display(item.value)}</span>
-        </div>
-      `).join("");
-    }
-
-    function section(title, content, extraClass = "") {
-      if (!content || !content.trim()) return "";
-      return `
-        <details class="${extraClass}">
-          <summary>${escapeHTML(title)}</summary>
-          <div class="detail-content">${content}</div>
-        </details>
-      `;
-    }
-
-    function rowSection(title, items, extraClass = "") {
-      return hasItems(items)
-        ? section(title, rows(items), extraClass)
-        : "";
-    }
-
-    function textSection(title, value) {
-      return hasValue(value)
-        ? section(
-            title,
-            `<div class="detail-text">${escapeHTML(value)}</div>`
-          )
-        : "";
-    }
-
-    function makeEntry(beer, type = "batch", featured = false) {
-      const isVault = type === "vault";
-
-      const number = String(beer.batchNumber ?? 0)
-        .padStart(3, "0");
-
-      const heading = isVault
-        ? "RECIPE VAULT"
-        : `BATCH #${number}`;
-
-      const stats = [
-        ["OG", beer.og],
-        ["FG", beer.fg],
-        ["ABV", hasValue(beer.abv) ? beer.abv + "%" : null],
-        ["IBU", beer.ibu]
-      ];
-
-      const statHTML = stats.map(([label, value]) => `
-        <div class="stat">
-          <span class="stat-label">${label}</span>
-          <span class="stat-value">${display(value)}</span>
-        </div>
-      `).join("");
-
-      const dateHTML = !isVault && hasValue(beer.date)
-        ? `<div class="batch-date">
-             Brewed: ${escapeHTML(beer.date)}
-           </div>`
-        : "";
-
-      const descriptionHTML = hasValue(beer.description)
-        ? `<p class="batch-description">
-             ${escapeHTML(beer.description)}
-           </p>`
-        : "";
-
-      const sections = [
-        rowSection("Grain Bill", beer.grain),
-        rowSection("Hop Schedule", beer.hops),
-        rowSection("Water Profile", beer.water),
-        rowSection("Mash Schedule", beer.mash),
-        rowSection("Fermentation", beer.fermentation),
-        rowSection("☠ Crypt Notes", beer.cryptNotes, "crypt-notes"),
-        textSection("Brewer's Verdict", beer.tastingNotes)
-      ].join("");
-
-      return `
-        <article class="batch
-          ${featured ? "featured" : ""}
-          ${isVault ? "vault-entry" : ""}">
-          <div class="batch-number">${heading}</div>
-          <h3>${escapeHTML(beer.name || "Unnamed Beer")}</h3>
-          <div class="batch-style">
-            ${escapeHTML(beer.style || "")}
-          </div>
-          ${dateHTML}
-          ${descriptionHTML}
-          <div class="stats">${statHTML}</div>
-          ${sections}
-        </article>
-      `;
-    }
-
-    async function loadJournal() {
-      const latest = document.getElementById("latest-brew");
-      const archive = document.getElementById("batch-archive");
-      const vault = document.getElementById("recipe-vault");
+    async function loadRecipes() {
+      const grid = document.getElementById("recipe-grid");
 
       try {
         const response = await fetch("journal.json", {
@@ -389,45 +248,64 @@
 
         const data = await response.json();
 
-        const batches = Array.isArray(data.batches)
-          ? [...data.batches]
-          : [];
+        const allRecipes = [
+          ...(Array.isArray(data.batches) ? data.batches : []),
+          ...(Array.isArray(data.recipes) ? data.recipes : [])
+        ];
 
-        const recipes = Array.isArray(data.recipes)
-          ? data.recipes
-          : [];
+        const selectedIds = [
+          "czech-pilsner",
+          "drop-dead-red"
+        ];
 
-        batches.sort((a, b) =>
-          Number(b.batchNumber) - Number(a.batchNumber)
-        );
+        const recipes = selectedIds
+          .map(id => allRecipes.find(recipe => recipe.id === id))
+          .filter(Boolean);
 
-        if (batches.length) {
-          latest.innerHTML = makeEntry(batches[0], "batch", true);
-          archive.innerHTML = batches.length > 1
-            ? batches.slice(1)
-                .map(beer => makeEntry(beer))
-                .join("")
-            : '<p class="empty-message">More batches coming soon.</p>';
-        } else {
-          latest.innerHTML =
-            '<p class="empty-message">No batches recorded yet.</p>';
-          archive.innerHTML = "";
+        if (!recipes.length) {
+          grid.innerHTML = "<p>No recipes available.</p>";
+          return;
         }
 
-        vault.innerHTML = recipes.length
-          ? recipes.map(beer => makeEntry(beer, "vault")).join("")
-          : '<p class="empty-message">Recipes coming soon.</p>';
+        grid.innerHTML = recipes.map(recipe => {
+          const artwork = recipe.artwork
+            ? `<img src="${escapeHTML(recipe.artwork)}"
+                    alt="${escapeHTML(recipe.name)} artwork">`
+            : `<div class="art-placeholder">☠</div>`;
+
+          return `
+            <a class="recipe-card"
+               href="recipe.html?id=${encodeURIComponent(recipe.id)}">
+              <div class="artwork">${artwork}</div>
+
+              <div class="card-body">
+                <div class="card-style">
+                  ${escapeHTML(recipe.style)}
+                </div>
+
+                <h2 class="card-title">
+                  ${escapeHTML(recipe.name)}
+                </h2>
+
+                <p class="card-description">
+                  ${escapeHTML(recipe.description)}
+                </p>
+
+                <span class="view-link">
+                  View Recipe &rarr;
+                </span>
+              </div>
+            </a>
+          `;
+        }).join("");
 
       } catch (error) {
-        console.error("Brew Journal error:", error);
-        latest.innerHTML =
-          '<p class="empty-message">Unable to load brewing records.</p>';
-        archive.innerHTML = "";
-        vault.innerHTML = "";
+        console.error(error);
+        grid.innerHTML = "<p>Unable to load recipes.</p>";
       }
     }
 
-    loadJournal();
+    loadRecipes();
   </script>
 </body>
 </html>
