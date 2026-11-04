@@ -7,7 +7,9 @@
 <title>Brew Journal | DeadBrewing</title>
 
 <style>
-* { box-sizing: border-box; }
+* {
+  box-sizing: border-box;
+}
 
 html, body {
   margin: 0;
@@ -26,7 +28,8 @@ html, body {
   background-repeat: no-repeat;
 }
 
-/* Recipe cards positioned over parchment */
+/* RECIPE CARDS */
+
 .recipe {
   position: absolute;
   width: 27.1%;
@@ -38,11 +41,6 @@ html, body {
   text-decoration: none;
   overflow: hidden;
 }
-
-.recipe:nth-child(1) { left: 42.1%; top: 20.5%; }
-.recipe:nth-child(2) { left: 70.5%; top: 20.5%; }
-.recipe:nth-child(3) { left: 42.1%; top: 50.5%; }
-.recipe:nth-child(4) { left: 70.5%; top: 50.5%; }
 
 .recipe img {
   width: 33%;
@@ -75,47 +73,79 @@ html, body {
   background: rgba(255, 225, 150, 0.13);
 }
 
-/* DEBUG MODE: VISIBLE CLICKABLE BOXES */
+/* INVISIBLE NAVIGATION BUTTONS */
+
 .hitbox {
   position: absolute;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 3px solid #00ff66;
-  background: rgba(0, 255, 80, 0.28);
-  color: white;
-  font-size: clamp(12px, 1.2vw, 24px);
-  font-weight: bold;
+  display: block;
+  padding: 0;
+  margin: 0;
+  border: none;
+  background: transparent;
+  color: transparent;
+  font-size: 0;
   cursor: pointer;
   z-index: 5;
 }
 
 .hitbox:hover {
-  background: rgba(0, 255, 80, 0.55);
+  background: rgba(255, 215, 100, 0.12);
 }
 
-.hitbox.active {
-  border-color: #ffea00;
-  background: rgba(255, 0, 0, 0.45);
+.hitbox:focus-visible {
+  outline: 2px solid #ffd16a;
 }
 
-/* Positions measured as percentages of the artwork */
-.previous { left: 52.0%; top: 82.2%; width: 10.0%; height: 6.5%; }
-.page1    { left: 63.4%; top: 82.2%; width: 3.8%; height: 6.5%; }
-.page2    { left: 67.4%; top: 82.2%; width: 3.8%; height: 6.5%; }
-.page3    { left: 71.4%; top: 82.2%; width: 3.8%; height: 6.5%; }
-.next     { left: 77.0%; top: 82.2%; width: 10.0%; height: 6.5%; }
+/* NAVIGATION POSITIONS */
 
-.debug-label {
-  position: fixed;
-  top: 12px;
-  right: 12px;
-  z-index: 20;
-  background: #111;
-  border: 2px solid #00ff66;
-  padding: 10px 16px;
-  color: #00ff66;
-  font: bold 14px Arial, sans-serif;
+.previous {
+  left: 52.0%;
+  top: 82.2%;
+  width: 10.0%;
+  height: 6.5%;
+}
+
+.page1 {
+  left: 63.4%;
+  top: 82.2%;
+  width: 3.8%;
+  height: 6.5%;
+}
+
+.page2 {
+  left: 67.4%;
+  top: 82.2%;
+  width: 3.8%;
+  height: 6.5%;
+}
+
+.page3 {
+  left: 71.4%;
+  top: 82.2%;
+  width: 3.8%;
+  height: 6.5%;
+}
+
+.next {
+  left: 77.0%;
+  top: 82.2%;
+  width: 10.0%;
+  height: 6.5%;
+}
+
+/* ACTIVE PAGE INDICATOR */
+
+.page-indicator {
+  position: absolute;
+  top: 82.2%;
+  width: 3.8%;
+  height: 6.5%;
+  border: 2px solid rgba(255, 205, 75, 0.85);
+  border-radius: 5px;
+  background: rgba(190, 12, 0, 0.28);
+  pointer-events: none;
+  z-index: 4;
+  transition: left 0.15s ease;
 }
 
 @media (max-width: 700px) {
@@ -132,17 +162,41 @@ html, body {
 
 <body>
 
-<div class="debug-label">DEBUG MODE — HITBOXES VISIBLE</div>
-
 <main class="journal" id="journal">
 
   <div id="recipes"></div>
 
-  <button class="hitbox previous" onclick="changePage(-1)">PREV</button>
-  <button class="hitbox page1" onclick="goToPage(1)">1</button>
-  <button class="hitbox page2" onclick="goToPage(2)">2</button>
-  <button class="hitbox page3" onclick="goToPage(3)">3</button>
-  <button class="hitbox next" onclick="changePage(1)">NEXT</button>
+  <div class="page-indicator" id="pageIndicator"></div>
+
+  <button
+    class="hitbox previous"
+    aria-label="Previous page"
+    onclick="changePage(-1)">
+  </button>
+
+  <button
+    class="hitbox page1"
+    aria-label="Page 1"
+    onclick="goToPage(1)">
+  </button>
+
+  <button
+    class="hitbox page2"
+    aria-label="Page 2"
+    onclick="goToPage(2)">
+  </button>
+
+  <button
+    class="hitbox page3"
+    aria-label="Page 3"
+    onclick="goToPage(3)">
+  </button>
+
+  <button
+    class="hitbox next"
+    aria-label="Next page"
+    onclick="changePage(1)">
+  </button>
 
 </main>
 
@@ -154,10 +208,10 @@ let currentPage = 1;
 let allRecipes = [];
 
 const GLASSES = {
-  gold: "beer-glass-gold.png",
-  red: "beer-glass-red.png",
-  brown: "beer-glass-brown.png",
-  stout: "beer-glass-stout.png"
+  gold: "deadbrewing-glass-gold.png",
+  red: "deadbrewing-glass-red.png",
+  brown: "deadbrewing-glass-brown.png",
+  stout: "deadbrewing-glass-stout.png"
 };
 
 function chooseGlass(recipe) {
@@ -200,15 +254,24 @@ function renderPage() {
 
   visible.forEach((recipe, index) => {
     const card = document.createElement("a");
-    card.className = "recipe";
-    card.style.left = index % 2 === 0 ? "42.1%" : "70.5%";
-    card.style.top = index < 2 ? "20.5%" : "50.5%";
 
-    card.href = "recipe.html?id=" +
+    card.className = "recipe";
+
+    card.style.left =
+      index % 2 === 0 ? "42.1%" : "70.5%";
+
+    card.style.top =
+      index < 2 ? "20.5%" : "50.5%";
+
+    card.href =
+      "recipe.html?id=" +
       encodeURIComponent(recipe.id || "");
 
     card.innerHTML = `
-      <img src="${chooseGlass(recipe)}" alt="">
+      <img src="${chooseGlass(recipe)}"
+           alt=""
+           onerror="this.style.display='none'">
+
       <div class="recipe-info">
         <h2>${escapeHTML(recipe.name)}</h2>
         <p>${escapeHTML(recipe.style)}</p>
@@ -219,17 +282,29 @@ function renderPage() {
     container.appendChild(card);
   });
 
+  // Move the active-page highlight to the selected number.
+  const positions = {
+    1: "63.4%",
+    2: "67.4%",
+    3: "71.4%"
+  };
+
+  document.getElementById("pageIndicator").style.left =
+    positions[currentPage];
+
   document.querySelectorAll(".page1, .page2, .page3")
     .forEach((button, index) => {
-      button.classList.toggle(
-        "active",
-        index + 1 === currentPage
-      );
+      const active = index + 1 === currentPage;
+      button.setAttribute("aria-current", active ? "page" : "false");
     });
 }
 
 function goToPage(page) {
-  currentPage = Math.max(1, Math.min(TOTAL_PAGES, page));
+  currentPage = Math.max(
+    1,
+    Math.min(TOTAL_PAGES, page)
+  );
+
   renderPage();
 }
 
@@ -257,12 +332,15 @@ async function loadRecipes() {
 
     const combined = [...batches, ...recipes];
 
-    // Avoid showing the same beer twice.
     const seen = new Set();
 
     allRecipes = combined.filter(recipe => {
       const key = recipe.id || recipe.name;
-      if (!key || seen.has(key)) return false;
+
+      if (!key || seen.has(key)) {
+        return false;
+      }
+
       seen.add(key);
       return true;
     }).slice(0, 12);
@@ -271,6 +349,7 @@ async function loadRecipes() {
 
   } catch (error) {
     console.error(error);
+
     document.getElementById("recipes").innerHTML =
       '<p style="position:absolute;left:45%;top:25%;color:#300">' +
       'Unable to load recipes.</p>';
