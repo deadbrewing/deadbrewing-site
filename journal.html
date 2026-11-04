@@ -20,7 +20,7 @@ html, body {
   font-family: Georgia, serif;
 }
 
-/* MAIN JOURNAL ARTWORK */
+/* MAIN JOURNAL BACKGROUND */
 
 .journal {
   position: relative;
@@ -31,7 +31,7 @@ html, body {
   background-repeat: no-repeat;
 }
 
-/* INVISIBLE HOMEPAGE BUTTON OVER ENTIRE BOOK */
+/* INVISIBLE HOMEPAGE BUTTON OVER THE BOOK */
 
 .book-home {
   position: absolute;
@@ -53,6 +53,28 @@ html, body {
   background: transparent;
   outline: none;
   box-shadow: none;
+}
+
+/* ORIGINAL BOTTOM-LEFT HOME BUTTON */
+
+.home-button {
+  position: absolute;
+  left: 2%;
+  bottom: 2.5%;
+  width: 12%;
+  z-index: 20;
+  display: block;
+  transition: transform 0.2s ease;
+}
+
+.home-button img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.home-button:hover {
+  transform: scale(1.05);
 }
 
 /* RECIPE CARDS */
@@ -185,12 +207,25 @@ html, body {
 
 <main class="journal" id="journal">
 
-  <!-- CLICK ANYWHERE ON THE BOOK TO GO HOME -->
+  <!-- INVISIBLE HOME BUTTON ON THE BOOK -->
 
   <a
     href="index.html"
     class="book-home"
+    aria-label="Return to DeadBrewing homepage by clicking the book">
+  </a>
+
+  <!-- ORIGINAL BOTTOM-LEFT HOME BUTTON -->
+
+  <a
+    href="index.html"
+    class="home-button"
     aria-label="Return to DeadBrewing homepage">
+
+    <img
+      src="deadbrewing-back-button.png"
+      alt="Back to DeadBrewing">
+
   </a>
 
   <!-- RECIPE CARDS -->
