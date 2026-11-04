@@ -20,7 +20,7 @@ html, body {
   font-family: Georgia, serif;
 }
 
-/* MAIN JOURNAL BACKGROUND */
+/* MAIN JOURNAL ARTWORK */
 
 .journal {
   position: relative;
@@ -29,6 +29,30 @@ html, body {
   background-image: url("deadbrewing-journal-background.png");
   background-size: 100% 100%;
   background-repeat: no-repeat;
+}
+
+/* INVISIBLE HOMEPAGE BUTTON OVER ENTIRE BOOK */
+
+.book-home {
+  position: absolute;
+  left: 4%;
+  top: 1%;
+  width: 37%;
+  height: 92%;
+  display: block;
+  background: transparent;
+  border: none;
+  z-index: 10;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.book-home:hover,
+.book-home:focus,
+.book-home:active {
+  background: transparent;
+  outline: none;
+  box-shadow: none;
 }
 
 /* RECIPE CARDS */
@@ -143,28 +167,6 @@ html, body {
   height: 7%;
 }
 
-/* HOMEPAGE BUTTON - BOTTOM LEFT */
-
-.home-button {
-  position: absolute;
-  left: 2%;
-  bottom: 2.5%;
-  width: 12%;
-  z-index: 10;
-  display: block;
-  transition: transform 0.2s ease;
-}
-
-.home-button img {
-  display: block;
-  width: 100%;
-  height: auto;
-}
-
-.home-button:hover {
-  transform: scale(1.05);
-}
-
 /* SMALL SCREENS */
 
 @media (max-width: 700px) {
@@ -183,7 +185,16 @@ html, body {
 
 <main class="journal" id="journal">
 
+  <!-- CLICK ANYWHERE ON THE BOOK TO GO HOME -->
+
+  <a
+    href="index.html"
+    class="book-home"
+    aria-label="Return to DeadBrewing homepage">
+  </a>
+
   <!-- RECIPE CARDS -->
+
   <div id="recipes"></div>
 
   <!-- INVISIBLE PAGE BUTTONS -->
@@ -222,19 +233,6 @@ html, body {
     aria-label="Next page"
     onclick="changePage(1)">
   </button>
-
-  <!-- HOMEPAGE BUTTON -->
-
-  <a
-    href="index.html"
-    class="home-button"
-    aria-label="Return to DeadBrewing homepage">
-
-    <img
-      src="deadbrewing-back-button.png"
-      alt="Back to DeadBrewing">
-
-  </a>
 
 </main>
 
