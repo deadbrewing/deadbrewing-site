@@ -4,19 +4,85 @@
     {
       "batchNumber": 1,
       "id": "czech-pilsner",
-      "name": "Czech Pilsner",
-      "style": "Czech Pilsner",
+      "name": "Night Shift Pils",
+      "style": "Bohemian-Style Pilsner",
       "date": "",
       "og": null,
       "fg": null,
       "abv": 4.8,
-      "ibu": null,
-      "description": "A crisp, refreshing Czech-style pilsner with a clean malt character and balanced bitterness.",
-      "grain": [],
-      "hops": [],
-      "water": [],
-      "mash": [],
-      "fermentation": [],
+      "ibu": 29,
+      "description": "A crisp, refreshing Bohemian-style pilsner featuring delicate malt character, traditional Saaz hops and a clean lager finish. Brewed after dark. Buried before dawn.",
+      "grain": [
+        {
+          "label": "Weyermann Pilsner Malt",
+          "value": "94.2%"
+        },
+        {
+          "label": "Carafoam",
+          "value": "5.8%"
+        }
+      ],
+      "hops": [
+        {
+          "label": "Saaz - 10.0% AA",
+          "value": "60 min boil - 18.4 IBU"
+        },
+        {
+          "label": "Saaz - 6.6% AA",
+          "value": "15 min boil - 7.1 IBU"
+        },
+        {
+          "label": "Saaz - 6.6% AA",
+          "value": "5 min boil - 3.8 IBU"
+        }
+      ],
+      "water": [
+        {
+          "label": "Calcium (Ca)",
+          "value": "29 ppm"
+        },
+        {
+          "label": "Magnesium (Mg)",
+          "value": "2 ppm"
+        },
+        {
+          "label": "Sodium (Na)",
+          "value": "8 ppm"
+        },
+        {
+          "label": "Chloride (Cl)",
+          "value": "45 ppm"
+        },
+        {
+          "label": "Sulfate (SO4)",
+          "value": "21 ppm"
+        },
+        {
+          "label": "Bicarbonate (HCO3)",
+          "value": "16 ppm"
+        }
+      ],
+      "mash": [
+        {
+          "label": "Saccharification Rest",
+          "value": "65°C - 60 min"
+        },
+        {
+          "label": "Target Mash pH",
+          "value": "5.25"
+        }
+      ],
+      "fermentation": [
+        {
+          "label": "Yeast",
+          "value": "Wyeast 2124 Bohemian Lager"
+        },
+        {
+          "label": "Actual ABV",
+          "value": "4.8%"
+        }
+      ],
+      "cryptNotes": [],
       "tastingNotes": ""
     },
     {
@@ -33,11 +99,11 @@
       "grain": [],
       "hops": [
         {
-          "label": "Chinook • 10.9% AA",
+          "label": "Chinook - 10.9% AA",
           "value": "Addition schedule pending"
         },
         {
-          "label": "Cashmere • 6.6% AA",
+          "label": "Cashmere - 6.6% AA",
           "value": "Addition schedule pending"
         }
       ],
@@ -49,6 +115,7 @@
           "value": "Tilt hydrometer"
         }
       ],
+      "cryptNotes": [],
       "tastingNotes": ""
     }
   ]
