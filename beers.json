@@ -4,14 +4,14 @@
     {
       "id": "czech-pilsner",
       "tap": 1,
-      "name": "Czech Pilsner",
-      "style": "Czech Pilsner",
+      "name": "Night Shift Pils",
+      "style": "Bohemian-Style Pilsner",
       "abv": 4.8,
       "srm": 4,
       "colour": "#e9b927",
       "status": "retired",
       "ripDate": "2026-10-26",
-      "description": "A crisp, refreshing Czech-style pilsner. Tasting notes coming soon."
+      "description": "A crisp, refreshing Bohemian-style pilsner featuring delicate malt character, traditional Saaz hops and a clean lager finish. Brewed after dark. Buried before dawn."
     },
     {
       "id": "chinook-cashmere",
