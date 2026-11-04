@@ -1,400 +1,515 @@
 
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>DeadBrewing | Brew Journal</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#080d13">
+  <title>Brew Journal | DeadBrewing</title>
 
-<style>
-* { box-sizing: border-box; }
+  <style>
+    :root {
+      --background: #080d13;
+      --panel: #111b27;
+      --panel-light: #172534;
+      --blue: #79cfff;
+      --orange: #d77b37;
+      --text: #e4eaf0;
+      --muted: #a2b0be;
+      --border: #354b60;
+    }
 
-:root {
-  --blue: #74ceff;
-  --gold: #ffe3a1;
-  --rust: #b85a28;
-  --dark: #090b10;
-}
+    * {
+      box-sizing: border-box;
+    }
 
-html, body {
-  margin: 0;
-  min-height: 100%;
-  background: var(--dark);
-  color: var(--gold);
-  font-family: Georgia, serif;
-}
+    body {
+      margin: 0;
+      background: var(--background);
+      color: var(--text);
+      font-family: Arial, Helvetica, sans-serif;
+      line-height: 1.6;
+    }
 
-body {
-  background:
-    radial-gradient(ellipse at 50% 0%,
-      rgba(24, 91, 140, .35), transparent 55%),
-    repeating-linear-gradient(0deg,
-      transparent 0 38px,
-      rgba(255,255,255,.015) 39px 40px),
-    #090b10;
-}
+    header {
+      background: #0b121c;
+      border-bottom: 2px solid var(--orange);
+      padding: 22px 18px;
+      text-align: center;
+    }
 
-a { color: inherit; }
+    .brand {
+      color: var(--blue);
+      font-size: clamp(28px, 6vw, 46px);
+      font-weight: 900;
+      letter-spacing: 4px;
+      text-decoration: none;
+      text-transform: uppercase;
+    }
 
-header {
-  text-align: center;
-  padding: 35px 15px 25px;
-  border-bottom: 3px solid #67351f;
-  background: linear-gradient(#151a24, #090b10);
-}
+    nav {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 12px 24px;
+      margin-top: 16px;
+    }
 
-.brand {
-  color: var(--blue);
-  text-decoration: none;
-  font-size: clamp(22px, 4vw, 42px);
-  font-weight: bold;
-  text-shadow: 0 0 15px #1576b0;
-}
+    nav a {
+      color: var(--text);
+      font-size: 13px;
+      font-weight: bold;
+      letter-spacing: 1px;
+      text-decoration: none;
+      text-transform: uppercase;
+    }
 
-.subtitle {
-  margin: 12px 0;
-  color: #d8b27b;
-  letter-spacing: 4px;
-  font-size: 12px;
-}
+    nav a:hover,
+    nav a[aria-current="page"] {
+      color: var(--blue);
+    }
 
-.back {
-  display: inline-block;
-  margin-top: 12px;
-  padding: 10px 20px;
-  border: 1px solid var(--rust);
-  border-radius: 5px;
-  text-decoration: none;
-  background: #261b18;
-}
+    main {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 40px 18px 70px;
+    }
 
-.back:hover {
-  box-shadow: 0 0 12px var(--rust);
-}
+    h1, h2, h3 {
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
 
-main {
-  max-width: 1050px;
-  margin: 0 auto;
-  padding: 28px 16px 80px;
-}
+    h1 {
+      color: var(--blue);
+      font-size: clamp(28px, 5vw, 42px);
+      text-align: center;
+      margin: 0;
+    }
 
-.section-title {
-  color: var(--blue);
-  letter-spacing: 3px;
-  font-size: 15px;
-  border-bottom: 1px solid #34516b;
-  padding-bottom: 12px;
-  margin: 35px 0 20px;
-}
+    .intro {
+      color: var(--muted);
+      text-align: center;
+      margin: 10px auto 42px;
+      max-width: 650px;
+    }
 
-.batch {
-  background: linear-gradient(145deg, #1c2530, #10131a);
-  border: 2px solid #774226;
-  border-radius: 10px;
-  margin-bottom: 25px;
-  overflow: hidden;
-  box-shadow: 0 10px 35px #0009;
-}
+    .section-heading {
+      color: var(--orange);
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 12px;
+      margin: 40px 0 20px;
+    }
 
-.batch.featured {
-  border-color: #a35c2b;
-  box-shadow: 0 0 25px #185c8640;
-}
+    .batch {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-top: 3px solid var(--orange);
+      border-radius: 8px;
+      padding: 25px;
+      margin-bottom: 22px;
+    }
 
-.batch-head {
-  padding: 25px;
-}
+    .batch.featured {
+      border-top-color: var(--blue);
+      box-shadow: 0 0 25px rgba(60, 150, 220, 0.08);
+    }
 
-.batch-number {
-  color: var(--blue);
-  letter-spacing: 2px;
-  font-size: 12px;
-  font-weight: bold;
-}
+    .batch-number {
+      color: var(--orange);
+      font-size: 12px;
+      font-weight: bold;
+      letter-spacing: 2px;
+    }
 
-.batch h2 {
-  margin: 12px 0 8px;
-  color: #fff0c7;
-  font-size: clamp(23px, 3.5vw, 34px);
-}
+    .featured .batch-number {
+      color: var(--blue);
+    }
 
-.meta {
-  color: #aebdca;
-  font-size: 14px;
-}
+    .batch h3 {
+      color: #fff;
+      font-size: clamp(23px, 4vw, 33px);
+      margin: 8px 0 4px;
+    }
 
-.description {
-  color: #d3dce3;
-  line-height: 1.7;
-  margin: 18px 0;
-}
+    .batch-style {
+      color: var(--blue);
+      font-size: 14px;
+      margin-bottom: 14px;
+    }
 
-.stats {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 10px;
-  margin-top: 20px;
-}
+    .batch-description {
+      color: var(--muted);
+      margin: 16px 0 22px;
+    }
 
-.stat {
-  text-align: center;
-  background: #253544;
-  border: 1px solid #344c5f;
-  border-radius: 6px;
-  padding: 12px 5px;
-}
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      margin: 22px 0;
+    }
 
-.stat small {
-  display: block;
-  color: #9bb5c7;
-  font-size: 11px;
-  margin-bottom: 6px;
-}
+    .stat {
+      background: var(--panel-light);
+      border: 1px solid var(--border);
+      border-radius: 5px;
+      padding: 12px 8px;
+      text-align: center;
+    }
 
-.stat strong {
-  font-size: clamp(13px, 2vw, 19px);
-  color: white;
-}
+    .stat-label {
+      display: block;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
 
-.technical {
-  padding: 0 25px 25px;
-}
+    .stat-value {
+      display: block;
+      color: var(--text);
+      font-size: clamp(15px, 2.5vw, 21px);
+      font-weight: bold;
+      margin-top: 4px;
+    }
 
-details {
-  margin-top: 9px;
-  border: 1px solid #364c5c;
-  border-radius: 5px;
-  background: #141f2a;
-}
+    .batch-date {
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 8px;
+    }
 
-summary {
-  cursor: pointer;
-  padding: 15px;
-  color: var(--blue);
-  font-weight: bold;
-  letter-spacing: 1px;
-}
+    details {
+      background: #0d1621;
+      border: 1px solid var(--border);
+      border-radius: 5px;
+      margin-top: 10px;
+      overflow: hidden;
+    }
 
-summary:hover {
-  background: #213447;
-}
+    summary {
+      color: var(--blue);
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: bold;
+      letter-spacing: 1px;
+      padding: 14px 16px;
+      text-transform: uppercase;
+    }
 
-.detail-content {
-  padding: 5px 15px 18px;
-  color: #e0e6ec;
-}
+    summary:hover {
+      background: var(--panel-light);
+    }
 
-.detail-row {
-  display: flex;
-  justify-content: space-between;
-  gap: 20px;
-  padding: 9px 0;
-  border-bottom: 1px solid #30404d;
-  font-size: 14px;
-}
+    details[open] summary {
+      border-bottom: 1px solid var(--border);
+    }
 
-.detail-row span:last-child {
-  text-align: right;
-  color: #fff0c7;
-}
+    .detail-content {
+      padding: 10px 16px 14px;
+    }
 
-.note {
-  color: #aebdca;
-  line-height: 1.7;
-  font-size: 14px;
-}
+    .detail-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 20px;
+      padding: 9px 0;
+      border-bottom: 1px solid #263545;
+      font-size: 14px;
+    }
 
-.message {
-  text-align: center;
-  padding: 35px;
-  color: #aebdca;
-}
+    .detail-row:last-child {
+      border-bottom: none;
+    }
 
-footer {
-  text-align: center;
-  color: #9b8b7a;
-  padding: 25px;
-  border-top: 1px solid #463021;
-  font-size: 12px;
-}
+    .detail-row span:first-child {
+      color: var(--text);
+    }
 
-@media(max-width: 600px) {
-  .stats { grid-template-columns: repeat(2, 1fr); }
-  .batch-head { padding: 18px; }
-  .technical { padding: 0 18px 18px; }
-}
-</style>
+    .detail-row span:last-child {
+      color: #f2d7aa;
+      text-align: right;
+    }
+
+    .detail-text {
+      color: var(--text);
+      white-space: pre-line;
+      font-size: 14px;
+    }
+
+    .crypt-notes {
+      border-color: var(--orange);
+    }
+
+    .crypt-notes summary {
+      color: #f3b77b;
+    }
+
+    .empty-message {
+      color: var(--muted);
+      text-align: center;
+      padding: 30px;
+    }
+
+    footer {
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      padding: 28px 15px;
+      text-align: center;
+      font-size: 12px;
+      letter-spacing: 1px;
+    }
+
+    @media (max-width: 600px) {
+      main {
+        padding: 28px 12px 50px;
+      }
+
+      .batch {
+        padding: 17px 13px;
+      }
+
+      .stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .detail-row {
+        flex-direction: column;
+        gap: 2px;
+      }
+
+      .detail-row span:last-child {
+        text-align: left;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-<header>
-  <a class="brand" href="index.html">DEADBREWING</a>
-  <div class="subtitle">EST. 2018 • THE BREW JOURNAL</div>
-  <a class="back" href="index.html">← BACK TO THE BREWERY</a>
-</header>
+  <header>
+    <a class="brand" href="index.html">DeadBrewing</a>
 
-<main>
-  <h1 class="section-title">LATEST BREW</h1>
-  <div id="latest">
-    <p class="message">Loading the latest batch...</p>
-  </div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="journal.html" aria-current="page">Brew Journal</a>
+      <a href="crypt.html">The Crypt</a>
+      <a href="vip.html">VIP</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
 
-  <h2 class="section-title">THE BATCH ARCHIVE</h2>
-  <div id="archive"></div>
-</main>
+  <main>
+    <h1>The Brew Journal</h1>
 
-<footer>
-  DEADBREWING • BREWED IN DARKNESS • EST. 2018
-</footer>
+    <p class="intro">
+      Every batch has a story. From the grain bill to the
+      final pour, this is where the brewing records live.
+    </p>
 
-<script>
-"use strict";
-
-const escapeHTML = value =>
-  String(value ?? "").replace(/[&<>"']/g, c => ({
-    "&": "&amp;",
-    "<": "&lt;",
-    ">": "&gt;",
-    '"': "&quot;",
-    "'": "&#39;"
-  })[c]);
-
-function display(value, suffix = "") {
-  if (value === null || value === undefined || value === "") {
-    return "—";
-  }
-  return escapeHTML(value) + suffix;
-}
-
-function rows(items) {
-  if (!Array.isArray(items) || !items.length) {
-    return '<p class="note">Details coming soon.</p>';
-  }
-
-  return items.map(item => `
-    <div class="detail-row">
-      <span>${escapeHTML(item.label)}</span>
-      <span>${display(item.value)}</span>
+    <h2 class="section-heading">Latest Brew</h2>
+    <div id="latest-brew">
+      <p class="empty-message">Loading brewing records...</p>
     </div>
-  `).join("");
-}
 
-function section(title, content) {
-  return `
-    <details>
-      <summary>${escapeHTML(title)}</summary>
-      <div class="detail-content">${content}</div>
-    </details>
-  `;
-}
+    <h2 class="section-heading">The Batch Archive</h2>
+    <div id="batch-archive"></div>
+  </main>
 
-function makeBatch(beer, featured = false) {
-  const number = String(beer.batchNumber).padStart(3, "0");
+  <footer>
+    DEADBREWING &bull; BREWED AFTER DARK
+  </footer>
 
-  const stats = [
-    ["OG", beer.og],
-    ["FG", beer.fg],
-    ["ABV", beer.abv == null ? null : beer.abv + "%"],
-    ["IBU", beer.ibu]
-  ];
-
-  const statHTML = stats.map(([label, value]) => `
-    <div class="stat">
-      <small>${label}</small>
-      <strong>${display(value)}</strong>
-    </div>
-  `).join("");
-
-  const grain = rows(beer.grain);
-  const hops = rows(beer.hops);
-  const water = rows(beer.water);
-  const mash = rows(beer.mash);
-  const fermentation = rows(beer.fermentation);
-
-  const tasting = beer.tastingNotes
-    ? `<p class="note">${escapeHTML(beer.tastingNotes)}</p>`
-    : '<p class="note">Tasting notes coming soon.</p>';
-
-  return `
-    <article class="batch ${featured ? "featured" : ""}">
-      <div class="batch-head">
-        <div class="batch-number">
-          BATCH #${number}
-          ${featured ? " • LATEST BREW" : ""}
-        </div>
-
-        <h2>${escapeHTML(beer.name)}</h2>
-
-        <div class="meta">
-          ${escapeHTML(beer.style || "")}
-          ${beer.date ? " • " + escapeHTML(beer.date) : ""}
-        </div>
-
-        <p class="description">
-          ${escapeHTML(beer.description || "")}
-        </p>
-
-        <div class="stats">${statHTML}</div>
-      </div>
-
-      <div class="technical">
-        ${section("GRAIN BILL • %", grain)}
-        ${section("HOP SCHEDULE • AA% / TIMING", hops)}
-        ${section("WATER PROFILE • PPM", water)}
-        ${section("MASH SCHEDULE", mash)}
-        ${section("FERMENTATION", fermentation)}
-        ${section("BREWER'S VERDICT", tasting)}
-      </div>
-    </article>
-  `;
-}
-
-async function loadJournal() {
-  const latest = document.getElementById("latest");
-  const archive = document.getElementById("archive");
-
-  try {
-    const response = await fetch(
-      "journal.json",
-      { cache: "no-store" }
-    );
-
-    if (!response.ok) {
-      throw new Error("Could not load journal.json");
+  <script>
+    function escapeHTML(value) {
+      return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
     }
 
-    const data = await response.json();
-
-    const batches = Array.isArray(data.batches)
-      ? data.batches
-      : [];
-
-    batches.sort(
-      (a, b) => Number(b.batchNumber) - Number(a.batchNumber)
-    );
-
-    if (!batches.length) {
-      latest.innerHTML =
-        '<p class="message">No batches recorded yet.</p>';
-      return;
+    function hasValue(value) {
+      return value !== null &&
+             value !== undefined &&
+             String(value).trim() !== "";
     }
 
-    latest.innerHTML = makeBatch(batches[0], true);
+    function display(value) {
+      return hasValue(value)
+        ? escapeHTML(value)
+        : "Pending";
+    }
 
-    archive.innerHTML = batches.slice(1)
-      .map(beer => makeBatch(beer))
-      .join("");
+    function hasItems(items) {
+      return Array.isArray(items) && items.length > 0;
+    }
 
-  } catch (error) {
-    console.error(error);
-    latest.innerHTML =
-      '<p class="message">Brew Journal temporarily unavailable.</p>';
-  }
-}
+    function rows(items) {
+      if (!hasItems(items)) return "";
 
-loadJournal();
-</script>
+      return items.map(item => `
+        <div class="detail-row">
+          <span>${escapeHTML(item.label)}</span>
+          <span>${display(item.value)}</span>
+        </div>
+      `).join("");
+    }
+
+    function section(title, content, extraClass = "") {
+      if (!content || !content.trim()) return "";
+
+      return `
+        <details class="${extraClass}">
+          <summary>${escapeHTML(title)}</summary>
+          <div class="detail-content">
+            ${content}
+          </div>
+        </details>
+      `;
+    }
+
+    function rowSection(title, items, extraClass = "") {
+      if (!hasItems(items)) return "";
+      return section(title, rows(items), extraClass);
+    }
+
+    function textSection(title, value) {
+      if (!hasValue(value)) return "";
+
+      return section(
+        title,
+        `<div class="detail-text">${escapeHTML(value)}</div>`
+      );
+    }
+
+    function makeBatch(beer, featured = false) {
+      const number = String(beer.batchNumber ?? 0)
+        .padStart(3, "0");
+
+      const stats = [
+        ["OG", beer.og],
+        ["FG", beer.fg],
+        ["ABV", hasValue(beer.abv) ? beer.abv + "%" : null],
+        ["IBU", beer.ibu]
+      ];
+
+      const statHTML = stats.map(([label, value]) => `
+        <div class="stat">
+          <span class="stat-label">${label}</span>
+          <span class="stat-value">${display(value)}</span>
+        </div>
+      `).join("");
+
+      const dateHTML = hasValue(beer.date)
+        ? `<div class="batch-date">
+             Brewed: ${escapeHTML(beer.date)}
+           </div>`
+        : "";
+
+      const descriptionHTML = hasValue(beer.description)
+        ? `<p class="batch-description">
+             ${escapeHTML(beer.description)}
+           </p>`
+        : "";
+
+      const recipeSections = [
+        rowSection("Grain Bill", beer.grain),
+        rowSection("Hop Schedule", beer.hops),
+        rowSection("Water Profile", beer.water),
+        rowSection("Mash Schedule", beer.mash),
+        rowSection("Fermentation", beer.fermentation),
+
+        rowSection(
+          "☠ Crypt Notes",
+          beer.cryptNotes,
+          "crypt-notes"
+        ),
+
+        textSection("Brewer's Verdict", beer.tastingNotes)
+      ].join("");
+
+      return `
+        <article class="batch ${featured ? "featured" : ""}">
+          <div class="batch-number">BATCH #${number}</div>
+
+          <h3>${escapeHTML(beer.name || "Unnamed Brew")}</h3>
+
+          <div class="batch-style">
+            ${escapeHTML(beer.style || "")}
+          </div>
+
+          ${dateHTML}
+          ${descriptionHTML}
+
+          <div class="stats">
+            ${statHTML}
+          </div>
+
+          ${recipeSections}
+        </article>
+      `;
+    }
+
+    async function loadJournal() {
+      const latest = document.getElementById("latest-brew");
+      const archive = document.getElementById("batch-archive");
+
+      try {
+        const response = await fetch(
+          "journal.json",
+          { cache: "no-store" }
+        );
+
+        if (!response.ok) {
+          throw new Error("Could not load journal.json");
+        }
+
+        const data = await response.json();
+
+        const batches = Array.isArray(data.batches)
+          ? [...data.batches]
+          : [];
+
+        batches.sort((a, b) =>
+          Number(b.batchNumber) - Number(a.batchNumber)
+        );
+
+        if (!batches.length) {
+          latest.innerHTML =
+            '<p class="empty-message">No batches recorded yet.</p>';
+
+          archive.innerHTML = "";
+          return;
+        }
+
+        latest.innerHTML = makeBatch(batches[0], true);
+
+        if (batches.length > 1) {
+          archive.innerHTML = batches
+            .slice(1)
+            .map(beer => makeBatch(beer))
+            .join("");
+        } else {
+          archive.innerHTML =
+            '<p class="empty-message">More batches coming soon.</p>';
+        }
+
+      } catch (error) {
+        console.error("Brew Journal error:", error);
+
+        latest.innerHTML =
+          '<p class="empty-message">Unable to load brewing records.</p>';
+
+        archive.innerHTML = "";
+      }
+    }
+
+    loadJournal();
+  </script>
 
 </body>
 </html>
