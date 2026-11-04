@@ -7,247 +7,280 @@
 <title>DeadBrewing | Brew Journal</title>
 
 <style>
-:root {
-  --gold: #f0cb80;
-  --paper: #e8c89a;
-  --ink: #382015;
-}
-
 * {
   box-sizing: border-box;
+}
+
+:root {
+  --gold: #f0c77c;
+  --ink: #321a0e;
 }
 
 html, body {
   margin: 0;
   min-height: 100%;
-  background: #0b0808;
-  color: var(--gold);
+  background: #080606;
   font-family: Georgia, "Times New Roman", serif;
 }
 
-body {
-  background-image:
-    linear-gradient(90deg, rgba(0,0,0,.08), rgba(0,0,0,.15)),
-    url("deadbrewing-journal-background.png");
+/* Full-screen journal artwork */
+.journal {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  min-height: 650px;
+  overflow: hidden;
+
+  background-image: url("deadbrewing-journal-background.png");
   background-position: center;
-  background-size: cover;
-  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
 }
 
+/* Return to brewery */
 .home {
-  position: fixed;
-  top: 18px;
-  left: 20px;
-  z-index: 5;
-  background: #170e0ce6;
-  border: 1px solid #b4814e;
-  border-radius: 5px;
-  padding: 10px 17px;
+  position: absolute;
+  top: 2.4%;
+  left: 1.2%;
+  z-index: 10;
+
+  padding: 11px 16px;
   color: var(--gold);
-  text-decoration: none;
+  background: #160c09ed;
+  border: 1px solid #a77643;
+  border-radius: 4px;
+
   font-size: 13px;
   letter-spacing: 2px;
+  text-decoration: none;
   text-transform: uppercase;
 }
 
 .home:hover {
-  background: #48251a;
+  background: #472217;
 }
 
-.layout {
-  min-height: 100vh;
+/*
+  Recipe cards align with the four parchment
+  panels already painted into the artwork.
+
+  Coordinates are percentages of the artwork.
+*/
+.recipe-area {
+  position: absolute;
+  left: 42.2%;
+  top: 17.6%;
+  width: 55.8%;
+  height: 67.5%;
+
   display: grid;
   grid-template-columns: 1fr 1fr;
-  align-items: center;
-  padding: 75px max(3vw, 20px) 35px;
-  gap: 3vw;
+  grid-template-rows: 1fr 1fr;
+
+  column-gap: 2.6%;
+  row-gap: 3.6%;
 }
 
-.left {
-  min-height: 60vh;
-}
-
-.right {
-  width: 100%;
-  max-width: 650px;
-  justify-self: center;
-  padding: 24px;
-  border: 1px solid #6e3e25;
-  border-radius: 9px;
-  background: linear-gradient(150deg, #21130de8, #0c0908ee);
-  box-shadow: 0 15px 55px #000c;
-}
-
-.heading {
-  text-align: center;
-  margin: 0 0 6px;
-  font-size: clamp(23px, 3vw, 38px);
-  letter-spacing: 3px;
-  text-shadow: 0 2px 5px #000;
-}
-
-.sub {
-  text-align: center;
-  color: #cba26d;
-  font-size: 12px;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  margin: 0 0 20px;
-}
-
-.cards {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 14px;
-  min-height: 430px;
-}
-
-.recipe {
+.recipe-card {
   display: flex;
   align-items: center;
-  gap: 10px;
-  min-height: 202px;
-  padding: 12px 10px;
-  text-decoration: none;
+  gap: 3%;
+  padding: 4%;
+
   color: var(--ink);
-  border: 2px solid #9a6a38;
-  border-radius: 6px;
-  background: linear-gradient(135deg, #f2d8a7, #d6ab74);
-  box-shadow:
-    inset 0 0 22px #7b451b3b,
-    0 3px 12px #0008;
-  transition: transform .15s, filter .15s;
+  text-decoration: none;
+  border-radius: 8px;
+
+  background: transparent;
+  transition:
+    transform .18s ease,
+    filter .18s ease;
 }
 
-.recipe:hover,
-.recipe:focus-visible {
-  transform: translateY(-3px);
-  filter: brightness(1.08);
-  outline: 2px solid #eac180;
+.recipe-card:hover {
+  transform: scale(1.025);
+  filter: brightness(1.12);
 }
 
-.recipe img {
-  width: 42%;
-  max-height: 170px;
+.recipe-card:focus-visible {
+  outline: 3px solid #e9b45b;
+  outline-offset: -4px;
+}
+
+.recipe-card img {
+  width: 43%;
+  height: 88%;
   object-fit: contain;
   flex-shrink: 0;
-  filter: drop-shadow(0 4px 4px #3d210955);
+
+  filter: drop-shadow(2px 5px 4px #43200a70);
 }
 
-.recipe-text {
-  min-width: 0;
+.recipe-info {
   flex: 1;
+  min-width: 0;
 }
 
-.recipe h2 {
-  font-size: clamp(14px, 1.45vw, 21px);
-  line-height: 1.14;
-  margin: 0 0 9px;
+.recipe-info h2 {
+  margin: 0 0 10px;
+
+  font-size: clamp(15px, 1.65vw, 30px);
+  line-height: 1.08;
+  color: #32170b;
+
+  text-shadow: 0 1px 1px #ffe4b8;
 }
 
-.recipe p {
-  font-size: 12px;
-  line-height: 1.35;
-  margin: 0 0 9px;
+.recipe-info p {
+  margin: 0 0 14px;
+  font-size: clamp(10px, .85vw, 15px);
+  line-height: 1.25;
+  color: #57301b;
 }
 
-.recipe span {
-  font-size: 11px;
+.open-recipe {
+  font-size: clamp(10px, .85vw, 15px);
   font-weight: bold;
-  letter-spacing: 1px;
+  letter-spacing: .6px;
+  color: #3d1c0d;
   text-transform: uppercase;
 }
 
-.empty {
-  border: 1px dashed #8a613c80;
-  border-radius: 6px;
-  background: #b28b5d20;
-  min-height: 202px;
+/* Empty slots show the original parchment */
+.empty-card {
+  pointer-events: none;
 }
 
-.pager {
+/* Functional navigation */
+.pagination {
+  position: absolute;
+  left: 53%;
+  top: 87.2%;
+  width: 38%;
+  height: 7%;
+
   display: flex;
-  justify-content: center;
   align-items: center;
-  gap: 12px;
-  margin-top: 20px;
+  justify-content: center;
+  gap: 3%;
 }
 
-.pager button {
-  cursor: pointer;
-  background: #342016;
-  color: var(--gold);
-  border: 1px solid #a77a45;
-  padding: 9px 13px;
-  font-family: inherit;
+.pagination button {
+  font-family: Georgia, serif;
+  font-size: clamp(12px, 1vw, 18px);
+  font-weight: bold;
+
+  color: #eac486;
+  background: #2b130cf0;
+  border: 1px solid #a86a31;
   border-radius: 4px;
+
+  padding: 9px 14px;
+  cursor: pointer;
+  box-shadow: 0 2px 7px #0009;
 }
 
-.pager button:disabled {
+.pagination button:hover:not(:disabled) {
+  background: #64301b;
+}
+
+.pagination button:disabled {
   opacity: .35;
   cursor: default;
 }
 
-.pager strong {
-  font-size: 13px;
-  letter-spacing: 2px;
+.page-numbers {
+  display: flex;
+  align-items: center;
+  gap: 5px;
 }
 
-.message {
+.page-number {
+  min-width: 36px;
   text-align: center;
-  padding: 50px 10px;
-  color: #f3ce8c;
+}
+
+.pagination .page-number.active {
+  color: #301507;
+  background: #d8a25c;
+  border-color: #efc785;
+}
+
+.error {
   grid-column: 1 / -1;
+  color: #3d170c;
+  font-size: 20px;
+  text-align: center;
+  align-self: center;
+  padding: 20px;
 }
 
-@media (max-width: 800px) {
-  body {
-    background-attachment: scroll;
-    background-position: 33% top;
-  }
-
-  .layout {
-    display: block;
-    padding: 78px 14px 30px;
-  }
-
-  .left {
-    min-height: 28vh;
-  }
-
-  .right {
-    max-width: 650px;
-    margin: auto;
-    padding: 15px;
-  }
-
-  .cards {
+/* Narrow screens keep artwork proportions */
+@media (max-width: 850px) {
+  .journal {
+    width: 100%;
+    height: auto;
     min-height: 0;
+    aspect-ratio: 1.9 / 1;
   }
 
-  .recipe,
-  .empty {
-    min-height: 165px;
+  .home {
+    padding: 6px 8px;
+    font-size: 9px;
+    letter-spacing: 1px;
+  }
+
+  .recipe-card {
+    padding: 2%;
+    gap: 2%;
+  }
+
+  .recipe-info h2 {
+    font-size: clamp(8px, 1.8vw, 15px);
+    margin-bottom: 4px;
+  }
+
+  .recipe-info p {
+    font-size: clamp(7px, 1.1vw, 11px);
+    margin-bottom: 5px;
+  }
+
+  .open-recipe {
+    font-size: clamp(7px, 1vw, 10px);
+  }
+
+  .pagination button {
+    font-size: 10px;
+    padding: 5px 7px;
+  }
+
+  .page-number {
+    min-width: 24px;
   }
 }
 
-@media (max-width: 460px) {
-  .cards {
-    grid-template-columns: 1fr;
+/* Phone: enlarge the artwork for readability */
+@media (max-width: 560px) {
+  body {
+    overflow-x: auto;
   }
 
-  .recipe,
-  .empty {
-    min-height: 145px;
+  .journal {
+    width: 950px;
+    height: 600px;
+    aspect-ratio: auto;
   }
 
-  .recipe img {
-    max-height: 130px;
-    width: 33%;
+  .recipe-info h2 {
+    font-size: 17px;
   }
 
-  .heading {
-    font-size: 25px;
+  .recipe-info p {
+    font-size: 11px;
+  }
+
+  .open-recipe {
+    font-size: 10px;
   }
 }
 </style>
@@ -255,161 +288,191 @@ body {
 
 <body>
 
-<a class="home" href="index.html">← DeadBrewing</a>
+<main class="journal">
 
-<main class="layout">
+  <a class="home" href="index.html">
+    ← DeadBrewing
+  </a>
 
-  <div class="left" aria-hidden="true"></div>
-
-  <section class="right" aria-label="Recipe collection">
-
-    <h1 class="heading">THE BREW JOURNAL</h1>
-    <p class="sub">Recipes from the Crypt</p>
-
-    <div id="cards" class="cards">
-      <p class="message">Opening the recipe book…</p>
-    </div>
-
-    <nav class="pager" aria-label="Recipe pages">
-      <button id="prev" type="button">‹ Previous</button>
-      <strong id="page">1 / 3</strong>
-      <button id="next" type="button">Next ›</button>
-    </nav>
-
+  <section
+    id="recipeArea"
+    class="recipe-area"
+    aria-label="DeadBrewing recipes">
   </section>
+
+  <nav class="pagination" aria-label="Recipe pages">
+
+    <button id="previous" type="button">
+      ‹ Previous
+    </button>
+
+    <div id="pageNumbers" class="page-numbers"></div>
+
+    <button id="next" type="button">
+      Next ›
+    </button>
+
+  </nav>
 
 </main>
 
 <script>
-const cards = document.getElementById("cards");
-const pageLabel = document.getElementById("page");
-const prev = document.getElementById("prev");
+const recipeArea = document.getElementById("recipeArea");
+const pageNumbers = document.getElementById("pageNumbers");
+const previous = document.getElementById("previous");
 const next = document.getElementById("next");
 
-const PAGE_SIZE = 4;
-const MIN_PAGES = 3;
+const RECIPES_PER_PAGE = 4;
+const MINIMUM_PAGES = 3;
 
 let recipes = [];
-let page = 0;
+let currentPage = 0;
 
-function glassFor(recipe) {
-  const name = (
+function escapeHTML(value) {
+  return String(value ?? "").replace(
+    /[&<>"']/g,
+    character => ({
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      '"': "&quot;",
+      "'": "&#39;"
+    }[character])
+  );
+}
+
+function getGlass(recipe) {
+  if (
+    ["gold", "red", "brown", "stout"]
+      .includes(recipe.glass)
+  ) {
+    return recipe.glass;
+  }
+
+  const text = (
     (recipe.name || "") + " " +
     (recipe.style || "")
   ).toLowerCase();
 
-  if (/stout|porter|imperial dark/.test(name)) {
+  if (/stout|porter/.test(text)) {
     return "stout";
   }
 
-  if (/brown|dunkel|mild/.test(name)) {
+  if (/brown|dunkel|mild/.test(text)) {
     return "brown";
   }
 
-  if (/red|ruby|irish red|amber/.test(name)) {
+  if (/red|amber|ruby/.test(text)) {
     return "red";
   }
 
   return "gold";
 }
 
-function slug(text) {
-  return String(text || "")
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-|-$/g, "");
-}
-
-function escapeHTML(text) {
-  return String(text ?? "").replace(
-    /[&<>"']/g,
-    char => ({
-      "&": "&amp;",
-      "<": "&lt;",
-      ">": "&gt;",
-      '"': "&quot;",
-      "'": "&#39;"
-    }[char])
+function getPageCount() {
+  return Math.max(
+    MINIMUM_PAGES,
+    Math.ceil(recipes.length / RECIPES_PER_PAGE)
   );
 }
 
-function render() {
-  const total = Math.max(
-    MIN_PAGES,
-    Math.ceil(recipes.length / PAGE_SIZE)
+function showPage(number) {
+  const total = getPageCount();
+
+  currentPage = Math.max(
+    0,
+    Math.min(number, total - 1)
   );
 
-  page = Math.max(0, Math.min(page, total - 1));
+  recipeArea.innerHTML = "";
 
-  cards.innerHTML = "";
-
-  const selection = recipes.slice(
-    page * PAGE_SIZE,
-    (page + 1) * PAGE_SIZE
+  const start = currentPage * RECIPES_PER_PAGE;
+  const visible = recipes.slice(
+    start,
+    start + RECIPES_PER_PAGE
   );
 
-  selection.forEach(recipe => {
-    const link = document.createElement("a");
-    link.className = "recipe";
+  visible.forEach(recipe => {
+    const card = document.createElement("a");
+    card.className = "recipe-card";
 
-    link.href =
+    card.href =
       "recipe.html?id=" +
-      encodeURIComponent(
-        recipe.id || slug(recipe.name)
-      );
+      encodeURIComponent(recipe.id);
 
-    const img = document.createElement("img");
+    const glass = getGlass(recipe);
 
-    img.src =
-      "deadbrewing-glass-" +
-      (recipe.glass || glassFor(recipe)) +
-      ".png";
-
-    img.alt = "";
-    img.loading = "lazy";
+    const image = document.createElement("img");
+    image.src = "deadbrewing-glass-" + glass + ".png";
+    image.alt = "";
+    image.loading = "lazy";
 
     const info = document.createElement("div");
-    info.className = "recipe-text";
+    info.className = "recipe-info";
 
-    info.innerHTML =
-      "<h2>" + escapeHTML(recipe.name) + "</h2>" +
-      "<p>" +
-      escapeHTML(recipe.style || "DeadBrewing original") +
-      "</p>" +
-      "<span>Open recipe →</span>";
+    info.innerHTML = `
+      <h2>${escapeHTML(recipe.name)}</h2>
+      <p>${escapeHTML(recipe.style || "")}</p>
+      <span class="open-recipe">Open Recipe →</span>
+    `;
 
-    link.append(img, info);
-    cards.append(link);
+    card.append(image, info);
+    recipeArea.append(card);
   });
 
-  for (let i = selection.length; i < PAGE_SIZE; i++) {
-    const slot = document.createElement("div");
-    slot.className = "empty";
-    slot.setAttribute("aria-hidden", "true");
-    cards.append(slot);
+  /* Leave unused parchment panels visible */
+  for (let i = visible.length; i < RECIPES_PER_PAGE; i++) {
+    const empty = document.createElement("div");
+    empty.className = "empty-card";
+    recipeArea.append(empty);
   }
 
-  pageLabel.textContent = (page + 1) + " / " + total;
+  pageNumbers.innerHTML = "";
 
-  prev.disabled = page === 0;
-  next.disabled = page === total - 1;
+  for (let i = 0; i < total; i++) {
+    const button = document.createElement("button");
+
+    button.type = "button";
+    button.className =
+      "page-number" +
+      (i === currentPage ? " active" : "");
+
+    button.textContent = i + 1;
+
+    button.setAttribute(
+      "aria-label",
+      "Recipe page " + (i + 1)
+    );
+
+    if (i === currentPage) {
+      button.setAttribute("aria-current", "page");
+    }
+
+    button.addEventListener("click", () => {
+      showPage(i);
+    });
+
+    pageNumbers.append(button);
+  }
+
+  previous.disabled = currentPage === 0;
+  next.disabled = currentPage === total - 1;
 }
 
-prev.addEventListener("click", () => {
-  page--;
-  render();
+previous.addEventListener("click", () => {
+  showPage(currentPage - 1);
 });
 
 next.addEventListener("click", () => {
-  page++;
-  render();
+  showPage(currentPage + 1);
 });
 
 fetch("journal.json", { cache: "no-store" })
   .then(response => {
     if (!response.ok) {
-      throw Error("Could not load journal.json");
+      throw new Error("Cannot load journal.json");
     }
+
     return response.json();
   })
   .then(data => {
@@ -418,40 +481,42 @@ fetch("journal.json", { cache: "no-store" })
       ...(Array.isArray(data.batches) ? data.batches : [])
     ];
 
-    const wanted = [
+    const normalized = all
+      .filter(item => item && item.name && item.id)
+      .map(item => ({
+        ...item,
+        name: /^Czech Pilsner$/i.test(item.name)
+          ? "Night Shift Pils"
+          : item.name
+      }));
+
+    /*
+      Initially display only these two recipes.
+      Additional recipes can be added to this list.
+    */
+    const featured = [
       "Night Shift Pils",
       "Drop Dead Red"
     ];
 
-    const normalized = all
-      .filter(recipe => recipe && recipe.name)
-      .map(recipe => ({
-        ...recipe,
-        name: /^Czech Pilsner$/i.test(recipe.name)
-          ? "Night Shift Pils"
-          : recipe.name,
-        id: recipe.id || slug(recipe.name)
-      }));
-
-    recipes = wanted
+    recipes = featured
       .map(name =>
         normalized.find(
-          recipe =>
-            recipe.name.toLowerCase() === name.toLowerCase()
+          item =>
+            item.name.toLowerCase() === name.toLowerCase()
         )
       )
       .filter(Boolean);
 
-    render();
+    showPage(0);
   })
   .catch(error => {
-    cards.innerHTML =
-      '<p class="message">' +
-      'Unable to load recipes. ' +
-      'Check journal.json is uploaded alongside journal.html.' +
-      '</p>';
-
     console.error(error);
+
+    recipeArea.innerHTML =
+      '<p class="error">' +
+      'Unable to load the recipe collection.' +
+      '</p>';
   });
 </script>
 
