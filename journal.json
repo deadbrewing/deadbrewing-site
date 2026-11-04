@@ -1,0 +1,55 @@
+
+{
+  "batches": [
+    {
+      "batchNumber": 1,
+      "id": "czech-pilsner",
+      "name": "Czech Pilsner",
+      "style": "Czech Pilsner",
+      "date": "",
+      "og": null,
+      "fg": null,
+      "abv": 4.8,
+      "ibu": null,
+      "description": "A crisp, refreshing Czech-style pilsner with a clean malt character and balanced bitterness.",
+      "grain": [],
+      "hops": [],
+      "water": [],
+      "mash": [],
+      "fermentation": [],
+      "tastingNotes": ""
+    },
+    {
+      "batchNumber": 2,
+      "id": "chinook-cashmere",
+      "name": "Chinook & Cashmere Pale Ale",
+      "style": "American Pale Ale",
+      "date": "2026-10-26",
+      "og": "1.0531",
+      "fg": null,
+      "abv": null,
+      "ibu": null,
+      "description": "A pine-forward American Pale Ale featuring Chinook and Cashmere hops. Chinook brings resinous pine character while Cashmere contributes citrus and tropical fruit notes.",
+      "grain": [],
+      "hops": [
+        {
+          "label": "Chinook • 10.9% AA",
+          "value": "Addition schedule pending"
+        },
+        {
+          "label": "Cashmere • 6.6% AA",
+          "value": "Addition schedule pending"
+        }
+      ],
+      "water": [],
+      "mash": [],
+      "fermentation": [
+        {
+          "label": "Fermentation monitoring",
+          "value": "Tilt hydrometer"
+        }
+      ],
+      "tastingNotes": ""
+    }
+  ]
+}
