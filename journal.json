@@ -118,5 +118,126 @@
       "cryptNotes": [],
       "tastingNotes": ""
     }
+  ],
+  "recipes": [
+    {
+      "id": "drop-dead-red",
+      "name": "Drop Dead Red",
+      "style": "Vanilla Red Ale",
+      "og": null,
+      "fg": null,
+      "abv": null,
+      "ibu": 21,
+      "description": "A rich, malt-forward red ale with layers of caramel, toasted grain and a smooth vanilla finish.",
+      "grain": [
+        {
+          "label": "Maris Otter Malt",
+          "value": "80.0%"
+        },
+        {
+          "label": "Caramel Malt 40L",
+          "value": "7.4%"
+        },
+        {
+          "label": "Caramel/Crystal Malt 60L",
+          "value": "5.1%"
+        },
+        {
+          "label": "Toasted Oats",
+          "value": "5.1%"
+        },
+        {
+          "label": "Melanoidin Malt",
+          "value": "2.4%"
+        }
+      ],
+      "hops": [
+        {
+          "label": "Magnum - 12.0% AA",
+          "value": "60 min boil - 16.3 IBU"
+        },
+        {
+          "label": "Willamette - 5.0% AA",
+          "value": "15 min boil - 3.3 IBU"
+        },
+        {
+          "label": "Fuggle - 6.1% AA",
+          "value": "5 min boil - 1.6 IBU"
+        }
+      ],
+      "water": [
+        {
+          "label": "Calcium (Ca)",
+          "value": "63 ppm"
+        },
+        {
+          "label": "Magnesium (Mg)",
+          "value": "2 ppm"
+        },
+        {
+          "label": "Sodium (Na)",
+          "value": "12 ppm"
+        },
+        {
+          "label": "Chloride (Cl)",
+          "value": "84 ppm"
+        },
+        {
+          "label": "Sulfate (SO4)",
+          "value": "50 ppm"
+        },
+        {
+          "label": "Bicarbonate (HCO3)",
+          "value": "27 ppm"
+        }
+      ],
+      "mash": [
+        {
+          "label": "Saccharification Rest",
+          "value": "67°C - 60 min"
+        },
+        {
+          "label": "Target Mash pH",
+          "value": "5.50"
+        }
+      ],
+      "fermentation": [
+        {
+          "label": "Yeast",
+          "value": "Wyeast 1056 American Ale"
+        },
+        {
+          "label": "Temperature",
+          "value": "18°C"
+        },
+        {
+          "label": "Duration",
+          "value": "14 days"
+        },
+        {
+          "label": "Pressure",
+          "value": "15 psi"
+        },
+        {
+          "label": "Carbonation Target",
+          "value": "2.4 volumes CO2"
+        }
+      ],
+      "cryptNotes": [
+        {
+          "label": "Vanilla Extract",
+          "value": "0.30 mL/L"
+        },
+        {
+          "label": "Addition Timing",
+          "value": "After fermentation"
+        },
+        {
+          "label": "Addition Method",
+          "value": "Closed, oxygen-free addition"
+        }
+      ],
+      "tastingNotes": ""
+    }
   ]
 }
