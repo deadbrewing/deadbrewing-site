@@ -3,41 +3,34 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#080d13">
-  <title>Brew Journal | DeadBrewing</title>
-
+  <title>The Brew Journal | DeadBrewing</title>
   <style>
     :root {
-      --background: #080d13;
+      --bg: #080d13;
       --panel: #111b27;
-      --panel-light: #172534;
+      --panel2: #172534;
       --blue: #79cfff;
-      --orange: #d77b37;
+      --rust: #d77b37;
       --text: #e4eaf0;
       --muted: #a2b0be;
       --border: #354b60;
     }
-
-    * {
-      box-sizing: border-box;
-    }
-
+    * { box-sizing: border-box; }
     body {
       margin: 0;
-      background: var(--background);
+      background: var(--bg);
       color: var(--text);
       font-family: Arial, Helvetica, sans-serif;
       line-height: 1.6;
     }
-
     header {
       background: #0b121c;
-      border-bottom: 2px solid var(--orange);
+      border-bottom: 2px solid var(--rust);
       padding: 22px 18px;
       text-align: center;
     }
-
     .brand {
       color: var(--blue);
       font-size: clamp(28px, 6vw, 46px);
@@ -46,7 +39,6 @@
       text-decoration: none;
       text-transform: uppercase;
     }
-
     nav {
       display: flex;
       justify-content: center;
@@ -54,7 +46,6 @@
       gap: 12px 24px;
       margin-top: 16px;
     }
-
     nav a {
       color: var(--text);
       font-size: 13px;
@@ -63,101 +54,82 @@
       text-decoration: none;
       text-transform: uppercase;
     }
-
-    nav a:hover,
-    nav a[aria-current="page"] {
+    nav a:hover, nav a[aria-current="page"] {
       color: var(--blue);
     }
-
     main {
       max-width: 1000px;
-      margin: 0 auto;
+      margin: auto;
       padding: 40px 18px 70px;
     }
-
     h1, h2, h3 {
       text-transform: uppercase;
       letter-spacing: 2px;
     }
-
     h1 {
       color: var(--blue);
       font-size: clamp(28px, 5vw, 42px);
       text-align: center;
       margin: 0;
     }
-
     .intro {
       color: var(--muted);
       text-align: center;
       margin: 10px auto 42px;
       max-width: 650px;
     }
-
     .section-heading {
-      color: var(--orange);
+      color: var(--rust);
       border-bottom: 1px solid var(--border);
       padding-bottom: 12px;
       margin: 40px 0 20px;
     }
-
     .batch {
       background: var(--panel);
       border: 1px solid var(--border);
-      border-top: 3px solid var(--orange);
+      border-top: 3px solid var(--rust);
       border-radius: 8px;
       padding: 25px;
       margin-bottom: 22px;
     }
-
     .batch.featured {
       border-top-color: var(--blue);
-      box-shadow: 0 0 25px rgba(60, 150, 220, 0.08);
+      box-shadow: 0 0 25px rgba(60,150,220,.08);
     }
-
     .batch-number {
-      color: var(--orange);
+      color: var(--rust);
       font-size: 12px;
       font-weight: bold;
       letter-spacing: 2px;
     }
-
-    .featured .batch-number {
-      color: var(--blue);
-    }
-
+    .featured .batch-number { color: var(--blue); }
     .batch h3 {
-      color: #fff;
+      color: white;
       font-size: clamp(23px, 4vw, 33px);
       margin: 8px 0 4px;
     }
-
     .batch-style {
       color: var(--blue);
       font-size: 14px;
       margin-bottom: 14px;
     }
-
     .batch-description {
       color: var(--muted);
       margin: 16px 0 22px;
     }
-
     .stats {
       display: grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 10px;
       margin: 22px 0;
     }
-
     .stat {
-      background: var(--panel-light);
+      background: var(--panel2);
       border: 1px solid var(--border);
       border-radius: 5px;
       padding: 12px 8px;
       text-align: center;
     }
-
     .stat-label {
       display: block;
       color: var(--muted);
@@ -165,7 +137,6 @@
       font-weight: bold;
       letter-spacing: 1px;
     }
-
     .stat-value {
       display: block;
       color: var(--text);
@@ -173,13 +144,11 @@
       font-weight: bold;
       margin-top: 4px;
     }
-
     .batch-date {
       color: var(--muted);
       font-size: 12px;
       margin-top: 8px;
     }
-
     details {
       background: #0d1621;
       border: 1px solid var(--border);
@@ -187,7 +156,6 @@
       margin-top: 10px;
       overflow: hidden;
     }
-
     summary {
       color: var(--blue);
       cursor: pointer;
@@ -197,19 +165,11 @@
       padding: 14px 16px;
       text-transform: uppercase;
     }
-
-    summary:hover {
-      background: var(--panel-light);
-    }
-
+    summary:hover { background: var(--panel2); }
     details[open] summary {
       border-bottom: 1px solid var(--border);
     }
-
-    .detail-content {
-      padding: 10px 16px 14px;
-    }
-
+    .detail-content { padding: 10px 16px 14px; }
     .detail-row {
       display: flex;
       justify-content: space-between;
@@ -219,40 +179,25 @@
       border-bottom: 1px solid #263545;
       font-size: 14px;
     }
-
-    .detail-row:last-child {
-      border-bottom: none;
-    }
-
-    .detail-row span:first-child {
-      color: var(--text);
-    }
-
+    .detail-row:last-child { border-bottom: none; }
     .detail-row span:last-child {
       color: #f2d7aa;
       text-align: right;
     }
-
     .detail-text {
       color: var(--text);
       white-space: pre-line;
       font-size: 14px;
     }
-
-    .crypt-notes {
-      border-color: var(--orange);
-    }
-
-    .crypt-notes summary {
-      color: #f3b77b;
-    }
-
+    .crypt-notes { border-color: var(--rust); }
+    .crypt-notes summary { color: #f3b77b; }
+    .vault-entry { border-top-color: #9a4b4b; }
+    .vault-entry .batch-number { color: #e5a09a; }
     .empty-message {
       color: var(--muted);
       text-align: center;
       padding: 30px;
     }
-
     footer {
       border-top: 1px solid var(--border);
       color: var(--muted);
@@ -261,37 +206,21 @@
       font-size: 12px;
       letter-spacing: 1px;
     }
-
     @media (max-width: 600px) {
-      main {
-        padding: 28px 12px 50px;
-      }
-
-      .batch {
-        padding: 17px 13px;
-      }
-
-      .stats {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-
+      main { padding: 28px 12px 50px; }
+      .batch { padding: 17px 13px; }
+      .stats { grid-template-columns: repeat(2, 1fr); }
       .detail-row {
         flex-direction: column;
         gap: 2px;
       }
-
-      .detail-row span:last-child {
-        text-align: left;
-      }
+      .detail-row span:last-child { text-align: left; }
     }
   </style>
 </head>
-
 <body>
-
   <header>
     <a class="brand" href="index.html">DeadBrewing</a>
-
     <nav>
       <a href="index.html">Home</a>
       <a href="journal.html" aria-current="page">Brew Journal</a>
@@ -303,10 +232,9 @@
 
   <main>
     <h1>The Brew Journal</h1>
-
     <p class="intro">
-      Every batch has a story. From the grain bill to the
-      final pour, this is where the brewing records live.
+      Every batch has a story. From the grain bill to the final pour,
+      this is where the brewing records live.
     </p>
 
     <h2 class="section-heading">Latest Brew</h2>
@@ -316,11 +244,12 @@
 
     <h2 class="section-heading">The Batch Archive</h2>
     <div id="batch-archive"></div>
+
+    <h2 class="section-heading">The Recipe Vault</h2>
+    <div id="recipe-vault"></div>
   </main>
 
-  <footer>
-    DEADBREWING &bull; BREWED AFTER DARK
-  </footer>
+  <footer>DEADBREWING &bull; BREWED AFTER DARK</footer>
 
   <script>
     function escapeHTML(value) {
@@ -339,9 +268,7 @@
     }
 
     function display(value) {
-      return hasValue(value)
-        ? escapeHTML(value)
-        : "Pending";
+      return hasValue(value) ? escapeHTML(value) : "Pending";
     }
 
     function hasItems(items) {
@@ -350,7 +277,6 @@
 
     function rows(items) {
       if (!hasItems(items)) return "";
-
       return items.map(item => `
         <div class="detail-row">
           <span>${escapeHTML(item.label)}</span>
@@ -361,34 +287,38 @@
 
     function section(title, content, extraClass = "") {
       if (!content || !content.trim()) return "";
-
       return `
         <details class="${extraClass}">
           <summary>${escapeHTML(title)}</summary>
-          <div class="detail-content">
-            ${content}
-          </div>
+          <div class="detail-content">${content}</div>
         </details>
       `;
     }
 
     function rowSection(title, items, extraClass = "") {
-      if (!hasItems(items)) return "";
-      return section(title, rows(items), extraClass);
+      return hasItems(items)
+        ? section(title, rows(items), extraClass)
+        : "";
     }
 
     function textSection(title, value) {
-      if (!hasValue(value)) return "";
-
-      return section(
-        title,
-        `<div class="detail-text">${escapeHTML(value)}</div>`
-      );
+      return hasValue(value)
+        ? section(
+            title,
+            `<div class="detail-text">${escapeHTML(value)}</div>`
+          )
+        : "";
     }
 
-    function makeBatch(beer, featured = false) {
+    function makeEntry(beer, type = "batch", featured = false) {
+      const isVault = type === "vault";
+
       const number = String(beer.batchNumber ?? 0)
         .padStart(3, "0");
+
+      const heading = isVault
+        ? "RECIPE VAULT"
+        : `BATCH #${number}`;
 
       const stats = [
         ["OG", beer.og],
@@ -404,7 +334,7 @@
         </div>
       `).join("");
 
-      const dateHTML = hasValue(beer.date)
+      const dateHTML = !isVault && hasValue(beer.date)
         ? `<div class="batch-date">
              Brewed: ${escapeHTML(beer.date)}
            </div>`
@@ -416,40 +346,29 @@
            </p>`
         : "";
 
-      const recipeSections = [
+      const sections = [
         rowSection("Grain Bill", beer.grain),
         rowSection("Hop Schedule", beer.hops),
         rowSection("Water Profile", beer.water),
         rowSection("Mash Schedule", beer.mash),
         rowSection("Fermentation", beer.fermentation),
-
-        rowSection(
-          "☠ Crypt Notes",
-          beer.cryptNotes,
-          "crypt-notes"
-        ),
-
+        rowSection("☠ Crypt Notes", beer.cryptNotes, "crypt-notes"),
         textSection("Brewer's Verdict", beer.tastingNotes)
       ].join("");
 
       return `
-        <article class="batch ${featured ? "featured" : ""}">
-          <div class="batch-number">BATCH #${number}</div>
-
-          <h3>${escapeHTML(beer.name || "Unnamed Brew")}</h3>
-
+        <article class="batch
+          ${featured ? "featured" : ""}
+          ${isVault ? "vault-entry" : ""}">
+          <div class="batch-number">${heading}</div>
+          <h3>${escapeHTML(beer.name || "Unnamed Beer")}</h3>
           <div class="batch-style">
             ${escapeHTML(beer.style || "")}
           </div>
-
           ${dateHTML}
           ${descriptionHTML}
-
-          <div class="stats">
-            ${statHTML}
-          </div>
-
-          ${recipeSections}
+          <div class="stats">${statHTML}</div>
+          ${sections}
         </article>
       `;
     }
@@ -457,12 +376,12 @@
     async function loadJournal() {
       const latest = document.getElementById("latest-brew");
       const archive = document.getElementById("batch-archive");
+      const vault = document.getElementById("recipe-vault");
 
       try {
-        const response = await fetch(
-          "journal.json",
-          { cache: "no-store" }
-        );
+        const response = await fetch("journal.json", {
+          cache: "no-store"
+        });
 
         if (!response.ok) {
           throw new Error("Could not load journal.json");
@@ -474,42 +393,41 @@
           ? [...data.batches]
           : [];
 
+        const recipes = Array.isArray(data.recipes)
+          ? data.recipes
+          : [];
+
         batches.sort((a, b) =>
           Number(b.batchNumber) - Number(a.batchNumber)
         );
 
-        if (!batches.length) {
+        if (batches.length) {
+          latest.innerHTML = makeEntry(batches[0], "batch", true);
+          archive.innerHTML = batches.length > 1
+            ? batches.slice(1)
+                .map(beer => makeEntry(beer))
+                .join("")
+            : '<p class="empty-message">More batches coming soon.</p>';
+        } else {
           latest.innerHTML =
             '<p class="empty-message">No batches recorded yet.</p>';
-
           archive.innerHTML = "";
-          return;
         }
 
-        latest.innerHTML = makeBatch(batches[0], true);
-
-        if (batches.length > 1) {
-          archive.innerHTML = batches
-            .slice(1)
-            .map(beer => makeBatch(beer))
-            .join("");
-        } else {
-          archive.innerHTML =
-            '<p class="empty-message">More batches coming soon.</p>';
-        }
+        vault.innerHTML = recipes.length
+          ? recipes.map(beer => makeEntry(beer, "vault")).join("")
+          : '<p class="empty-message">Recipes coming soon.</p>';
 
       } catch (error) {
         console.error("Brew Journal error:", error);
-
         latest.innerHTML =
           '<p class="empty-message">Unable to load brewing records.</p>';
-
         archive.innerHTML = "";
+        vault.innerHTML = "";
       }
     }
 
     loadJournal();
   </script>
-
 </body>
 </html>
