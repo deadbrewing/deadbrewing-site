@@ -51,6 +51,7 @@ html, body {
 
 .recipe-info {
   flex: 1;
+  min-width: 0;
   padding-left: 3%;
 }
 
@@ -58,6 +59,7 @@ html, body {
   font-size: clamp(12px, 1.65vw, 30px);
   line-height: 1.08;
   margin: 0 0 7px;
+  overflow-wrap: anywhere;
 }
 
 .recipe p {
@@ -69,10 +71,6 @@ html, body {
   font-size: clamp(9px, 0.9vw, 16px);
 }
 
-.recipe:hover {
-  background: rgba(255, 225, 150, 0.13);
-}
-
 /* INVISIBLE NAVIGATION BUTTONS */
 
 .hitbox {
@@ -81,22 +79,33 @@ html, body {
   padding: 0;
   margin: 0;
   border: none;
+  border-radius: 0;
+  outline: none;
   background: transparent;
   color: transparent;
   font-size: 0;
+  box-shadow: none;
   cursor: pointer;
   z-index: 5;
+  -webkit-tap-highlight-color: transparent;
 }
 
-.hitbox:hover {
-  background: rgba(255, 215, 100, 0.12);
+.hitbox:hover,
+.hitbox:active,
+.hitbox:focus,
+.hitbox.active {
+  border: none;
+  outline: none;
+  background: transparent;
+  color: transparent;
+  box-shadow: none;
 }
 
-.hitbox:focus-visible {
-  outline: 2px solid #ffd16a;
+.hitbox:disabled {
+  cursor: default;
 }
 
-/* NAVIGATION POSITIONS */
+/* BUTTON POSITIONS MATCH BACKGROUND ARTWORK */
 
 .previous {
   left: 52.0%;
@@ -133,21 +142,6 @@ html, body {
   height: 6.5%;
 }
 
-/* ACTIVE PAGE INDICATOR */
-
-.page-indicator {
-  position: absolute;
-  top: 82.2%;
-  width: 3.8%;
-  height: 6.5%;
-  border: 2px solid rgba(255, 205, 75, 0.85);
-  border-radius: 5px;
-  background: rgba(190, 12, 0, 0.28);
-  pointer-events: none;
-  z-index: 4;
-  transition: left 0.15s ease;
-}
-
 @media (max-width: 700px) {
   .journal {
     min-width: 900px;
@@ -166,33 +160,36 @@ html, body {
 
   <div id="recipes"></div>
 
-  <div class="page-indicator" id="pageIndicator"></div>
-
   <button
+    type="button"
     class="hitbox previous"
     aria-label="Previous page"
     onclick="changePage(-1)">
   </button>
 
   <button
+    type="button"
     class="hitbox page1"
     aria-label="Page 1"
     onclick="goToPage(1)">
   </button>
 
   <button
+    type="button"
     class="hitbox page2"
     aria-label="Page 2"
     onclick="goToPage(2)">
   </button>
 
   <button
+    type="button"
     class="hitbox page3"
     aria-label="Page 3"
     onclick="goToPage(3)">
   </button>
 
   <button
+    type="button"
     class="hitbox next"
     aria-label="Next page"
     onclick="changePage(1)">
@@ -201,6 +198,7 @@ html, body {
 </main>
 
 <script>
+
 const PAGE_SIZE = 4;
 const TOTAL_PAGES = 3;
 
@@ -214,7 +212,10 @@ const GLASSES = {
   stout: "deadbrewing-glass-stout.png"
 };
 
+/* CHOOSE GLASS BASED ON BEER STYLE */
+
 function chooseGlass(recipe) {
+
   const text = (
     (recipe.name || "") + " " +
     (recipe.style || "")
@@ -235,24 +236,40 @@ function chooseGlass(recipe) {
   return GLASSES.gold;
 }
 
+/* PROTECT TEXT INSERTED INTO HTML */
+
 function escapeHTML(value) {
-  return String(value ?? "").replace(/[&<>"']/g, char => ({
-    "&": "&amp;",
-    "<": "&lt;",
-    ">": "&gt;",
-    '"': "&quot;",
-    "'": "&#39;"
-  })[char]);
+
+  return String(value ?? "").replace(
+    /[&<>"']/g,
+    char => ({
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      '"': "&quot;",
+      "'": "&#39;"
+    })[char]
+  );
+
 }
 
+/* DISPLAY FOUR RECIPES PER PAGE */
+
 function renderPage() {
+
   const container = document.getElementById("recipes");
+
   container.innerHTML = "";
 
   const start = (currentPage - 1) * PAGE_SIZE;
-  const visible = allRecipes.slice(start, start + PAGE_SIZE);
+
+  const visible = allRecipes.slice(
+    start,
+    start + PAGE_SIZE
+  );
 
   visible.forEach((recipe, index) => {
+
     const card = document.createElement("a");
 
     card.className = "recipe";
@@ -267,53 +284,81 @@ function renderPage() {
       "recipe.html?id=" +
       encodeURIComponent(recipe.id || "");
 
+    const glass = chooseGlass(recipe);
+
     card.innerHTML = `
-      <img src="${chooseGlass(recipe)}"
-           alt=""
-           onerror="this.style.display='none'">
+      <img
+        src="${glass}"
+        alt=""
+        loading="lazy"
+      >
 
       <div class="recipe-info">
+
         <h2>${escapeHTML(recipe.name)}</h2>
+
         <p>${escapeHTML(recipe.style)}</p>
-        <strong>OPEN RECIPE →</strong>
+
+        <strong>OPEN RECIPE &rarr;</strong>
+
       </div>
     `;
 
     container.appendChild(card);
+
   });
 
-  // Move the active-page highlight to the selected number.
-  const positions = {
-    1: "63.4%",
-    2: "67.4%",
-    3: "71.4%"
-  };
+  /* Update page state without visual overlays */
 
-  document.getElementById("pageIndicator").style.left =
-    positions[currentPage];
+  document.querySelectorAll(
+    ".page1, .page2, .page3"
+  ).forEach((button, index) => {
 
-  document.querySelectorAll(".page1, .page2, .page3")
-    .forEach((button, index) => {
-      const active = index + 1 === currentPage;
-      button.setAttribute("aria-current", active ? "page" : "false");
-    });
+    const selected = index + 1 === currentPage;
+
+    button.classList.toggle("active", selected);
+
+    if (selected) {
+      button.setAttribute("aria-current", "page");
+    } else {
+      button.removeAttribute("aria-current");
+    }
+
+  });
+
+  document.querySelector(".previous").disabled =
+    currentPage === 1;
+
+  document.querySelector(".next").disabled =
+    currentPage === TOTAL_PAGES;
+
 }
 
+/* PAGE NAVIGATION */
+
 function goToPage(page) {
+
   currentPage = Math.max(
     1,
     Math.min(TOTAL_PAGES, page)
   );
 
   renderPage();
+
 }
 
 function changePage(direction) {
+
   goToPage(currentPage + direction);
+
 }
 
+/* LOAD RECIPES FROM JOURNAL.JSON */
+
 async function loadRecipes() {
+
   try {
+
     const response = await fetch("journal.json", {
       cache: "no-store"
     });
@@ -325,16 +370,21 @@ async function loadRecipes() {
     const data = await response.json();
 
     const batches = Array.isArray(data.batches)
-      ? data.batches : [];
+      ? data.batches
+      : [];
 
     const recipes = Array.isArray(data.recipes)
-      ? data.recipes : [];
+      ? data.recipes
+      : [];
 
     const combined = [...batches, ...recipes];
+
+    /* Avoid duplicate recipes */
 
     const seen = new Set();
 
     allRecipes = combined.filter(recipe => {
+
       const key = recipe.id || recipe.name;
 
       if (!key || seen.has(key)) {
@@ -342,21 +392,27 @@ async function loadRecipes() {
       }
 
       seen.add(key);
+
       return true;
+
     }).slice(0, 12);
 
     renderPage();
 
   } catch (error) {
+
     console.error(error);
 
     document.getElementById("recipes").innerHTML =
       '<p style="position:absolute;left:45%;top:25%;color:#300">' +
       'Unable to load recipes.</p>';
+
   }
+
 }
 
 loadRecipes();
+
 </script>
 
 </body>
