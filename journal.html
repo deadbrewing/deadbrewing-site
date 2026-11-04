@@ -4,6 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Brew Journal | DeadBrewing</title>
 
 <style>
@@ -18,6 +19,8 @@ html, body {
   background: #080604;
   font-family: Georgia, serif;
 }
+
+/* MAIN JOURNAL BACKGROUND */
 
 .journal {
   position: relative;
@@ -71,7 +74,7 @@ html, body {
   font-size: clamp(9px, 0.9vw, 16px);
 }
 
-/* INVISIBLE NAVIGATION BUTTONS */
+/* INVISIBLE PAGE NAVIGATION */
 
 .hitbox {
   position: absolute;
@@ -79,7 +82,6 @@ html, body {
   padding: 0;
   margin: 0;
   border: none;
-  border-radius: 0;
   outline: none;
   background: transparent;
   color: transparent;
@@ -91,13 +93,12 @@ html, body {
 }
 
 .hitbox:hover,
-.hitbox:active,
 .hitbox:focus,
+.hitbox:active,
 .hitbox.active {
   border: none;
   outline: none;
   background: transparent;
-  color: transparent;
   box-shadow: none;
 }
 
@@ -105,42 +106,66 @@ html, body {
   cursor: default;
 }
 
-/* BUTTON POSITIONS MATCH BACKGROUND ARTWORK */
+/* PAGE BUTTON POSITIONS */
 
 .previous {
-  left: 52.0%;
-  top: 82.2%;
-  width: 10.0%;
-  height: 6.5%;
+  left: 52%;
+  top: 81.1%;
+  width: 10%;
+  height: 7%;
 }
 
 .page1 {
   left: 63.4%;
-  top: 82.2%;
+  top: 81.1%;
   width: 3.8%;
-  height: 6.5%;
+  height: 7%;
 }
 
 .page2 {
   left: 67.4%;
-  top: 82.2%;
+  top: 81.1%;
   width: 3.8%;
-  height: 6.5%;
+  height: 7%;
 }
 
 .page3 {
   left: 71.4%;
-  top: 82.2%;
+  top: 81.1%;
   width: 3.8%;
-  height: 6.5%;
+  height: 7%;
 }
 
 .next {
-  left: 77.0%;
-  top: 82.2%;
-  width: 10.0%;
-  height: 6.5%;
+  left: 77%;
+  top: 81.1%;
+  width: 10%;
+  height: 7%;
 }
+
+/* HOMEPAGE BUTTON - BOTTOM LEFT */
+
+.home-button {
+  position: absolute;
+  left: 2%;
+  bottom: 2.5%;
+  width: 12%;
+  z-index: 10;
+  display: block;
+  transition: transform 0.2s ease;
+}
+
+.home-button img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.home-button:hover {
+  transform: scale(1.05);
+}
+
+/* SMALL SCREENS */
 
 @media (max-width: 700px) {
   .journal {
@@ -158,7 +183,10 @@ html, body {
 
 <main class="journal" id="journal">
 
+  <!-- RECIPE CARDS -->
   <div id="recipes"></div>
+
+  <!-- INVISIBLE PAGE BUTTONS -->
 
   <button
     type="button"
@@ -195,15 +223,32 @@ html, body {
     onclick="changePage(1)">
   </button>
 
+  <!-- HOMEPAGE BUTTON -->
+
+  <a
+    href="index.html"
+    class="home-button"
+    aria-label="Return to DeadBrewing homepage">
+
+    <img
+      src="deadbrewing-back-button.png"
+      alt="Back to DeadBrewing">
+
+  </a>
+
 </main>
 
 <script>
+
+/* JOURNAL SETTINGS */
 
 const PAGE_SIZE = 4;
 const TOTAL_PAGES = 3;
 
 let currentPage = 1;
 let allRecipes = [];
+
+/* BEER GLASS IMAGES */
 
 const GLASSES = {
   gold: "deadbrewing-glass-gold.png",
@@ -212,7 +257,7 @@ const GLASSES = {
   stout: "deadbrewing-glass-stout.png"
 };
 
-/* CHOOSE GLASS BASED ON BEER STYLE */
+/* AUTOMATIC GLASS SELECTION */
 
 function chooseGlass(recipe) {
 
@@ -236,7 +281,7 @@ function chooseGlass(recipe) {
   return GLASSES.gold;
 }
 
-/* PROTECT TEXT INSERTED INTO HTML */
+/* SAFE TEXT DISPLAY */
 
 function escapeHTML(value) {
 
@@ -253,7 +298,7 @@ function escapeHTML(value) {
 
 }
 
-/* DISPLAY FOUR RECIPES PER PAGE */
+/* RENDER CURRENT RECIPE PAGE */
 
 function renderPage() {
 
@@ -284,23 +329,17 @@ function renderPage() {
       "recipe.html?id=" +
       encodeURIComponent(recipe.id || "");
 
-    const glass = chooseGlass(recipe);
-
     card.innerHTML = `
       <img
-        src="${glass}"
+        src="${chooseGlass(recipe)}"
         alt=""
         loading="lazy"
       >
 
       <div class="recipe-info">
-
         <h2>${escapeHTML(recipe.name)}</h2>
-
         <p>${escapeHTML(recipe.style)}</p>
-
         <strong>OPEN RECIPE &rarr;</strong>
-
       </div>
     `;
 
@@ -308,7 +347,7 @@ function renderPage() {
 
   });
 
-  /* Update page state without visual overlays */
+  /* KEEP PAGE STATE UPDATED */
 
   document.querySelectorAll(
     ".page1, .page2, .page3"
@@ -353,7 +392,7 @@ function changePage(direction) {
 
 }
 
-/* LOAD RECIPES FROM JOURNAL.JSON */
+/* LOAD RECIPE DATA */
 
 async function loadRecipes() {
 
@@ -379,7 +418,7 @@ async function loadRecipes() {
 
     const combined = [...batches, ...recipes];
 
-    /* Avoid duplicate recipes */
+    /* REMOVE DUPLICATE RECIPES */
 
     const seen = new Set();
 
