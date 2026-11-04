@@ -4,6 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+
 <title>DeadBrewing | Brew Journal</title>
 
 <style>
@@ -12,7 +13,6 @@
 }
 
 :root {
-  --gold: #f0c77c;
   --ink: #321a0e;
 }
 
@@ -37,35 +37,24 @@ html, body {
   background-size: 100% 100%;
 }
 
-/* Return to brewery */
-.home {
+/* Clickable book cover returns home */
+.book-home {
   position: absolute;
-  top: 2.4%;
-  left: 1.2%;
-  z-index: 10;
-
-  padding: 11px 16px;
-  color: var(--gold);
-  background: #160c09ed;
-  border: 1px solid #a77643;
-  border-radius: 4px;
-
-  font-size: 13px;
-  letter-spacing: 2px;
-  text-decoration: none;
-  text-transform: uppercase;
+  left: 4%;
+  top: 3%;
+  width: 37%;
+  height: 91%;
+  z-index: 2;
+  cursor: pointer;
+  background: transparent;
 }
 
-.home:hover {
-  background: #472217;
+.book-home:focus-visible {
+  outline: 3px solid #f0c77c;
+  outline-offset: -5px;
 }
 
-/*
-  Recipe cards align with the four parchment
-  panels already painted into the artwork.
-
-  Coordinates are percentages of the artwork.
-*/
+/* Recipe cards */
 .recipe-area {
   position: absolute;
   left: 42.2%;
@@ -90,8 +79,8 @@ html, body {
   color: var(--ink);
   text-decoration: none;
   border-radius: 8px;
-
   background: transparent;
+
   transition:
     transform .18s ease,
     filter .18s ease;
@@ -123,11 +112,9 @@ html, body {
 
 .recipe-info h2 {
   margin: 0 0 10px;
-
   font-size: clamp(15px, 1.65vw, 30px);
   line-height: 1.08;
   color: #32170b;
-
   text-shadow: 0 1px 1px #ffe4b8;
 }
 
@@ -146,88 +133,68 @@ html, body {
   text-transform: uppercase;
 }
 
-/* Empty slots show the original parchment */
+/* Empty slots reveal parchment artwork */
 .empty-card {
   pointer-events: none;
 }
 
-/* Functional navigation */
+/*
+  Invisible clickable regions over the
+  navigation painted into the background.
+*/
 .pagination {
   position: absolute;
-  left: 53%;
-  top: 87.2%;
-  width: 38%;
+  left: 51.8%;
+  top: 82.7%;
+  width: 38.7%;
   height: 7%;
+  z-index: 3;
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 3%;
+  display: grid;
+  grid-template-columns: 1.9fr .65fr .65fr .65fr 1.9fr;
+  gap: 1%;
 }
 
 .pagination button {
-  font-family: Georgia, serif;
-  font-size: clamp(12px, 1vw, 18px);
-  font-weight: bold;
-
-  color: #eac486;
-  background: #2b130cf0;
-  border: 1px solid #a86a31;
-  border-radius: 4px;
-
-  padding: 9px 14px;
+  border: 0;
+  background: transparent;
+  color: transparent;
+  font-size: 0;
+  padding: 0;
   cursor: pointer;
-  box-shadow: 0 2px 7px #0009;
-}
-
-.pagination button:hover:not(:disabled) {
-  background: #64301b;
 }
 
 .pagination button:disabled {
-  opacity: .35;
   cursor: default;
 }
 
-.page-numbers {
-  display: flex;
-  align-items: center;
-  gap: 5px;
+.pagination button:focus-visible {
+  outline: 2px solid #ffd37e;
+  outline-offset: -3px;
+  border-radius: 5px;
 }
 
-.page-number {
-  min-width: 36px;
-  text-align: center;
-}
-
-.pagination .page-number.active {
-  color: #301507;
-  background: #d8a25c;
-  border-color: #efc785;
+/* Optional subtle indication of selected page */
+.pagination button.active {
+  box-shadow: inset 0 0 10px #ffd26a35;
+  border-radius: 5px;
 }
 
 .error {
   grid-column: 1 / -1;
-  color: #3d170c;
-  font-size: 20px;
-  text-align: center;
   align-self: center;
+  text-align: center;
+  color: #411c0d;
+  font-size: 20px;
   padding: 20px;
 }
 
-/* Narrow screens keep artwork proportions */
+/* Smaller screens */
 @media (max-width: 850px) {
   .journal {
-    width: 100%;
     height: auto;
     min-height: 0;
     aspect-ratio: 1.9 / 1;
-  }
-
-  .home {
-    padding: 6px 8px;
-    font-size: 9px;
-    letter-spacing: 1px;
   }
 
   .recipe-card {
@@ -248,18 +215,8 @@ html, body {
   .open-recipe {
     font-size: clamp(7px, 1vw, 10px);
   }
-
-  .pagination button {
-    font-size: 10px;
-    padding: 5px 7px;
-  }
-
-  .page-number {
-    min-width: 24px;
-  }
 }
 
-/* Phone: enlarge the artwork for readability */
 @media (max-width: 560px) {
   body {
     overflow-x: auto;
@@ -290,27 +247,38 @@ html, body {
 
 <main class="journal">
 
-  <a class="home" href="index.html">
-    ← DeadBrewing
+  <!-- Click the book to return home -->
+  <a
+    class="book-home"
+    href="index.html"
+    aria-label="Return to DeadBrewing homepage"
+    title="Return to DeadBrewing">
   </a>
 
+  <!-- Recipe cards -->
   <section
     id="recipeArea"
     class="recipe-area"
     aria-label="DeadBrewing recipes">
   </section>
 
+  <!-- Invisible buttons over artwork navigation -->
   <nav class="pagination" aria-label="Recipe pages">
 
-    <button id="previous" type="button">
-      ‹ Previous
-    </button>
+    <button id="previous" type="button"
+      aria-label="Previous page">Previous</button>
 
-    <div id="pageNumbers" class="page-numbers"></div>
+    <button class="page-button" data-page="0"
+      type="button" aria-label="Page 1">1</button>
 
-    <button id="next" type="button">
-      Next ›
-    </button>
+    <button class="page-button" data-page="1"
+      type="button" aria-label="Page 2">2</button>
+
+    <button class="page-button" data-page="2"
+      type="button" aria-label="Page 3">3</button>
+
+    <button id="next" type="button"
+      aria-label="Next page">Next</button>
 
   </nav>
 
@@ -318,12 +286,15 @@ html, body {
 
 <script>
 const recipeArea = document.getElementById("recipeArea");
-const pageNumbers = document.getElementById("pageNumbers");
 const previous = document.getElementById("previous");
 const next = document.getElementById("next");
 
+const pageButtons = [
+  ...document.querySelectorAll(".page-button")
+];
+
 const RECIPES_PER_PAGE = 4;
-const MINIMUM_PAGES = 3;
+const TOTAL_PAGES = 3;
 
 let recipes = [];
 let currentPage = 0;
@@ -369,19 +340,10 @@ function getGlass(recipe) {
   return "gold";
 }
 
-function getPageCount() {
-  return Math.max(
-    MINIMUM_PAGES,
-    Math.ceil(recipes.length / RECIPES_PER_PAGE)
-  );
-}
-
 function showPage(number) {
-  const total = getPageCount();
-
   currentPage = Math.max(
     0,
-    Math.min(number, total - 1)
+    Math.min(number, TOTAL_PAGES - 1)
   );
 
   recipeArea.innerHTML = "";
@@ -400,10 +362,9 @@ function showPage(number) {
       "recipe.html?id=" +
       encodeURIComponent(recipe.id);
 
-    const glass = getGlass(recipe);
-
     const image = document.createElement("img");
-    image.src = "deadbrewing-glass-" + glass + ".png";
+    image.src =
+      "deadbrewing-glass-" + getGlass(recipe) + ".png";
     image.alt = "";
     image.loading = "lazy";
 
@@ -420,43 +381,28 @@ function showPage(number) {
     recipeArea.append(card);
   });
 
-  /* Leave unused parchment panels visible */
+  /* Unused slots stay blank */
   for (let i = visible.length; i < RECIPES_PER_PAGE; i++) {
     const empty = document.createElement("div");
     empty.className = "empty-card";
     recipeArea.append(empty);
   }
 
-  pageNumbers.innerHTML = "";
+  previous.disabled = currentPage === 0;
+  next.disabled = currentPage === TOTAL_PAGES - 1;
 
-  for (let i = 0; i < total; i++) {
-    const button = document.createElement("button");
-
-    button.type = "button";
-    button.className =
-      "page-number" +
-      (i === currentPage ? " active" : "");
-
-    button.textContent = i + 1;
-
-    button.setAttribute(
-      "aria-label",
-      "Recipe page " + (i + 1)
+  pageButtons.forEach((button, index) => {
+    button.classList.toggle(
+      "active",
+      index === currentPage
     );
 
-    if (i === currentPage) {
+    if (index === currentPage) {
       button.setAttribute("aria-current", "page");
+    } else {
+      button.removeAttribute("aria-current");
     }
-
-    button.addEventListener("click", () => {
-      showPage(i);
-    });
-
-    pageNumbers.append(button);
-  }
-
-  previous.disabled = currentPage === 0;
-  next.disabled = currentPage === total - 1;
+  });
 }
 
 previous.addEventListener("click", () => {
@@ -465,6 +411,12 @@ previous.addEventListener("click", () => {
 
 next.addEventListener("click", () => {
   showPage(currentPage + 1);
+});
+
+pageButtons.forEach(button => {
+  button.addEventListener("click", () => {
+    showPage(Number(button.dataset.page));
+  });
 });
 
 fetch("journal.json", { cache: "no-store" })
@@ -490,10 +442,7 @@ fetch("journal.json", { cache: "no-store" })
           : item.name
       }));
 
-    /*
-      Initially display only these two recipes.
-      Additional recipes can be added to this list.
-    */
+    /* Only the two permanent recipes for now */
     const featured = [
       "Night Shift Pils",
       "Drop Dead Red"
